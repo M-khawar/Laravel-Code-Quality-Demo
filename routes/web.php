@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "Welcome to R2F API";
+    return ['Laravel' => app()->version()];
 });
