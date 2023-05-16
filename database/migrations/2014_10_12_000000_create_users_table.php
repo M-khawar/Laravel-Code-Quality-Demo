@@ -18,16 +18,16 @@ return new class extends Migration {
             $table->string('instagram')->nullable();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
+            $table->foreignId('advisor_id')->nullable()->constrained('users');
+
+            $table->boolean('is_admin')->default('false');
+            $table->boolean('is_advisor')->default('false');
+            $table->boolean('is_active_recruiter')->default('false');
+            $table->date('advisor_date')->nullable();
+
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
-
-            /*if (!Schema::hasColumn($table->getTable(), 'created_at')){
-                $table->timestamp('created_at')->nullable();
-            }
-            if (!Schema::hasColumn($table->getTable(), 'updated_at')) {
-                $table->timestamp('updated_at')->nullable();
-            }*/
         });
     }
 
