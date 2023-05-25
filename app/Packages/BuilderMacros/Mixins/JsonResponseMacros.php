@@ -28,10 +28,18 @@ class JsonResponseMacros extends MixinsAbstract
 
     protected function error(): \Closure
     {
-        return fn($message, $data = []) => response()->json([
-            'status' => false,
-            'message' => $message,
-        ]);
+        return function ($message, $statusCode, $data = []) {
+            $response = [
+                'status' => false,
+                'message' => $message,
+            ];
+
+            if (count($data) > 0) {
+                $response = array_merge($response, $data);
+            }
+
+            return response()->json($response, $statusCode);
+        };
     }
 
 }

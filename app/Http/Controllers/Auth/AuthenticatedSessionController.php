@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -15,18 +16,23 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
 
-        $user= $request->user();
-        $token = $user->createToken(config('sanctum.token_name'));
-        $authToken = $token->plainTextToken;
+            $user = $request->user();
+            $token = $user->createToken(config('sanctum.token_name'));
+            $authToken = $token->plainTextToken;
 
-        $data = [
-            "auth_token" => $authToken,
-            "user" => $user,
-        ];
+            $data = [
+                "auth_token" => $authToken,
+                "user" => $user,
+            ];
 
-        return response()->success(__('login.success'), $data);
+            return response()->success(__('auth.login.success'), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
     }
 
     /**
