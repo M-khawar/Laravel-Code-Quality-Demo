@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -39,11 +40,12 @@ class RegisteredUserController extends Controller
                 'address' => $request->input('address.address'),
             ]);
 
+            $user->load('address');
+
             DB::commit();
 
             event(new Registered($user));
-
-            /*Auth::login($user);
+            Auth::login($user);
 
             $token = $request->user()->createToken(config('sanctum.token_name'));
             $authToken = $token->plainTextToken;
@@ -51,9 +53,9 @@ class RegisteredUserController extends Controller
             $data = [
                 "auth_token" => $authToken,
                 "user" => $user,
-            ];*/
+            ];
 
-            return response()->message(__('auth.register.success'));
+            return response()->success(__('auth.register.success'), $data);
 
         } catch (\Exception $e) {
             DB::rollBack();

@@ -4,7 +4,7 @@ namespace App\Packages\BuilderMacros\Mixins;
 
 use Illuminate\Support\Facades\Response;
 
-class JsonResponseMacros extends MixinsAbstract
+class JsonResponseMixin extends MixinsAbstract
 {
 
     protected static $parentClass = Response::class;
