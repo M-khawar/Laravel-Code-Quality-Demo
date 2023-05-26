@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->foreignId('lesson_id')->nullable()->constrained('course_lessons')->nullOnDelete();
             $table->string('link');
             $table->bigInteger('position')->nullable();

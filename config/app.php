@@ -188,6 +188,7 @@ return [
          * Package Service Providers...
          */
         App\Packages\BuilderMacros\BuilderMacrosServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         /*
          * Application Service Providers...
          */

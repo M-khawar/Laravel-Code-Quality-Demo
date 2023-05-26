@@ -3,11 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Question;
+use App\Traits\CommonServices;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class QuestionSeeder extends Seeder
 {
+    use CommonServices;
+
     /**
      * Run the database seeds.
      *
@@ -15,7 +18,7 @@ class QuestionSeeder extends Seeder
      */
     public function run()
     {
-        $questions= array(
+        $questions = array(
             [
                 'text' => 'Goal setting & Discovery Process',
                 'position' => 1,
@@ -95,6 +98,12 @@ class QuestionSeeder extends Seeder
                 'no_answerable' => true,
             ]
         );
+
+        $excludedUuid = [];
+        foreach ($questions as &$question) {
+            $question['uuid'] = $this->generateUniqueUUID(Question::class, excludedUuids: $excludedUuid);
+            array_push($excludedUuid, $question['uuid']);
+        }
 
         Question::insert($questions);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -22,10 +23,11 @@ class AuthenticatedSessionController extends Controller
             $user = $request->user();
             $token = $user->createToken(config('sanctum.token_name'));
             $authToken = $token->plainTextToken;
+            $user->load('address');
 
             $data = [
                 "auth_token" => $authToken,
-                "user" => $user,
+                "user" => new UserResource($user),
             ];
 
             return response()->success(__('auth.login.success'), $data);

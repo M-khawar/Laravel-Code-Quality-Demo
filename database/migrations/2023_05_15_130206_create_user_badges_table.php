@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('user_badges', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->string('title');
         });
     }
