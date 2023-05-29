@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('subscription_plan_id')->nullable();
             $table->string('name');
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
 
-            $table->index(['user_id', 'stripe_status']);
+            $table->index(['user_id', 'stripe_status', 'subscription_plan_id']);
         });
     }
 

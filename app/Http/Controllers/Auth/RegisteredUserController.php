@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
+use App\Packages\StripeWrapper\StripeFactoryTrait;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +17,8 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
+    use StripeFactoryTrait;
+
     /**
      * Handle an incoming registration request.
      *
@@ -41,7 +45,12 @@ class RegisteredUserController extends Controller
                 'address' => $request->input('address.address'),
             ]);
 
+            $dataForSubscription = $request->subscription;
+            $subscription = $this->buySubscription()->handle($user, $dataForSubscription);
+            $subscription->loadMissing('subscriptionPlan');
+
             $user->load('address');
+            $user->setRelation('subscription', $subscription);
 
             DB::commit();
 
@@ -77,6 +86,8 @@ class RegisteredUserController extends Controller
             'address.state' => ['required'],
             'address.zipcode' => ['required'],
             'address.address' => ['required'],
+            'subscription.plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
+            'subscription.payment_method_id' => ['required'],
         ]);
     }
 }

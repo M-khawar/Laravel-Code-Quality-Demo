@@ -23,7 +23,9 @@ class AuthenticatedSessionController extends Controller
             $user = $request->user();
             $token = $user->createToken(config('sanctum.token_name'));
             $authToken = $token->plainTextToken;
+
             $user->load('address');
+            $user->setRelation('subscription', $user->subscription(config('cashier.subscription_name')));
 
             $data = [
                 "auth_token" => $authToken,

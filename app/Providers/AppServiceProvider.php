@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Address;
-use App\Models\User;
+use App\Models\{Address, Subscription, User};
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(125);
+        Cashier::useSubscriptionModel(Subscription::class);
+
         Relation::enforceMorphMap([
             'User' => User::class,
             'Address' => Address::class,
