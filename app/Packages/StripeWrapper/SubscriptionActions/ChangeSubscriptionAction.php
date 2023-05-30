@@ -25,5 +25,5 @@ class ChangeSubscriptionAction extends StripeSubscriptionAbstract
         $subscription->fill(['subscription_plan_id' => $plan->id])->save();
 
         return $subscription;
-}
+    }
 }

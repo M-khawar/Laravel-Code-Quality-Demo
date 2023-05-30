@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Cashier\Subscription as CashierSubscription;
 
 class Subscription extends CashierSubscription
 {
-    use HasFactory;
+    use HasFactory, HasUUID;
 
     const MONTHLY_PLAN = "Race To Freedom Monthly Membership";
     const ANNUAL_PLAN = "Race To Freedom Annual Membership";

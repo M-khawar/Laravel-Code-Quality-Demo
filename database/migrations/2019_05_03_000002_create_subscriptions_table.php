@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->uuid()->unique();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subscription_plan_id')->nullable();
             $table->string('name');
