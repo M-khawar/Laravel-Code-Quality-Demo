@@ -17,7 +17,7 @@ class SubscriptionResource extends JsonResource
     {
         return [
             'plan_id' => $this->subscriptionPlan?->uuid,
-            'subscription_id' => $this->id,
+            'subscription_id' => $this->uuid,
             'title' => $this->subscriptionPlan?->name,
             'amount' => $this->subscriptionPlan?->amount,
             'interval' => @$this->subscriptionPlan->meta['interval'],
