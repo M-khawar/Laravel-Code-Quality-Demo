@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubscriptionPlanResource;
 use App\Http\Resources\SubscriptionResource;
+use App\Models\SubscriptionPlan;
 use App\Packages\StripeWrapper\StripeFactory;
 use App\Packages\StripeWrapper\StripeFactoryTrait;
 use Illuminate\Http\Request;
@@ -54,5 +56,13 @@ class SubscriptionController extends Controller
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
+    }
+
+    public function getSubscriptionPlans()
+    {
+        $plans = SubscriptionPlan::all();
+        $subscriptionPlans = SubscriptionPlanResource::collection($plans);
+        return response()->success("Subscription Plans Retrieved Successfully", ['subscription_plans' => $subscriptionPlans]);
+
     }
 }
