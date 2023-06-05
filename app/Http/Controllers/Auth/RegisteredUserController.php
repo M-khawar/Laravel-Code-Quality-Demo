@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'instagram' => $request->instagram,
             ]);
+            $user->profile()->create(['lead_sms'=> true, 'mem_sms' => true]);
 
             $user->address()->create([
                 'city' => $request->input('address.city'),

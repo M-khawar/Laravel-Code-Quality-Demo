@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LeadController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     $user = $request->user()->load('address');
     return new \App\Http\Resources\UserResource($user);
 });
+
+Route::post('/leads', [LeadController::class, 'store']);
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';

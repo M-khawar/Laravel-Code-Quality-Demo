@@ -9,4 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Profile extends Model
 {
     use HasFactory, HasUUID;
+
+    protected $fillable = ['lead_sms', 'mem_sms'];
 }
