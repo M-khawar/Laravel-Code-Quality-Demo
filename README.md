@@ -11,3 +11,17 @@ then first the old production database schema will populate along with existing 
 
 ---
 
+#### Cashier:
+
+###### Make Subscription Plans By Seeder
+```
+php artisan db:seed --class=SubscriptionPlanSeeder
+```
+
+###### Webhooks:
+```
+php artisan cashier:webhook 
+php artisan cashier:webhook --disabled
+php artisan cashier:webhook --url=<custom_url>
+php artisan cashier:webhook --api-version=<version>
+
