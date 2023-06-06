@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Lead;
 use App\Models\User;
+use App\Packages\SendGridWrapper\SendGridInitializer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
 {
+    use SendGridInitializer;
+
     public function store(Request $request)
     {
         try {
@@ -30,25 +33,32 @@ class LeadController extends Controller
                 'affiliate_id' => $affiliate->id,
             ]);
 
-            $lead= Lead::firstOrCreate(
+            $lead = Lead::firstOrCreate(
                 ['email' => $data['email'], 'advisor_id' => $data['advisor_id']],
                 $data
             );
 
-            if ($lead->wasRecentlyCreated){
-                // save lead to sendgrid
+            if ($lead->wasRecentlyCreated) {
+                $listID = config('default_settings.sendgrid_masterclass_list');
+                $nameArr = explode(" ", $lead->name);
+                $data = [
+                    "first_name" => @$nameArr[0],
+                    "last_name" => @$nameArr[1],
+                    "email" => $lead->email,
+                    "custom_fields" => [
+                        "w1_T" => $affiliate?->affiliate_code
+                    ],
+                ];
+
+                $this->sendgridContactManager()->addContact($listID, $data);
             }
 
             DB::commit();
 
-
-            //splitup data
-            // find affiliate if not then set admin as default
-
-            //create lead using firstOrCreate()
-            // if recently_created then store data to sendgrid
-            //set advisor
             //generate email & sms depending on settings
+
+            $message = $lead->wasRecentlyCreated ? __('messages.lead.created') : __('messages.lead.existed');
+            return response()->message($message);
 
         } catch (\Exception $e) {
             DB::rollBack();
