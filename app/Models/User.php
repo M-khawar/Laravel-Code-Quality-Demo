@@ -16,29 +16,33 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = ['name', 'email', 'password', 'phone', 'instagram', 'affiliate_code'];
+    protected $fillable = [
+        'name', 'email', 'password', 'instagram', 'phone', 'avatar', 'affiliate_code',
+        'advisor_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
+    ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $dates =[
+        'advisor_date'
+    ];
+
+    public function scopeWhereAffiliate($query, $affiliateCode)
+    {
+        return $query->where('affiliate_code', $affiliateCode);
+    }
+
+    public function scopeWhereDefaultAdvisor($query)
+    {
+        return $query->where('id', 1);
+    }
 }
