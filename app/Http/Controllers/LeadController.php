@@ -23,10 +23,9 @@ class LeadController extends Controller
             $data = $request->except('affiliate_code');
 
             $affiliate = User::query()
-                ->when($affiliateCode, fn($q) => $q->whereAffiliate($affiliateCode))
+                ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
                 ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
                 ->first();
-
 
             $data = array_merge($data, [
                 'advisor_id' => $affiliate->is_advisor ? $affiliate->id : $affiliate->advisor_id,

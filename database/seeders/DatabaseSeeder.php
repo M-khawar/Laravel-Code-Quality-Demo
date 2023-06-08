@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(QuestionSeeder::class);
         $this->call(UserBadgeSeeder::class);
+        $this->call(AdminSeeder::class);
     }
 }

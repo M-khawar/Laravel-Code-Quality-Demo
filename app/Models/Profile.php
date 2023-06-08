@@ -10,5 +10,9 @@ class Profile extends Model
 {
     use HasFactory, HasUUID;
 
-    protected $fillable = ['lead_sms', 'mem_sms'];
+    protected $fillable = [
+        'display_name', 'display_text', 'head_code', 'body_code', 'is_enagic', 'questionnaire_completed', 'is_trifecta',
+        'is_core', 'enagic_data', 'trifecta_date', 'core_date', 'lead_sms', 'mem_sms', 'promote_watched', 'welcome_video',
+        'fb_group',
+    ];
 }
