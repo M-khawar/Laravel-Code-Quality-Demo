@@ -12,7 +12,8 @@
         "laravel/cashier": "^13.17",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "sendgrid/sendgrid": "^8.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",

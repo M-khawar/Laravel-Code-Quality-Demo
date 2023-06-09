@@ -16,10 +16,21 @@ class SubscriptionController extends Controller
         resumeSubscription as resumeStripeSubscription;
     }
 
+    public function createClientSecret(StripeFactory $stripeFactory)
+    {
+        try {
+            $clientSecret = $stripeFactory->createClientSecret()->client_secret;
+            return response()->success(__('subscription.client_secret.success'), ['client_secret' => $clientSecret]);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
     public function createPaymentMethod(StripeFactory $stripeFactory)
     {
         $paymentMethod = $stripeFactory->createPaymentMethod()->id;
-        return response()->success("Testing Payment Method Created", ['payment_method' => $paymentMethod]);
+        return response()->success(__('subscription.test.payment_method.success'), ['payment_method' => $paymentMethod]);
     }
 
     public function cancelSubscription(Request $request)
@@ -62,7 +73,7 @@ class SubscriptionController extends Controller
     {
         $plans = SubscriptionPlan::all();
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
-        return response()->success("Subscription Plans Retrieved Successfully", ['subscription_plans' => $subscriptionPlans]);
+        return response()->success(__('subscription.plans_retrieved.success'), ['subscription_plans' => $subscriptionPlans]);
 
     }
 }

@@ -36,7 +36,9 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'instagram' => $request->instagram,
+                'advisor_id' => config('default_settings.default_advisor'),
             ]);
+            $user->profile()->create(['lead_sms' => true, 'mem_sms' => true]);
 
             $user->address()->create([
                 'city' => $request->input('address.city'),

@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('instagram')->nullable();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
+            $table->string('affiliate_code')->nullable()->index();
             $table->foreignId('advisor_id')->nullable()->constrained('users');
 
             $table->boolean('is_admin')->default('false');

@@ -3,8 +3,8 @@
 namespace App\Packages\StripeWrapper\SubscriptionActions;
 
 use App\Models\{SubscriptionPlan, User};
-use Exception;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 
 class BuySubscriptionAction extends StripeSubscriptionAbstract
 {

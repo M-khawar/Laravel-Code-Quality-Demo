@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    echo '<pre>';
+    echo 'Laravel: v' . app()->version(). PHP_EOL;
+    echo 'PHP: v8.2';
+    echo '</pre>';
 });
