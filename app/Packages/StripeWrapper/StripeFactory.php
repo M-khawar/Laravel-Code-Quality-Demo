@@ -26,6 +26,13 @@ class StripeFactory
         ]);
     }
 
+    public function createClientSecret()
+    {
+        return $this->stripe->setupIntents->create([
+            'payment_method_types' => ['card'],
+        ]);
+    }
+
     public function createStripeProductPrice(array $input)
     {
 
