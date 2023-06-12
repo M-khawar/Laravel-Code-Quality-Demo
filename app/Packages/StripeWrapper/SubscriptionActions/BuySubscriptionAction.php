@@ -39,12 +39,12 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
         $subscription = null;
 
         if ((!empty($data["on_trial"]) && $data["on_trial"] == 1)) {
-            //create susbcription with trial
+            //create subscription with trial
             $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
-                ->trialDays(30)
+                ->trialDays(7)
                 ->add();
         } else {
-            //create susbcription without trial
+            //create subscription without trial
             $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
                 ->add();
         }

@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'instagram' => $this->instagram,
+            'affiliate_code' => $this->affiliate_code,
             'phone' => $this->phone,
             'avatar' => $this->avatar,
             'address' => new AddressResource($this->whenLoaded('address')),
