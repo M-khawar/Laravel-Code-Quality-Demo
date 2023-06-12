@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Traits\Globals\AffiliateCodeGenerator;
 use App\Models\Traits\Relations\UserRelations;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -32,9 +33,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $dates =[
+    protected $dates = [
         'advisor_date'
     ];
+
+    protected $appends = ['avatar_path'];
 
     public function scopeWhereAffiliate($query, $affiliateCode)
     {
@@ -44,5 +47,14 @@ class User extends Authenticatable
     public function scopeWhereDefaultAdvisor($query)
     {
         return $query->where('id', 1);
+    }
+
+    protected function avatarPath(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                return $attributes['avatar_path'] = $attributes['avatar'] ?? asset('assets/images/default_avatar.png');
+            }
+        );
     }
 }
