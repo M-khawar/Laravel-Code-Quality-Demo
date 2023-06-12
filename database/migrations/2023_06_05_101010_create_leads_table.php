@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->uuid();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('instagram');
+            $table->string('instagram')->nullable();
             $table->foreignId('advisor_id')->nullable()->constrained('users');
             $table->foreignId('affiliate_id')->nullable()->constrained('users');
             $table->enum('status', ['active', 'in_active'])->default('in_active');
