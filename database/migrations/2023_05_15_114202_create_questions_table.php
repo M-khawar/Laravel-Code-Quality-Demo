@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('text');
             $table->bigInteger('position');
             $table->string('vimeo_link')->nullable();
-            $table->boolean('no_answerable')->nullable();
+            $table->boolean('is_answerable')->nullable();
 //            $table->string('type');
             $table->timestamps();
         });
