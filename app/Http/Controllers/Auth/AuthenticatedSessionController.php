@@ -29,6 +29,7 @@ class AuthenticatedSessionController extends Controller
 
             $data = [
                 "auth_token" => $authToken,
+                "exp" => config('sanctum.expiration'),
                 "user" => new UserResource($user),
             ];
 

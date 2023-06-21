@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::get('/referral', [UserController::class, 'getReferral']);
 Route::post('/leads', [LeadController::class, 'store']);
+
+Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/questions', [OnboardingController::class, 'getQuestion']);
+    Route::post('/answer', [OnboardingController::class, 'storeAnswer']);
+});
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';
