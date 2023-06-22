@@ -155,7 +155,7 @@ class RegisteredUserController extends Controller
             'state' => ['required'],
             'zipcode' => ['required'],
             'address' => ['required'],
-            'plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
+            'payment_method_id' => ['required'],
         ]);
     }
 
