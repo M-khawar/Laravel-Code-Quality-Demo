@@ -25,6 +25,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::get('/referral', [UserController::class, 'getReferral']);
 Route::post('/leads', [LeadController::class, 'store']);
 
+/*** Onboarding Routes ***/
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/questions', [OnboardingController::class, 'getQuestion']);
     Route::post('/answer', [OnboardingController::class, 'storeAnswer']);
