@@ -33,16 +33,16 @@ class OnboardingController extends Controller
         try {
             $input = $request->input();
 
+            DB::beginTransaction();
+
+            $this->questionRepository->storeAnswerValidation($input)->validate();
+
             $data = [
-                'uuid' => $input['question_uuid'],
+                'uuid' => $input['question_uid'],
                 'user_id' => auth()->id(),
                 'text' => $input['answer'],
                 'watched' => $input['video_watched']
             ];
-
-            DB::beginTransaction();
-
-            $this->questionRepository->storeAnswerValidation($data)->validate();
             $answer = $this->questionRepository->storeQuestion($data);
 
             DB::commit();

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('question_id')->constrained('questions');
             $table->boolean('watched')->default('false');
-            $table->longText('text');
+            $table->longText('text')->nullable();
             $table->timestamps();
         });
     }

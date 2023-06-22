@@ -6,6 +6,7 @@ use App\Contracts\Repositories\QuestionRepositoryInterface;
 use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class QuestionRepository implements QuestionRepositoryInterface
 {
@@ -41,9 +42,9 @@ class QuestionRepository implements QuestionRepositoryInterface
     public function storeAnswerValidation($data)
     {
         return Validator::make($data, [
-            'uuid' => ['required', 'exists:questions,uuid'],
-            'text' => ['required', 'string'],
-            'watched' => ['required', 'boolean'],
+            'question_uid' => ['required', 'exists:questions,uuid'],
+            'answer' => [Rule::requiredIf($this->getQuestionByUuid($data['question_uid'])?->is_answerable), 'string', 'nullable'],
+            'video_watched' => ['required', 'boolean'],
         ]);
     }
 }

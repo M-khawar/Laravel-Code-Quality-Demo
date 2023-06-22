@@ -21,7 +21,7 @@ class QuestionResource extends JsonResource
             'vimeo' => $this->vimeo_link,
             'is_answerable' => $this->is_answerable,
             'answer' => @$this->answer->text,
-            'watched' => @$this->answer->watched,
+            'watched' => @$this->answer->watched ? true : false,
         ];
     }
 }
