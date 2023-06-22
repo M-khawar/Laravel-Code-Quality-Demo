@@ -83,6 +83,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required'],
+            'affiliate_code' => ['required', 'exists:' . User::class . ',affiliate_code'],
             'instagram' => ['nullable'],
             'address.city' => ['required'],
             'address.state' => ['required'],
@@ -92,4 +93,70 @@ class RegisteredUserController extends Controller
             'subscription.payment_method_id' => ['required'],
         ]);
     }
+
+    public function stepwiseValidation(Request $request)
+    {
+        try {
+
+            $step = $request->step;
+            $data = $request->input();
+            $validator = null;
+
+            /**
+             * validating {step} enum
+             */
+            Validator::validate(
+                $data,
+                ['step' => ['required', 'in:USER_INFO,ADDRESS_INFO']],
+                ['step.in' => __('auth.step_enum.invalid')]
+            );
+
+            /**
+             * step data validation
+             */
+            switch ($step) {
+                case 'USER_INFO':
+                    $validator = $this->userinfoStepValidation($data);
+                    break;
+
+                case 'ADDRESS_INFO':
+                    $validator = $this->addressStepValidation($data);
+                    break;
+
+                default:
+                    $validator = $this->userinfoStepValidation($data);
+            }
+
+            $validator->validate();
+
+            return response()->message(__('auth.step_validation.accepted', ['step_name' => $step]));
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    protected function userinfoStepValidation(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required'],
+            'affiliate_code' => ['required', 'exists:' . User::class . ',affiliate_code'],
+            'instagram' => ['nullable'],
+        ]);
+    }
+
+    protected function addressStepValidation(array $data)
+    {
+        return Validator::make($data, [
+            'city' => ['required'],
+            'state' => ['required'],
+            'zipcode' => ['required'],
+            'address' => ['required'],
+            'plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
+        ]);
+    }
+
 }

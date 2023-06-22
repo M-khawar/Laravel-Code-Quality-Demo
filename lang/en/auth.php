@@ -17,6 +17,7 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'register.success' => 'Successfully SignUp',
-    'login.success' => 'Successfully SignIn'
-
+    'login.success' => 'Successfully SignIn',
+    'step_enum.invalid' => 'The selected step is invalid. Please select valid enum for `step` param',
+    'step_validation.accepted' => 'All data in `:step_name` step is valid, not error found.'
 ];
