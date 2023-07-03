@@ -3,8 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Database\Seeders\Traits\DisableForeignKeys;
-use Database\Seeders\Traits\TruncateTable;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +33,7 @@ class AdminSeeder extends Seeder
 
         $adminProfile = [
             'display_name' => 'Colten Echave',
-            'display_text' => null,
+            'display_text' => __('messages.default_display_text', locale: 'en'),
             'head_code' => null,
             'body_code' => null,
             'is_enagic' => true,
@@ -44,15 +43,35 @@ class AdminSeeder extends Seeder
             'enagic_data' => '2023-06-08',
             'trifecta_date' => '2023-06-08',
             'core_date' => '2023-06-08',
-            'lead_email' => false,
+            /*  'lead_email' => false,
             'lead_sms' => true,
             'mem_email' => false,
             'mem_sms' => true,
             'promote_watched' => true,
             'welcome_video' => true,
-            'fb_group' => true,
+            'fb_group' => true,*/
         ];
 
-        User::create($admin)->profile()->create($adminProfile);
+        $user = User::create($admin);
+        $user->profile()->create($adminProfile);
+        event(new Registered($user));
+
+        $this->updateSettings($user);
+
+    }
+
+    private function updateSettings(User $user)
+    {
+        $user->updateProperty('account_settings', 'lead_email', false);
+        $user->updateProperty('account_settings', 'lead_sms', true);
+        $user->updateProperty('account_settings', 'mem_email', false);
+        $user->updateProperty('account_settings', 'mem_sms', true);
+
+        $user->updateProperty('promote', 'promote_watched', false);
+
+        $user->updateProperty('onboarding', 'welcome_video_watched', false);
+        $user->updateProperty('onboarding', 'questionnaire_completed', false);
+        $user->updateProperty('onboarding', 'meeting_scheduled', false);
+        $user->updateProperty('onboarding', 'joined_facebook_group', false);
     }
 }

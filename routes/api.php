@@ -29,6 +29,7 @@ Route::post('/leads', [LeadController::class, 'store']);
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
     Route::get('/questions', [OnboardingController::class, 'getQuestion']);
     Route::post('/answer', [OnboardingController::class, 'storeAnswer']);
+    Route::post('/mark-step-status', [OnboardingController::class, 'markStepStatus']);
 });
 
 

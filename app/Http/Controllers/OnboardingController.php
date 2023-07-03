@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\Repositories\QuestionRepositoryInterface;
+use App\Contracts\Repositories\OnboardingRepositoryInterface;
 use App\Http\Resources\QuestionResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,14 +11,14 @@ class OnboardingController extends Controller
 {
 
 
-    public function __construct(public QuestionRepositoryInterface $questionRepository)
+    public function __construct(public OnboardingRepositoryInterface $onboardingRepository)
     {
     }
 
     public function getQuestion()
     {
         try {
-            $questions = $this->questionRepository->all();
+            $questions = $this->onboardingRepository->all();
             $questions = QuestionResource::collection($questions);
 
             return response()->success(__('question_fetched.success'), $questions);
@@ -35,7 +35,7 @@ class OnboardingController extends Controller
 
             DB::beginTransaction();
 
-            $this->questionRepository->storeAnswerValidation($input)->validate();
+            $this->onboardingRepository->storeAnswerValidation($input)->validate();
 
             $data = [
                 'uuid' => $input['question_uid'],
@@ -43,7 +43,7 @@ class OnboardingController extends Controller
                 'text' => $input['answer'],
                 'watched' => $input['video_watched']
             ];
-            $answer = $this->questionRepository->storeQuestion($data);
+            $answer = $this->onboardingRepository->storeQuestion($data);
 
             DB::commit();
 
@@ -53,6 +53,24 @@ class OnboardingController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             return $this->handleException($exception);
+        }
+    }
+
+    public function markStepStatus(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $onboardingStepsState = $this->onboardingRepository->markStepStatus($data);
+            DB::commit();
+
+            $message = __('messages.onboarding.step_updated', ['step' => $data['onboarding_step']]);
+            return response()->success($message, $onboardingStepsState);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->handleException($e);
         }
     }
 

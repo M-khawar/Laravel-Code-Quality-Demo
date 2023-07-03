@@ -2,13 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\QuestionRepositoryInterface;
+use App\Contracts\Repositories\OnboardingRepositoryInterface;
 use App\Models\Question;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class QuestionRepository implements QuestionRepositoryInterface
+class OnboardingRepository implements OnboardingRepositoryInterface
 {
 
     private Model $model;
@@ -46,5 +47,34 @@ class QuestionRepository implements QuestionRepositoryInterface
             'answer' => [Rule::requiredIf($this->getQuestionByUuid($data['question_uid'])?->is_answerable), 'string', 'nullable'],
             'video_watched' => ['required', 'boolean'],
         ]);
+    }
+
+    public function markStepStatus(array $data)
+    {
+        $user = auth()->user();
+
+        $group = 'onboarding';
+        $step = $data['onboarding_step'];
+        $status = $data['status'];
+
+        $propertyExists = $user->checkIfPropertyExists($group, $step);
+        throw_if(!$propertyExists, __('messages.onboarding.step_invalid', ['step' => $step]));
+
+        $user->updateProperty($group, $step, $status);
+        return $this->onboardingStepsState($user);
+    }
+
+
+    public function onboardingStepsState(?User $user = null): array
+    {
+        $user = $user ?? auth()->user();
+        $stepsState = $user->getPropertiesInGroup('onboarding');
+
+        $stepsData = [];
+        foreach ($stepsState as $step) {
+            $stepsData = array_merge($stepsData, [$step->name => (bool)$step->value]);
+        }
+
+        return $stepsData;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Contracts\Repositories;
 
-interface QuestionRepositoryInterface
+use App\Models\User;
+
+interface OnboardingRepositoryInterface
 {
     public function getQuestionByUuid($uuid);
 
@@ -11,5 +13,9 @@ interface QuestionRepositoryInterface
     public function storeAnswerValidation(array $data);
 
     public function storeQuestion(array $data);
+
+    public function markStepStatus(array $data);
+
+    public function onboardingStepsState(?User $user = null): array;
 
 }

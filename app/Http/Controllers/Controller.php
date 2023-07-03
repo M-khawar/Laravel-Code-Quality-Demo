@@ -23,6 +23,9 @@ class Controller extends BaseController
         } else if ($class_name == "Illuminate\Validation\ValidationException") {
             return response()->error($e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY, ["errors" => $e->errors()]);
 
+        } else if ($class_name == \RuntimeException::class) {
+            return response()->error($e->getMessage(), Response::HTTP_NOT_ACCEPTABLE);
+
         } else {
             return response()->error($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

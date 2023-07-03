@@ -38,7 +38,12 @@ class RegisteredUserController extends Controller
                 'instagram' => $request->instagram,
                 'advisor_id' => config('default_settings.default_advisor'),
             ]);
-            $user->profile()->create(['lead_sms' => true, 'mem_sms' => true]);
+            $user->profile()->create([
+                'lead_sms' => true,
+                'mem_sms' => true,
+                'display_name' =>  $user->name,
+                'display_text' =>  __('messages.default_display_text'),
+            ]);
 
             $user->address()->create([
                 'city' => $request->input('address.city'),

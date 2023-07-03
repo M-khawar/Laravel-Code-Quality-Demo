@@ -7,5 +7,19 @@ return [
         'onboarding.questionnaire_completed' => false,
         'onboarding.meeting_scheduled' => false,
         'onboarding.joined_facebook_group' => false,
+
+        /*** promote settings ***/
+        'promote.promote_watched' => false,
+
+        /*** advisor settings ***/
+        'adviser_settings.scheduling_link' => '',
+        'adviser_settings.facebook_link' => '',
+
+        /*** account settings ***/
+        'account_settings.lead_email' => true,
+        'account_settings.lead_sms' => true,
+        'account_settings.mem_email' => true,
+        'account_settings.mem_sms' => true,
+
     ],
 ];

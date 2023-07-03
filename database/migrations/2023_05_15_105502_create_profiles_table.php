@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -31,13 +30,13 @@ return new class extends Migration
             $table->date('trifecta_date')->nullable();
             $table->date('core_date')->nullable();
 
-            $table->boolean('lead_email')->default(true);
+            /* $table->boolean('lead_email')->default(true);
             $table->boolean('lead_sms')->default(true);
             $table->boolean('mem_email')->default(true);
             $table->boolean('mem_sms')->default(true);
             $table->boolean('promote_watched')->default(false);
             $table->boolean('welcome_video')->default(false);
-            $table->boolean('fb_group')->default(false);
+            $table->boolean('fb_group')->default(false);*/
 
             $table->timestamps();
         });
