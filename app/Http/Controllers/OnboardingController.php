@@ -61,11 +61,16 @@ class OnboardingController extends Controller
         try {
             $data = $request->input();
 
+            $request->validate([
+                'step_alias' => ['required', 'string'],
+                'status' => ['required', 'boolean']
+            ]);
+
             DB::beginTransaction();
             $onboardingStepsState = $this->onboardingRepository->markStepStatus($data);
             DB::commit();
 
-            $message = __('messages.onboarding.step_updated', ['step' => $data['onboarding_step']]);
+            $message = __('messages.onboarding.step_updated', ['step' => $data['step_alias']]);
             return response()->success($message, $onboardingStepsState);
 
         } catch (\Exception $e) {

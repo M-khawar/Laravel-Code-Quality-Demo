@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -21,13 +20,16 @@ class OnboardingRepository implements OnboardingRepositoryInterface
 
     public function getQuestionByUuid($uuid)
     {
-        return Question::findByUuid($uuid);
+        return $this->model::findByUuid($uuid);
     }
 
     public function all()
     {
         $query = $this->model::query();
-        $query->with(['answer' => fn($q) => $q->filterByUser(auth()->id())]);
+        $query->with([
+            'video',
+            'answer' => fn($q) => $q->filterByUser(auth()->id())
+        ]);
         return $query->get();
     }
 
@@ -53,8 +55,8 @@ class OnboardingRepository implements OnboardingRepositoryInterface
     {
         $user = auth()->user();
 
-        $group = 'onboarding';
-        $step = $data['onboarding_step'];
+        $group = ONBOARDING_GROUP_ALIAS;
+        $step = $data['step_alias'];
         $status = $data['status'];
 
         $propertyExists = $user->checkIfPropertyExists($group, $step);
@@ -68,7 +70,7 @@ class OnboardingRepository implements OnboardingRepositoryInterface
     public function onboardingStepsState(?User $user = null): array
     {
         $user = $user ?? auth()->user();
-        $stepsState = $user->getPropertiesInGroup('onboarding');
+        $stepsState = $user->getPropertiesInGroup(ONBOARDING_GROUP_ALIAS);
 
         $stepsData = [];
         foreach ($stepsState as $step) {

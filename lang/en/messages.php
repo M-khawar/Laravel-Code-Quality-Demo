@@ -9,5 +9,6 @@ return [
     'answer.existed' => 'Oops, You already Answered this Question',
     'default_display_text' => "Hey, I'm excited you're here, and I can't wait for you to see the presentation. I'll catch you on the other side!",
     'onboarding.step_invalid' => 'User Onboarding property `:step` is invalid.',
-    'onboarding.step_updated' => 'Successfully, User Onboarding step `:step` updated.'
+    'onboarding.step_updated' => 'Successfully, User Onboarding step `:step` updated.',
+    'video.fetched_successfully' => 'Successfully, Video fetched',
 ];

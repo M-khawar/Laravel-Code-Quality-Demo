@@ -12,13 +12,12 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->foreignId('video_id')->nullable()->constrained('videos');
-            $table->string('text');
-            $table->bigInteger('position');
-            $table->boolean('is_answerable')->nullable();
+            $table->string('slug')->unique();
+            $table->string('link');
+            $table->enum('source', [WISTIA, VIMEO]);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('videos');
     }
 };

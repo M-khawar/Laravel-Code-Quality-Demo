@@ -3,6 +3,7 @@
 use App\Http\Controllers\LeadController;
 use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    $user = $request->user()->load('address');
-    return new \App\Http\Resources\UserResource($user);
-});
-
 Route::get('/referral', [UserController::class, 'getReferral']);
+
 Route::post('/leads', [LeadController::class, 'store']);
+
+Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
 
 /*** Onboarding Routes ***/
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
