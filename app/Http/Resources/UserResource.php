@@ -28,6 +28,7 @@ class UserResource extends JsonResource
                 'type' => @$this->pm_type,
                 'last_four' => $this->pm_last_four ? Str::of($this->pm_last_four)->padLeft(19, '**** ') : null,
             ],
+            'onboarding_steps_state' => $this->onboardingStepsState,
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),
         ];
     }
