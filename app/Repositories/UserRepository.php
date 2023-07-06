@@ -23,7 +23,8 @@ class UserRepository implements UserRepositoryInterface
     {
         $user->loadMissing(['address', 'profile']);
         $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
-        if (!isset($user->subscription)) {
+
+        if (!array_key_exists('subscription', $user->toArray())) {
             $user->setRelation('subscription', $user->subscription(config('cashier.subscription_name')));
         }
 
