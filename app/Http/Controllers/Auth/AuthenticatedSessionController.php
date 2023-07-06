@@ -58,7 +58,7 @@ class AuthenticatedSessionController extends Controller
     {
         try {
             $user = currentUser();
-            $data = ["user" => $this->userResponse($user)];
+            $data = ["user" => $this->userRepository->getUserInfo($user)];
 
             return response()->success(__('auth.current_user_info.fetched'), $data);
 
