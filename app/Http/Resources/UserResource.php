@@ -22,13 +22,14 @@ class UserResource extends JsonResource
             'instagram' => $this->instagram,
             'affiliate_code' => $this->affiliate_code,
             'phone' => $this->phone,
-            'avatar' => $this->avatar,
+            'avatar' => $this->avatar_path,
             'address' => new AddressResource($this->whenLoaded('address')),
             'card' => [
                 'type' => @$this->pm_type,
                 'last_four' => $this->pm_last_four ? Str::of($this->pm_last_four)->padLeft(19, '**** ') : null,
             ],
             'onboarding_steps_state' => $this->onboardingStepsState,
+            'advisor' => new AdvisorResource($this->whenLoaded('advisor')),
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),
         ];
     }
