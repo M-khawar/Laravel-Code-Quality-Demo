@@ -2,15 +2,16 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Models\Question;
-use App\Repositories\OnboardingRepository;
+use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
+use App\Models\{Question, User};
+use App\Repositories\{OnboardingRepository, UserRepository};
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
     const bindings = [
         OnboardingRepositoryInterface::class => ["class" => OnboardingRepository::class, "model" => Question::class],
+        UserRepositoryInterface::class => ["class" => UserRepository::class, "model" => User::class],
     ];
 
 

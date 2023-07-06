@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Contracts\Repositories\OnboardingRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Resources\UserResource;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
-    public function __construct(public OnboardingRepositoryInterface $onboardingRepository)
+    public function __construct(public UserRepositoryInterface $userRepository)
     {
     }
 
@@ -32,7 +30,7 @@ class AuthenticatedSessionController extends Controller
             $data = [
                 "auth_token" => $authToken,
                 "exp" => config('sanctum.expiration'),
-                "user" => $this->userResponse($user),
+                "user" => $this->userRepository->getUserInfo($user),
             ];
 
             return response()->success(__('auth.login.success'), $data);
@@ -67,13 +65,5 @@ class AuthenticatedSessionController extends Controller
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
-    }
-
-    protected function userResponse(User $user): UserResource
-    {
-        $user->load('address');
-        $user->setRelation('subscription', $user->subscription(config('cashier.subscription_name')));
-        $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
-        return new UserResource($user);
     }
 }

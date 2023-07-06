@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
 use App\Packages\StripeWrapper\StripeFactoryTrait;
@@ -18,6 +18,10 @@ use Illuminate\Validation\Rules;
 class RegisteredUserController extends Controller
 {
     use StripeFactoryTrait;
+
+    public function __construct(public UserRepositoryInterface $userRepository)
+    {
+    }
 
     /**
      * Handle an incoming registration request.
@@ -39,10 +43,8 @@ class RegisteredUserController extends Controller
                 'advisor_id' => config('default_settings.default_advisor'),
             ]);
             $user->profile()->create([
-                'lead_sms' => true,
-                'mem_sms' => true,
-                'display_name' =>  $user->name,
-                'display_text' =>  __('messages.default_display_text'),
+                'display_name' => $user->name,
+                'display_text' => __('messages.default_display_text'),
             ]);
 
             $user->address()->create([
@@ -54,9 +56,6 @@ class RegisteredUserController extends Controller
 
             $dataForSubscription = $request->subscription;
             $subscription = $this->buySubscription()->handle($user, $dataForSubscription);
-            $subscription->loadMissing('subscriptionPlan');
-
-            $user->load('address');
             $user->setRelation('subscription', $subscription);
 
             DB::commit();
@@ -69,7 +68,7 @@ class RegisteredUserController extends Controller
 
             $data = [
                 "auth_token" => $authToken,
-                "user" => new UserResource($user),
+                "user" => $this->userRepository->getUserInfo($user),
             ];
 
             return response()->success(__('auth.register.success'), $data);
