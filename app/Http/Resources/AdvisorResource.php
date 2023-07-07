@@ -9,7 +9,7 @@ class AdvisorResource extends JsonResource
 
     public function toArray($request)
     {
-        return [
+        $data = [
             'uuid' => $this->uuid,
             'name' => $this->name,
             'email' => $this->email,
@@ -18,5 +18,22 @@ class AdvisorResource extends JsonResource
             'phone' => $this->phone,
             'avatar' => $this->avatar_path,
         ];
+
+        if (@$this->settings) {
+            $data = array_merge($data, $this->getSchedulingLink());
+        }
+
+        return $data;
+    }
+
+    private function getSchedulingLink()
+    {
+        $settingDictionary = [];
+        foreach ($this->settings as $setting) {
+            $settingDictionary = array_merge($settingDictionary, [$setting->name => $setting->value]);
+        }
+
+        return $settingDictionary;
+
     }
 }
