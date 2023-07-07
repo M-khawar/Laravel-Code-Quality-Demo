@@ -9,16 +9,16 @@ class SubscriptionPlanResource extends JsonResource
     /**
      * Transform the resource collection into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
     {
-        return  [
-          'uuid' => $this->uuid,
-          'title' => $this->name,
-          'amount' => $this->amount,
-          'interval' => $this->meta['interval'],
+        return [
+            'uuid' => $this->uuid,
+            'title' => $this->name,
+            'amount' => (double)$this->amount,
+            'interval' => $this->meta['interval'],
         ];
     }
 }
