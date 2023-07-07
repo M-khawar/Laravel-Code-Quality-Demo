@@ -6,7 +6,6 @@ use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
@@ -43,15 +42,17 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): Response
+    public function destroy(Request $request)
     {
-        Auth::guard('web')->logout();
+        try {
+            $user = currentUser();
+            $user->tokens()->delete();
 
-        $request->session()->invalidate();
+            return response()->message(__('auth.logout.success'));
 
-        $request->session()->regenerateToken();
-
-        return response()->noContent();
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
     }
 
     public function currentUserInfo()
