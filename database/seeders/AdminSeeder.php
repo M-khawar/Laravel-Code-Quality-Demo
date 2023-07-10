@@ -67,11 +67,15 @@ class AdminSeeder extends Seeder
         $user->updateProperty('account_settings', 'mem_email', false);
         $user->updateProperty('account_settings', 'mem_sms', true);
 
-        $user->updateProperty('promote', 'promote_watched', false);
-
         $user->updateProperty('onboarding', 'welcome_video_watched', false);
         $user->updateProperty('onboarding', 'questionnaire_completed', false);
         $user->updateProperty('onboarding', 'meeting_scheduled', false);
         $user->updateProperty('onboarding', 'joined_facebook_group', false);
+
+        $user->updateProperty('adviser_settings', 'scheduling_link', "https://calendly.com/muhammad-khawar/30min");
+        $user->updateProperty('adviser_settings', 'facebook_link', "https://www.facebook.com/colten.shea.echave/");
+        $user->updateProperty('adviser_settings', 'advisor_message', "Hey friend, I can't wait to connect with you & give you a roadmap for success!!!");
+
+        $user->updateProperty('promote', 'promote_watched', false);
     }
 }

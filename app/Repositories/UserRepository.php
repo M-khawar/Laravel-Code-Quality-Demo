@@ -22,6 +22,11 @@ class UserRepository implements UserRepositoryInterface
     public function getUserInfo(User $user): UserResource
     {
         $user->loadMissing(['address', 'profile']);
+
+        $user->loadMissing([
+            'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+        ]);
+
         $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
 
         if (!array_key_exists('subscription', $user->toArray())) {

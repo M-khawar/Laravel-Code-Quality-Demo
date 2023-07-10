@@ -14,6 +14,7 @@ return [
         /*** advisor settings ***/
         'adviser_settings.scheduling_link' => '',
         'adviser_settings.facebook_link' => '',
+        'adviser_settings.advisor_message' => '',
 
         /*** account settings ***/
         'account_settings.lead_email' => true,

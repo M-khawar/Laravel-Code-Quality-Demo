@@ -2,8 +2,7 @@
 
 namespace App\Models\Traits\Relations;
 
-use App\Models\Address;
-use App\Models\Profile;
+use App\Models\{Address, Profile, User};
 
 trait UserRelations
 {
@@ -15,6 +14,11 @@ trait UserRelations
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
+    }
+
+    public function advisor()
+    {
+        return $this->belongsTo(User::class, 'advisor_id');
     }
 
 }
