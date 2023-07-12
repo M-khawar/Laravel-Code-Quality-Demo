@@ -32,6 +32,7 @@ class OnboardingController extends Controller
     {
         try {
             $input = $request->input();
+            $userId= currentUserId();
 
             DB::beginTransaction();
 
@@ -39,7 +40,7 @@ class OnboardingController extends Controller
 
             $data = [
                 'uuid' => $input['question_uid'],
-                'user_id' => auth()->id(),
+                'user_id' => $userId,
                 'text' => $input['answer'],
                 'watched' => $input['video_watched']
             ];

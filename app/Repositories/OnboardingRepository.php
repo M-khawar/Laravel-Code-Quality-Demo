@@ -25,10 +25,11 @@ class OnboardingRepository implements OnboardingRepositoryInterface
 
     public function all()
     {
+        $userId = currentUserId();
         $query = $this->model::query();
         $query->with([
             'video',
-            'answer' => fn($q) => $q->filterByUser(auth()->id())
+            'answer' => fn($q) => $q->filterByUser($userId)
         ]);
         return $query->get();
     }
@@ -38,7 +39,7 @@ class OnboardingRepository implements OnboardingRepositoryInterface
         $question = $this->getQuestionByUuid($data['uuid']);
 
         return $question->answer()->firstOrCreate(
-            ['question_id' => $question->id], $data
+            ['question_id' => $question->id, 'user_id' => $data['user_id']], $data
         );
     }
 
