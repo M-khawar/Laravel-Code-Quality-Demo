@@ -32,6 +32,7 @@ class UserResource extends JsonResource
             'is_onboarding_completed' => $this->isOnboardingCompleted(),
             'onboarding_steps_state' => $this->onboardingStepsState,
             'advisor' => new AdvisorResource($this->whenLoaded('advisor')),
+            'promote_settings' => new PromoteSettingResource($this->whenLoaded('profile')),
             'master_class_funnel' => $this->masterClassFunnel(),
             'live_opportunity_call_funnel' => $this->liveOpportunityCallFunnel(),
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),
