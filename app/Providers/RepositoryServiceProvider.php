@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
+use App\Contracts\Repositories\{OnboardingRepositoryInterface, PromoteRepositoryInterface, UserRepositoryInterface};
 use App\Models\{Question, User};
-use App\Repositories\{OnboardingRepository, UserRepository};
+use App\Repositories\{OnboardingRepository, PromoteRepository, UserRepository};
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -12,6 +12,7 @@ class RepositoryServiceProvider extends ServiceProvider
     const bindings = [
         OnboardingRepositoryInterface::class => ["class" => OnboardingRepository::class, "model" => Question::class],
         UserRepositoryInterface::class => ["class" => UserRepository::class, "model" => User::class],
+        PromoteRepositoryInterface::class => ["class" => PromoteRepository::class, "model" => null],
     ];
 
 
@@ -22,7 +23,7 @@ class RepositoryServiceProvider extends ServiceProvider
             $model = $bindings['model'] ?? null;
 
             $this->app->singleton($contract, function () use ($bindAbleClass, $model) {
-                $model = app($model);
+                if ($model) $model = app($model);
                 return $model ? new $bindAbleClass($model) : new $bindAbleClass();
             });
         }

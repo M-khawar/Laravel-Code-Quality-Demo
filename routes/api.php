@@ -1,11 +1,10 @@
 <?php
 
-use App\Http\Controllers\LeadController;
-use App\Http\Controllers\OnboardingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    LeadController, OnboardingController, PromoteController, UserController, VideoController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +28,11 @@ Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], functio
     Route::get('/questions', [OnboardingController::class, 'getQuestion']);
     Route::post('/answer', [OnboardingController::class, 'storeAnswer']);
     Route::post('/mark-step-status', [OnboardingController::class, 'markStepStatus']);
+});
+
+/*** Promote Routes ***/
+Route::group(['prefix' => 'promote', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/settings', [PromoteController::class, 'settings']);
 });
 
 
