@@ -11,6 +11,11 @@ then first the old production database schema will populate along with existing 
 
 ---
 
+#### Run migration and seed default Data:
+```
+php artisan migrate:fresh --seed && php artisan db:seed --class=SubscriptionPlanSeeder
+```
+
 #### Cashier:
 
 ###### Make Subscription Plans By Seeder

@@ -22,7 +22,6 @@ return new class extends Migration {
             $table->string('body_code')->nullable();
 
             $table->boolean('is_enagic')->default(false);
-            $table->boolean('questionnaire_completed')->default(false);
             $table->boolean('is_trifecta')->default(false);
             $table->boolean('is_core')->default(false);
 

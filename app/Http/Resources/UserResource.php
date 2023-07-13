@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'instagram' => $this->instagram,
             'affiliate_code' => $this->affiliate_code,
+            'funnel_type' => $this->funnel_type,
             'phone' => $this->phone,
             'avatar' => $this->avatar_path,
             'address' => new AddressResource($this->whenLoaded('address')),
@@ -31,6 +32,8 @@ class UserResource extends JsonResource
             'is_onboarding_completed' => $this->isOnboardingCompleted(),
             'onboarding_steps_state' => $this->onboardingStepsState,
             'advisor' => new AdvisorResource($this->whenLoaded('advisor')),
+            'master_class_funnel' => $this->masterClassFunnel(),
+            'live_opportunity_call_funnel' => $this->liveOpportunityCallFunnel(),
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),
         ];
     }

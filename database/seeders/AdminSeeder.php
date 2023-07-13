@@ -37,7 +37,6 @@ class AdminSeeder extends Seeder
             'head_code' => null,
             'body_code' => null,
             'is_enagic' => true,
-            'questionnaire_completed' => true,
             'is_trifecta' => true,
             'is_core' => true,
             'enagic_data' => '2023-06-08',

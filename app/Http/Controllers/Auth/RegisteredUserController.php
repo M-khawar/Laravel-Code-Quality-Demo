@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -34,13 +35,17 @@ class RegisteredUserController extends Controller
             DB::beginTransaction();
 
             $this->registerValidation($request->input())->validate();
+            $advisorId = $this->getReferral($request->affiliate_code)->id;
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone' => $request->phone,
                 'instagram' => $request->instagram,
-                'advisor_id' => config('default_settings.default_advisor'),
+                'advisor_id' => $advisorId ?? config('default_settings.default_advisor'),
+                'advisor_date' => now()->toDate(),
+                'funnel_type' => $request->funnel_type,
             ]);
             $user->profile()->create([
                 'display_name' => $user->name,
@@ -80,6 +85,11 @@ class RegisteredUserController extends Controller
 
     }
 
+    private function getReferral($affiliateCode)
+    {
+        return User::whereAffiliate($affiliateCode)->first();
+    }
+
     protected function registerValidation(array $data)
     {
         return Validator::make($data, [
@@ -88,6 +98,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'phone' => ['required'],
             'affiliate_code' => ['required', 'exists:' . User::class . ',affiliate_code'],
+            'funnel_type' => ['required', Rule::in([MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL])],
             'instagram' => ['nullable'],
             'address.city' => ['required'],
             'address.state' => ['required'],

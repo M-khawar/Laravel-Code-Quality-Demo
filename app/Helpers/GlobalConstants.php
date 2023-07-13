@@ -8,3 +8,6 @@ define('FB_GROUP_JOINED', 'joined_facebook_group');
 define('WISTIA', 'wistia');
 define('VIMEO', 'vimeo');
 
+define('MASTER_FUNNEL', 'master');
+define('LIVE_OPPORTUNITY_CALL_FUNNEL', 'live_opportunity_call');
+
