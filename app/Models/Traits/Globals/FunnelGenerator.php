@@ -16,7 +16,7 @@ trait FunnelGenerator
 
     private function checkoutFunnel($referralCode, $funnelType): string
     {
-        return config('app.frontend_url') . "/checkout?referral=$referralCode&funnel_type=$funnelType";
+        return config('app.frontend_url') . "/register?referral=$referralCode&funnel_type=$funnelType";
     }
 
     public function masterClassFunnel()
