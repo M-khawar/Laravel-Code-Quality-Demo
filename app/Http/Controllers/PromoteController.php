@@ -40,7 +40,7 @@ class PromoteController extends Controller
         try {
             $data = [
                 "views_count" => 0,
-                "leads-count" => 0,
+                "leads_count" => 0,
                 "member_count" => 0,
                 "opt_in_percentage" => 0,
                 "member_conv_percentage" => 0,
