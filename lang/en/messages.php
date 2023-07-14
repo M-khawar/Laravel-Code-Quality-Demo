@@ -11,4 +11,5 @@ return [
     'onboarding.step_invalid' => 'User Onboarding property `:step` is invalid.',
     'onboarding.step_updated' => 'Successfully, User Onboarding step `:step` updated.',
     'video.fetched_successfully' => 'Successfully, Video fetched',
+    'visit.logged' => 'Successfully, Page visit logged.'
 ];

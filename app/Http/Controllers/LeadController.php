@@ -39,6 +39,23 @@ class LeadController extends Controller
 
     public function storeVisits(Request $request)
     {
+        try {
+            DB::beginTransaction();
 
+            $affiliateCode = $request->affiliate_code;
+            $headers = ['ip' => $request->ip(), 'user_agent' => $request->header('user_agent')];
+            $data = array_merge($request->except('affiliate_code'), $headers);
+
+            $this->leadRepository->storePageVisitValidation($data)->validate();
+            $this->leadRepository->storePageVisit($affiliateCode, $data);
+
+            DB::commit();
+
+            return response()->message(__('messages.visit.logged'));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->handleException($e);
+        }
     }
 }

@@ -3,28 +3,31 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
-use App\Models\User;
+use App\Models\{PageView, User};
 use App\Packages\SendGridWrapper\SendGridInitializer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class LeadRepository implements LeadRepositoryInterface
 {
     use SendGridInitializer;
 
     private Model $leadModel;
+    private User $userModel;
+
+    const FUNNEL_TYPES = [MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL];
+    const FUNNEL_STEPS = [WELCOME_FUNNEL_STEP, WEBINAR_FUNNEL_STEP, CHECKOUT_FUNNEL_STEP, THANKYOU_FUNNEL_STEP];
 
     public function __construct(Model $leadModel)
     {
         $this->leadModel = $leadModel;
+        $this->userModel = app(User::class);
     }
 
     public function storeLead(string $affiliateCode, array $data)
     {
-        $affiliate = User::query()
-            ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
-            ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
-            ->first();
+        $affiliate = $this->userModel::getAffiliateByCode($affiliateCode);
 
         $data = array_merge($data, [
             'advisor_id' => $affiliate->is_advisor ? $affiliate->id : $affiliate->advisor_id,
@@ -60,6 +63,24 @@ class LeadRepository implements LeadRepositoryInterface
             'name' => ['required'],
             'email' => ['required', 'email'],
             'instagram' => ['nullable'],
+            'affiliate_code' => ['nullable', 'exists:' . User::class . ',affiliate_code'],
+        ]);
+    }
+
+    public function storePageVisit(string $affiliateCode, array $data)
+    {
+        $affiliate = $this->userModel::getAffiliateByCode($affiliateCode);
+        $data = array_merge($data, ['affiliate_id' => $affiliate->id]);
+
+        return PageView::create($data);
+    }
+
+    public function storePageVisitValidation(array $data)
+    {
+        return Validator::make($data, [
+            'ip' => ['required', 'ip'],
+            'funnel_type' => ['required', Rule::in(self::FUNNEL_TYPES)],
+            'funnel_step' => ['required', Rule::in(self::FUNNEL_STEPS)],
             'affiliate_code' => ['nullable', 'exists:' . User::class . ',affiliate_code'],
         ]);
     }

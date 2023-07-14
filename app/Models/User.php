@@ -59,4 +59,12 @@ class User extends Authenticatable
             }
         );
     }
+
+    public static function getAffiliateByCode($affiliateCode)
+    {
+        return self::query()
+            ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
+            ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
+            ->first();
+    }
 }

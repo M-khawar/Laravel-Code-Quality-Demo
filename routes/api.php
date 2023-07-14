@@ -20,6 +20,7 @@ use App\Http\Controllers\{
 Route::get('/referral', [UserController::class, 'getReferral']);
 
 Route::post('/leads', [LeadController::class, 'store']);
+Route::post('/visits', [LeadController::class, 'storeVisits']);
 
 Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
 
