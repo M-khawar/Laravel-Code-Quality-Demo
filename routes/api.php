@@ -34,6 +34,7 @@ Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], functio
 /*** Promote Routes ***/
 Route::group(['prefix' => 'promote', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/settings', [PromoteController::class, 'settings']);
+    Route::post('/stats', [PromoteController::class, 'getStats']);
 });
 
 

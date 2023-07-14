@@ -34,4 +34,23 @@ class PromoteController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function getStats(Request $request)
+    {
+        try {
+            $data = [
+                "views_count" => 0,
+                "leads-count" => 0,
+                "member_count" => 0,
+                "opt_in_percentage" => 0,
+                "member_conv_percentage" => 0,
+                "funnel_conv_percentage" => 0,
+            ];
+
+            return response()->success("Successfully Stats Fetched.", $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }
