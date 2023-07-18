@@ -38,16 +38,22 @@ class PromoteController extends Controller
     public function getStats(Request $request)
     {
         try {
-            $data = [
-                "views_count" => 0,
-                "leads_count" => 0,
-                "member_count" => 0,
-                "opt_in_percentage" => 0,
-                "member_conv_percentage" => 0,
-                "funnel_conv_percentage" => 0,
+            $data= $request->input();
+            $this->promoteRepository->promoteStatsValidation($data)->validate();
+
+            $userId = currentUserId();
+            $period = $request->period ?? "all";
+            $funnelType = @$request->funnel_type;
+
+            $filterRange = [
+                "start_date" => @$request->start_date,
+                "end_date" => @$request->end_date,
             ];
 
-            return response()->success("Successfully Stats Fetched.", $data);
+            $dateRange = $this->promoteRepository->periodConversion($period, $filterRange);
+            $stats = $this->promoteRepository->promoteStats($userId, $dateRange->start_date, $dateRange->end_date, $funnelType);
+
+            return response()->success("Successfully Stats Fetched.", $stats);
 
         } catch (\Exception $e) {
             return $this->handleException($e);

@@ -48,7 +48,12 @@ class User extends Authenticatable
 
     public function scopeWhereDefaultAdvisor($query)
     {
-        return $query->where('id', 1);
+        return $query->where('id', config('default_settings.default_advisor'));
+    }
+
+    public function scopeExcludeAdmins($query)
+    {
+        return $query->whereNotIn('id', [config('default_settings.default_advisor')]);
     }
 
     protected function avatarPath(): Attribute
