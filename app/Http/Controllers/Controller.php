@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -25,6 +26,9 @@ class Controller extends BaseController
 
         } else if ($class_name == \RuntimeException::class) {
             return response()->error($e->getMessage(), Response::HTTP_NOT_ACCEPTABLE);
+
+        }else if ($e instanceof ModelNotFoundException) {
+            return response()->error("No record exist against against your requested id.", Response::HTTP_NOT_FOUND);
 
         } else {
             return response()->error($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);

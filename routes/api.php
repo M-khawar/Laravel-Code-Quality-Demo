@@ -54,7 +54,7 @@ Route::group(['prefix' => 'promote', 'middleware' => 'auth:sanctum'], function (
 /*** Calendar Routes ***/
 Route::group(['prefix' => 'calendar', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/', [CalendarController::class, 'store']);
-    Route::post('/edit/{uuid}/edit', [CalendarController::class, 'edit']);
+    Route::post('/{uuid}/edit', [CalendarController::class, 'edit']);
     Route::delete('/{uuid}', [CalendarController::class, 'destroy']);
     Route::get('/', [CalendarController::class, 'index']);
 });

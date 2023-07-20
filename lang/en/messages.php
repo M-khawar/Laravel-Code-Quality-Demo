@@ -15,5 +15,8 @@ return [
     'onboarding.step_updated' => 'Successfully, User Onboarding step `:step` updated.',
     'onboarding.steps_fetched' => 'Successfully, User Onboarding steps progress retrieved.',
     'video.fetched_successfully' => 'Successfully, Video fetched',
-    'visit.logged' => 'Successfully, Page visit logged.'
+    'visit.logged' => 'Successfully, Page visit logged.',
+    'calendar.created' => 'Successfully, calendar event created.',
+    'calendar.edited' => 'Successfully, calendar event updated.',
+    'calendar.deleted' => 'Successfully, calendar event deleted.',
 ];

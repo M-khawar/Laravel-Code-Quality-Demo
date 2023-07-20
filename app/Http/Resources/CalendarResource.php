@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class CalendarResource extends JsonResource
+{
+
+    public function toArray($request)
+    {
+        return  [
+          "uuid" => $this->uuid,
+            "title"=> $this->title,
+            "description"=> $this->description,
+            "link"=> $this->link,
+            "color"=> $this->color,
+            "display_date"=> $this->display_date,
+            "start_time"=> $this->start_time,
+            "end_time"=> $this->end_time,
+            "allowed_audience_roles" => RoleResource::collection($this->whenLoaded("allowedAudienceRoles"))
+        ];
+    }
+}

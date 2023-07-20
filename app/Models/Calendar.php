@@ -11,7 +11,7 @@ class Calendar extends Model
 {
     use HasFactory, HasUUID, CalendarRelation;
 
-    protected $fillable = ["title", "description", "link", "calendar_timestamp", "display_date", "start_time", "end_time"];
+    protected $fillable = ["title", "description", "link", "color", "calendar_timestamp", "display_date", "start_time", "end_time"];
 
     protected static function boot()
     {
