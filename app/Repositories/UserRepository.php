@@ -2,10 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Contracts\Repositories\UserRepositoryInterface;
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
+use App\Http\Resources\{RoleResource, UserResource};
+use App\Models\{Role, User};
 use Illuminate\Database\Eloquent\Model;
 
 class UserRepository implements UserRepositoryInterface
@@ -34,5 +33,12 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return new UserResource($user);
+    }
+
+    public function getRolesExceptAdmin()
+    {
+        $roles = Role::excludeAdminRole()->get();
+
+        return RoleResource::collection($roles);
     }
 }

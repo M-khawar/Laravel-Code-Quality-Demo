@@ -21,5 +21,6 @@ return [
     'logout.success' => 'Successfully logout',
     'step_enum.invalid' => 'The selected step is invalid. Please select valid enum for `step` param',
     'step_validation.accepted' => 'All data in `:step_name` step is valid, not error found.',
-    'current_user_info.fetched' => 'Successfully, current authenticated user info fetched.'
+    'current_user_info.fetched' => 'Successfully, current authenticated user info fetched.',
+    'roles.fetched' => 'Successfully, available roles fetched.',
 ];

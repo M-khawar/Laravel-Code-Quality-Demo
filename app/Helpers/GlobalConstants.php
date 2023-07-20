@@ -20,3 +20,10 @@ define('THANKYOU_FUNNEL_STEP', 'thankyou');
 define('LEAD_ACTIVE', 'active');
 define('LEAD_IN_ACTIVE', 'in_active');
 
+define('ADMIN_ROLE', 'Admin');
+define('ENAGIC_ROLE', 'Enagic');
+define('TRIFECTA_ROLE', 'Trifecta');
+define('ADVISOR_ROLE', 'Advisor');
+define('CORE_ROLE', 'Core');
+define('ACTIVE_RECRUITER_ROLE', 'Active-Recruiter');
+

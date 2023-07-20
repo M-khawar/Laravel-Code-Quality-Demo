@@ -187,6 +187,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Spatie\Permission\PermissionServiceProvider::class,
         App\Packages\BuilderMacros\BuilderMacrosServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,

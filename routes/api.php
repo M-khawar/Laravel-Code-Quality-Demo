@@ -3,7 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    LeadController, OnboardingController, PromoteController, UserController, VideoController
+    CalendarController,
+    LeadController,
+    OnboardingController,
+    PromoteController,
+    UserController,
+    VideoController
 };
 
 /*
@@ -44,6 +49,14 @@ Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], functio
 Route::group(['prefix' => 'promote', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/settings', [PromoteController::class, 'settings']);
     Route::post('/stats', [PromoteController::class, 'getStats']);
+});
+
+/*** Calendar Routes ***/
+Route::group(['prefix' => 'calendar', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/', [CalendarController::class, 'store']);
+    Route::post('/edit/{uuid}/edit', [CalendarController::class, 'edit']);
+    Route::delete('/{uuid}', [CalendarController::class, 'destroy']);
+    Route::get('/', [CalendarController::class, 'index']);
 });
 
 
