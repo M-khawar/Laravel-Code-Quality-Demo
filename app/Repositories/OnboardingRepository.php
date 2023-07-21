@@ -67,7 +67,6 @@ class OnboardingRepository implements OnboardingRepositoryInterface
         return $this->onboardingStepsState($user);
     }
 
-
     public function onboardingStepsState(?User $user = null): array
     {
         $user = $user ?? auth()->user();

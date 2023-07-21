@@ -19,7 +19,7 @@ class SubscriptionResource extends JsonResource
             'plan_id' => $this->subscriptionPlan?->uuid,
             'subscription_id' => $this->uuid,
             'title' => $this->subscriptionPlan?->name,
-            'amount' => $this->subscriptionPlan?->amount,
+            'amount' => (double)$this->subscriptionPlan?->amount,
             'interval' => @$this->subscriptionPlan->meta['interval'],
             'status' => $this->status(),
             'trail_end_at' => $this->trial_ends_at,

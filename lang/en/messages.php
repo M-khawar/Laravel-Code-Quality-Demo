@@ -10,6 +10,7 @@ return [
     'default_display_text' => "Hey, I'm excited you're here, and I can't wait for you to see the presentation. I'll catch you on the other side!",
     'onboarding.step_invalid' => 'User Onboarding property `:step` is invalid.',
     'onboarding.step_updated' => 'Successfully, User Onboarding step `:step` updated.',
+    'onboarding.steps_fetched' => 'Successfully, User Onboarding steps progress retrieved.',
     'video.fetched_successfully' => 'Successfully, Video fetched',
     'visit.logged' => 'Successfully, Page visit logged.'
 ];

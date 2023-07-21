@@ -26,9 +26,10 @@ Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
 
 /*** Onboarding Routes ***/
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
-    Route::get('/questions', [OnboardingController::class, 'getQuestion']);
     Route::post('/answer', [OnboardingController::class, 'storeAnswer']);
     Route::post('/mark-step-status', [OnboardingController::class, 'markStepStatus']);
+    Route::get('/questions', [OnboardingController::class, 'getQuestion']);
+    Route::get('/progress', [OnboardingController::class, 'getProgress']);
 });
 
 /*** Promote Routes ***/

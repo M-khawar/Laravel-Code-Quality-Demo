@@ -32,7 +32,7 @@ class OnboardingController extends Controller
     {
         try {
             $input = $request->input();
-            $userId= currentUserId();
+            $userId = currentUserId();
 
             DB::beginTransaction();
 
@@ -80,5 +80,16 @@ class OnboardingController extends Controller
         }
     }
 
+    public function getProgress()
+    {
+        try {
+            $user = currentUser();
+            $onboardingStepsState = $this->onboardingRepository->onboardingStepsState($user);
+            return response()->success(__('messages.onboarding.steps_fetched'), $onboardingStepsState);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 
 }
