@@ -11,5 +11,10 @@ class Lead extends Model
 {
     use HasFactory, HasUUID, LeadRelations;
 
-    protected $fillable = ['name', 'email', 'instagram', 'advisor_id', 'affiliate_id', 'status'];
+    protected $fillable = ['name', 'email', 'instagram', 'advisor_id', 'affiliate_id', 'funnel_type', 'status'];
+
+    public function scopeFindByEmail($query, $email)
+    {
+        return $query->where('email', $email);
+    }
 }

@@ -35,7 +35,9 @@ class RegisteredUserController extends Controller
             DB::beginTransaction();
 
             $this->registerValidation($request->input())->validate();
-            $advisorId = $this->getReferral($request->affiliate_code)->id;
+            $affiliate = $this->getReferral($request->affiliate_code);
+            $advisorId = $affiliate && $affiliate->is_advisor ? $affiliate->id : $affiliate->advisor_id;
+            $affiliateId = $affiliate->id;
 
             $user = User::create([
                 'name' => $request->name,
@@ -44,6 +46,7 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'instagram' => $request->instagram,
                 'advisor_id' => $advisorId ?? config('default_settings.default_advisor'),
+                'affiliate_id' => $affiliateId ?? config('default_settings.default_advisor'),
                 'advisor_date' => now()->toDate(),
                 'funnel_type' => $request->funnel_type,
             ]);

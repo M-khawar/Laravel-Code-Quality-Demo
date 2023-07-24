@@ -20,7 +20,8 @@ return new class extends Migration {
             $table->string('instagram')->nullable();
             $table->foreignId('advisor_id')->nullable()->constrained('users');
             $table->foreignId('affiliate_id')->nullable()->constrained('users');
-            $table->enum('status', ['active', 'in_active'])->default('in_active');
+            $table->string('funnel_type')->nullable();
+            $table->enum('status', [LEAD_ACTIVE, LEAD_IN_ACTIVE])->default(LEAD_ACTIVE);
             $table->timestamps();
         });
     }

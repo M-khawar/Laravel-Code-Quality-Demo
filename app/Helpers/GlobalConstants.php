@@ -17,3 +17,6 @@ define('WEBINAR_FUNNEL_STEP', 'webinar');
 define('CHECKOUT_FUNNEL_STEP', 'checkout');
 define('THANKYOU_FUNNEL_STEP', 'thankyou');
 
+define('LEAD_ACTIVE', 'active');
+define('LEAD_IN_ACTIVE', 'in_active');
+

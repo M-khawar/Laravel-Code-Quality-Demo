@@ -64,6 +64,7 @@ class LeadRepository implements LeadRepositoryInterface
             'email' => ['required', 'email'],
             'instagram' => ['nullable'],
             'affiliate_code' => ['nullable', 'exists:' . User::class . ',affiliate_code'],
+            'funnel_type' => ['required', Rule::in(self::FUNNEL_TYPES)],
         ]);
     }
 

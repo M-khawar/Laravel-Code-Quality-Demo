@@ -21,7 +21,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar', 'affiliate_code', 'funnel_type',
-        'advisor_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
+        'advisor_id', 'affiliate_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
     ];
 
 
