@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
-use App\Http\Resources\LeadResource;
+use App\Http\Resources\LeadCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -67,7 +67,7 @@ class LeadController extends Controller
             $downLines = $request->boolean('downlines');
 
             $leads = $this->leadRepository->fetchLeads($uuid, $paginated, $downLines);
-            $leads = (LeadResource::collection($leads))->response()->getData(true);
+            $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
 

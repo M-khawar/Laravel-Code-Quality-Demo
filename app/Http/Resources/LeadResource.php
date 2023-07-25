@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LeadResource extends JsonResource
 {
-    public static $wrap = "collection";
 
     public function toArray($request)
     {
