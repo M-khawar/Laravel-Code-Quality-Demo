@@ -6,10 +6,11 @@ use App\Models\Traits\Relations\LeadRelations;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lead extends Model
 {
-    use HasFactory, HasUUID, LeadRelations;
+    use HasFactory, HasUUID, LeadRelations, SoftDeletes;
 
     protected $fillable = ['name', 'email', 'instagram', 'advisor_id', 'affiliate_id', 'funnel_type', 'status'];
 

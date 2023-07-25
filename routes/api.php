@@ -26,6 +26,7 @@ Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
 /*** Leads Routes ***/
 Route::group(['prefix' => 'leads'], function () {
     Route::post('/', [LeadController::class, 'store']);
+    Route::delete('/{uuid}', [LeadController::class, 'destroyLead'])->middleware('auth:sanctum');
     Route::get('/{uuid?}', [LeadController::class, 'getLead'])->middleware('auth:sanctum');
 });
 

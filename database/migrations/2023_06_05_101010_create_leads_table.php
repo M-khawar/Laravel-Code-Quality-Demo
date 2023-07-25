@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('funnel_type')->nullable();
             $table->enum('status', [LEAD_ACTIVE, LEAD_IN_ACTIVE])->default(LEAD_ACTIVE);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

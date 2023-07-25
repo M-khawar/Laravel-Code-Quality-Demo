@@ -122,4 +122,10 @@ class LeadRepository implements LeadRepositoryInterface
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
 
     }
+
+    public function deleteLead(string $uuid)
+    {
+        $lead = $this->leadModel::ByUUID($uuid)->firstOrFail();
+        return $lead->delete();
+    }
 }

@@ -91,4 +91,20 @@ class LeadController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function destroyLead($uuid)
+    {
+        try {
+            DB::beginTransaction();
+            $this->leadRepository->deleteLead($uuid);
+            DB::commit();
+
+            return response()->message(__("messages.lead.deleted"));
+
+        }catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
 }
