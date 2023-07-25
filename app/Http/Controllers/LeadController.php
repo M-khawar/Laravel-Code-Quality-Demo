@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
+use App\Http\Resources\LeadResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -55,6 +56,22 @@ class LeadController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            return $this->handleException($e);
+        }
+    }
+
+    public function getLead(Request $request, string $uuid = null)
+    {
+        try {
+            $paginated = $request->boolean('paginated');
+            $downLines = $request->boolean('downlines');
+
+            $leads = $this->leadRepository->fetchLeads($uuid, $paginated, $downLines);
+            $leads = (LeadResource::collection($leads))->response()->getData(true);
+
+            return response()->success(__("messages.lead.fetched"), $leads);
+
+        } catch (\Exception $e) {
             return $this->handleException($e);
         }
     }

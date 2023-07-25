@@ -19,10 +19,15 @@ use App\Http\Controllers\{
 
 Route::get('/referral', [UserController::class, 'getReferral']);
 
-Route::post('/leads', [LeadController::class, 'store']);
 Route::post('/visits', [LeadController::class, 'storeVisits']);
 
 Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
+
+/*** Leads Routes ***/
+Route::group(['prefix' => 'leads'], function () {
+    Route::post('/', [LeadController::class, 'store']);
+    Route::get('/{uuid?}', [LeadController::class, 'getLead'])->middleware('auth:sanctum');
+});
 
 /*** Onboarding Routes ***/
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {

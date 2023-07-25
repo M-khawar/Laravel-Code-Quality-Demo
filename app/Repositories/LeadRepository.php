@@ -85,4 +85,18 @@ class LeadRepository implements LeadRepositoryInterface
             'affiliate_code' => ['nullable', 'exists:' . User::class . ',affiliate_code'],
         ]);
     }
+
+    public function fetchLeads(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    {
+        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)->id : null;
+
+        throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
+
+        $query = $this->leadModel::query();
+        $query->when(!empty($affiliateUuid), fn($q) => $q->where('affiliate_id', $affiliateID));
+        $query->when($downLines, fn($q) => $q->where('advisor_id', $affiliateID));
+        $query->latest();
+
+        return $paginated ? $query->paginate()->withQueryString() : $query->get();
+    }
 }
