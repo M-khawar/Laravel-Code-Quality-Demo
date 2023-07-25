@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
-    public function __construct(private CalendarRepositoryInterface $calendarRepository)
+    private mixed $calendarRepository;
+
+    public function __construct()
     {
+        $this->calendarRepository = app(CalendarRepositoryInterface::class);
     }
 
     /**
