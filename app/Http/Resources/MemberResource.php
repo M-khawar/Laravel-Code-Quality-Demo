@@ -15,6 +15,7 @@ class MemberResource extends JsonResource
             "instagram" => $this->instagram,
             "funnel_type" => $this->funnel_type,
             "join_date" => $this->created_at->toDateString(),
+            "address" => new AddressResource($this->whenLoaded("address")),
             "affiliate" => new AffiliateResource($this->whenLoaded("affiliate")),
         ];
     }

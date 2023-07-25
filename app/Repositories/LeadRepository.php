@@ -117,7 +117,7 @@ class LeadRepository implements LeadRepositoryInterface
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
         });
 
-        $query->with('affiliate')->latest();
+        $query->with('affiliate', 'address')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
 
