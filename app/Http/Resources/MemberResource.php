@@ -4,9 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LeadResource extends JsonResource
+class MemberResource extends JsonResource
 {
-
     public function toArray($request)
     {
         return [
@@ -15,7 +14,6 @@ class LeadResource extends JsonResource
             "email" => $this->email,
             "instagram" => $this->instagram,
             "funnel_type" => $this->funnel_type,
-            "status" => $this->status,
             "join_date" => $this->created_at->toDateString(),
             "affiliate" => new AffiliateResource($this->whenLoaded("affiliate")),
         ];

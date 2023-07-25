@@ -13,4 +13,6 @@ interface LeadRepositoryInterface
     public function storePageVisitValidation(array $data);
 
     public function fetchLeads(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false);
+
+    public function fetchMembers(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false);
 }

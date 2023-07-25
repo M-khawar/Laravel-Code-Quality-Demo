@@ -29,6 +29,8 @@ Route::group(['prefix' => 'leads'], function () {
     Route::get('/{uuid?}', [LeadController::class, 'getLead'])->middleware('auth:sanctum');
 });
 
+Route::get('/members/{uuid?}', [LeadController::class, 'getMembers'])->middleware('auth:sanctum');
+
 /*** Onboarding Routes ***/
 Route::group(['prefix' => 'onboarding', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/answer', [OnboardingController::class, 'storeAnswer']);

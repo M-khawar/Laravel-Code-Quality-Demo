@@ -21,4 +21,9 @@ trait UserRelations
         return $this->belongsTo(User::class, 'advisor_id');
     }
 
+    public function affiliate()
+    {
+        return $this->belongsTo(User::class, 'affiliate_id');
+    }
+
 }

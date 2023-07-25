@@ -88,15 +88,38 @@ class LeadRepository implements LeadRepositoryInterface
 
     public function fetchLeads(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
     {
-        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)->id : null;
+        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
 
         throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
 
         $query = $this->leadModel::query();
-        $query->when(!empty($affiliateUuid), fn($q) => $q->where('affiliate_id', $affiliateID));
-        $query->when($downLines, fn($q) => $q->where('advisor_id', $affiliateID));
-        $query->latest();
+
+        $query->where(function ($query) use ($affiliateID, $downLines) {
+            $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+            $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
+        });
+
+        $query->with('affiliate')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
+    }
+
+    public function fetchMembers(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    {
+        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
+
+        throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
+
+        $query = $this->userModel::query()->excludeAdmins();
+
+        $query->where(function ($query) use ($affiliateID, $downLines) {
+            $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+            $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
+        });
+
+        $query->with('affiliate')->latest();
+
+        return $paginated ? $query->paginate()->withQueryString() : $query->get();
+
     }
 }

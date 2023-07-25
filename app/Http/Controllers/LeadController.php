@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
-use App\Http\Resources\LeadCollection;
+use App\Http\Resources\{LeadCollection, MemberCollection};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -70,6 +70,22 @@ class LeadController extends Controller
             $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function getMembers(Request $request, string $uuid = null)
+    {
+        try {
+            $paginated = $request->boolean('paginated');
+            $downLines = $request->boolean('downlines');
+
+            $members = $this->leadRepository->fetchMembers($uuid, $paginated, $downLines);
+            $members = (new MemberCollection($members))->response()->getData(true);
+
+            return response()->success(__("messages.members.fetched"), $members);
 
         } catch (\Exception $e) {
             return $this->handleException($e);
