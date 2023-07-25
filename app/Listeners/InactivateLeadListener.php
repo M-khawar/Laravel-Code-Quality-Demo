@@ -22,7 +22,7 @@ class InactivateLeadListener
         $lead = Lead::findByEmail($user->email)->first();
 
         if (!$lead) {
-            return false;
+            return ;
         }
 
         $lead->status = LEAD_IN_ACTIVE;
