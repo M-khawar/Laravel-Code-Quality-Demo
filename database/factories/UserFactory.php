@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -10,31 +13,59 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition()
     {
+        $funnels = [MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL];
+
+        /*$year = rand(2022, 2023);
+        $month = rand(1, 12);
+        $day = rand(1, 28);
+
+        $date = Carbon::create($year,$month ,$day , 0, 0, 0);*/
+
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('password'),
+            'instagram' => null,
+            'phone' => fake()->phoneNumber(),
+            'avatar' => null,
+            'advisor_id' => config('default_settings.default_advisor'),
+            'affiliate_id' => config('default_settings.default_advisor'),
+            'affiliate_code' => null,
+            'funnel_type' => $funnels[rand(0, 1)],
             'remember_token' => Str::random(10),
+            'advisor_date' => null,
+            'email_verified_at' => now(),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return static
-     */
     public function unverified()
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->profile()->create([
+                'display_name' => $user->name,
+                'display_text' => __('messages.default_display_text', locale: 'en'),
+                'is_enagic' => true,
+                'enagic_date' => now(),
+            ]);
+
+            $user->address()->create([
+                "city" => fake()->city(),
+                "state" => fake()->country,
+                "zipcode" => rand(11111, 999999),
+                "address" => fake()->address(),
+            ]);
+
+            event(new Registered($user));
+        });
     }
 }

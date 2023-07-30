@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\DummyData\DummyDatabaseSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(QuestionSeeder::class);
         $this->call(UserBadgeSeeder::class);
         $this->call(AdminSeeder::class);
+
+        if (app()->environment('local', 'staging')) {
+            $this->call(DummyDatabaseSeeder::class);
+        }
     }
 }

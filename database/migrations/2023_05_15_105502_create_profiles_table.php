@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->boolean('is_trifecta')->default(false);
             $table->boolean('is_core')->default(false);
 
-            $table->date('enagic_data')->nullable();
+            $table->date('enagic_date')->nullable();
             $table->date('trifecta_date')->nullable();
             $table->date('core_date')->nullable();
 

@@ -40,7 +40,7 @@ class AdminSeeder extends Seeder
             'is_enagic' => true,
             'is_trifecta' => true,
             'is_core' => true,
-            'enagic_data' => '2023-06-08',
+            'enagic_date' => '2023-06-08',
             'trifecta_date' => '2023-06-08',
             'core_date' => '2023-06-08',
             /*  'lead_email' => false,

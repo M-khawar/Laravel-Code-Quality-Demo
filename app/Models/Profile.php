@@ -12,7 +12,7 @@ class Profile extends Model
 
     protected $fillable = [
         'user_id', 'display_name', 'display_text', 'head_code', 'body_code', 'is_enagic', 'is_trifecta', 'is_core',
-        'enagic_data', 'trifecta_date', 'core_date', 'lead_sms', 'mem_sms', 'promote_watched', 'welcome_video',
+        'enagic_date', 'trifecta_date', 'core_date', 'lead_sms', 'mem_sms', 'promote_watched', 'welcome_video',
         'fb_group',
     ];
 }
