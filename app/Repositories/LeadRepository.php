@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
+use App\Traits\CommonServices;
 use App\Models\{PageView, User};
 use App\Packages\SendGridWrapper\SendGridInitializer;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Validation\Rule;
 
 class LeadRepository implements LeadRepositoryInterface
 {
-    use SendGridInitializer;
+    use SendGridInitializer, CommonServices;
 
     private Model $leadModel;
     private User $userModel;
@@ -86,7 +87,7 @@ class LeadRepository implements LeadRepositoryInterface
         ]);
     }
 
-    public function fetchLeads(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
     {
         $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
 
@@ -94,17 +95,19 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query = $this->leadModel::query();
 
-        $query->where(function ($query) use ($affiliateID, $downLines) {
+        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines) {
             $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+            $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
         });
 
+        $query->whereBetween("created_at", array($startDate, $endDate));
         $query->with('affiliate')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
     }
 
-    public function fetchMembers(?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    public function fetchMembers($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
     {
         $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
 
@@ -112,11 +115,13 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query = $this->userModel::query()->excludeAdmins();
 
-        $query->where(function ($query) use ($affiliateID, $downLines) {
+        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines) {
             $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+            $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
         });
 
+        $query->whereBetween("created_at", array($startDate, $endDate));
         $query->with('affiliate', 'address')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();

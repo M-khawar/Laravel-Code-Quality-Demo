@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'instagram' => null,
             'phone' => fake()->phoneNumber(),
-//            'affiliate_code' => 'Developer_1122',
+            'funnel_type' => MASTER_FUNNEL,
             'advisor_id' => config('default_settings.default_advisor'),
             'affiliate_id' => config('default_settings.default_advisor'),
             'is_advisor' => true,

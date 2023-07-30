@@ -10,7 +10,7 @@ interface PromoteRepositoryInterface
 
     public function periodConversion(string $period, ?array $data = []): object;
 
-    public function promoteStats(int $userId, ?string $startDate = null, ?string $endDate = null, ?string $funnelType = null): array;
+    public function promoteStats(int $userId, string $startDate, string $endDate, ?string $funnelType = null): array;
 
     public function promoteStatsValidation(array $data);
 }

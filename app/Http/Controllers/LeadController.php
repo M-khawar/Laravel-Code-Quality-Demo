@@ -65,8 +65,16 @@ class LeadController extends Controller
         try {
             $paginated = $request->boolean('paginated');
             $downLines = $request->boolean('downlines');
+            $period = $request->period ?? "all";
+            $funnelType = @$request->funnel_type;
 
-            $leads = $this->leadRepository->fetchLeads($uuid, $paginated, $downLines);
+            $filterRange = [
+                "start_date" => @$request->start_date,
+                "end_date" => @$request->end_date,
+            ];
+
+            $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
+            $leads = $this->leadRepository->fetchLeads($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines);
             $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
@@ -81,8 +89,16 @@ class LeadController extends Controller
         try {
             $paginated = $request->boolean('paginated');
             $downLines = $request->boolean('downlines');
+            $period = $request->period ?? "all";
+            $funnelType = @$request->funnel_type;
 
-            $members = $this->leadRepository->fetchMembers($uuid, $paginated, $downLines);
+            $filterRange = [
+                "start_date" => @$request->start_date,
+                "end_date" => @$request->end_date,
+            ];
+
+            $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
+            $members = $this->leadRepository->fetchMembers($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines);
             $members = (new MemberCollection($members))->response()->getData(true);
 
             return response()->success(__("messages.members.fetched"), $members);
@@ -101,7 +117,7 @@ class LeadController extends Controller
 
             return response()->message(__("messages.lead.deleted"));
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             return $this->handleException($exception);
         }
