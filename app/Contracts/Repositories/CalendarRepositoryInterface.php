@@ -15,6 +15,8 @@ interface CalendarRepositoryInterface
 
     public function deleteCalendar($uuid);
 
+    public function fetchEvents(?string $date = null);
+
     public function storeCalenderValidation(array $data);
 
     public function editCalenderValidation(array $data);

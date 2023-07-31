@@ -13,9 +13,18 @@ class CalendarController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        dd("index");
+        try {
+            $date = $request->date;
+            $calendarEvents = $this->calendarRepository->fetchEvents($date);
+
+            $data = CalendarResource::collection($calendarEvents);
+            return response()->success(__("messages.calendar.fetched"), $data);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
     }
 
     public function store(Request $request)
@@ -25,10 +34,10 @@ class CalendarController extends Controller
 
             DB::beginTransaction();
             $this->calendarRepository->storeCalenderValidation($data)->validate();
-            $calendar = $this->calendarRepository->store($data);
+            $calendarEvent = $this->calendarRepository->store($data);
             DB::commit();
 
-            $data = new CalendarResource($calendar);
+            $data = new CalendarResource($calendarEvent);
             return response()->success(__("messages.calendar.created"), $data);
 
         } catch (\Exception $exception) {
@@ -46,10 +55,10 @@ class CalendarController extends Controller
 
             DB::beginTransaction();
             $this->calendarRepository->editCalenderValidation($data)->validate();
-            $calendarData = $this->calendarRepository->edit($calendar, $data);
+            $calendarEvent = $this->calendarRepository->edit($calendar, $data);
             DB::commit();
 
-            $data = new CalendarResource($calendarData);
+            $data = new CalendarResource($calendarEvent);
             return response()->success(__("messages.calendar.edited"), $data);
 
         } catch (\Exception $exception) {
@@ -67,7 +76,7 @@ class CalendarController extends Controller
 
             return response()->message(__("messages.calendar.deleted"));
 
-        }catch (\Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             return $this->handleException($exception);
         }

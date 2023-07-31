@@ -54,6 +54,8 @@ class AdminSeeder extends Seeder
 
         $user = User::create($admin);
         $user->profile()->create($adminProfile);
+        $user->assignRole(ADMIN_ROLE);
+
         event(new Registered($user));
 
         $this->updateSettings($user);

@@ -3,7 +3,8 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\CalendarRepositoryInterface;
-use App\Models\{Calendar, Role};
+use App\Models\{Calendar, Role, User};
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -47,6 +48,40 @@ class CalendarRepository implements CalendarRepositoryInterface
         $calendar = $this->calendarByUuid($uuid);
         $calendar->allowedAudienceRoles()->detach();
         return $calendar->delete();
+    }
+
+    public function fetchEvents(?string $date = null)
+    {
+        $user = currentUser();
+        $roleIDs = $this->userRoles($user);
+
+        $startDate = $endDate = null;
+        if ($date) {
+            $startDate = Carbon::create($date)->startOfDay();
+            $endDate = Carbon::create($date)->endOfDay();
+        }
+
+        $calendarEvents = $this->calenderModel::query()
+            ->whereHas('allowedAudienceRoles', fn($q) => $q->whereIn('roles.id', $roleIDs))
+            ->with('allowedAudienceRoles')
+            ->when(!empty($startDate), fn($q) => $q->whereBetween('calendar_timestamp', [$startDate, $endDate]))
+            ->get();
+
+        return $calendarEvents;
+    }
+
+    protected function userRoles(User $user)
+    {
+        $user->loadMissing('roles');
+
+        $roleIDs = [];
+        if ($user->hasRole(ADMIN_ROLE)) {
+            $roleIDs = $this->roleModel::pluck('id')->toArray();
+        } else {
+            $roleIDs = $user->roles->pluck('id')->toArray();
+        }
+
+        return $roleIDs;
     }
 
     public function storeCalenderValidation(array $data)

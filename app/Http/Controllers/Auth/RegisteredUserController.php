@@ -65,6 +65,7 @@ class RegisteredUserController extends Controller
             $dataForSubscription = $request->subscription;
             $subscription = $this->buySubscription()->handle($user, $dataForSubscription);
             $user->setRelation('subscription', $subscription);
+            $user->assignRole(ENAGIC_ROLE);
 
             DB::commit();
 

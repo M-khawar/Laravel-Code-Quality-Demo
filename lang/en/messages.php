@@ -19,4 +19,5 @@ return [
     'calendar.created' => 'Successfully, calendar event created.',
     'calendar.edited' => 'Successfully, calendar event updated.',
     'calendar.deleted' => 'Successfully, calendar event deleted.',
+    'calendar.fetched' => 'Successfully, calendar events fetched.',
 ];
