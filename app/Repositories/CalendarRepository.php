@@ -53,7 +53,7 @@ class CalendarRepository implements CalendarRepositoryInterface
     {
         return Validator::make($data, [
             "title" => ['required', 'string'],
-            "description" => ['nullable'],
+            "description" => ['required'],
             "link" => ['required'],
             "color" => ['required', Rule::in($this->calenderColors())],
             "display_date" => ['required'],
@@ -67,7 +67,7 @@ class CalendarRepository implements CalendarRepositoryInterface
     {
         return Validator::make($data, [
             "title" => ['required', 'string'],
-            "description" => ['nullable'],
+            "description" => ['required'],
             "link" => ['required'],
             "color" => ['required', Rule::in($this->calenderColors())],
             "display_date" => ['required'],
