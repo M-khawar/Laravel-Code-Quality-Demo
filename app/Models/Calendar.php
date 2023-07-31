@@ -20,6 +20,10 @@ class Calendar extends Model
         static::creating(function ($item) {
             $item->calendar_timestamp = $item->display_date . " " . $item->start_time;
         });
+
+        static::updating(function ($item) {
+            $item->calendar_timestamp = $item->display_date . " " . $item->start_time;
+        });
     }
 
 
