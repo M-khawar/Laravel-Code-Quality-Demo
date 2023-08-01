@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('title');
             $table->longText('description');
             $table->string('link');
-            $table->enum('color', $this->calendarRepository->calenderColors());
+            $table->enum('color', $this->calendarRepository::calenderColors);
             $table->dateTime('calendar_timestamp');
             $table->date('display_date');
             $table->time('start_time');
