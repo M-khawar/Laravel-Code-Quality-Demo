@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,11 +16,11 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('calendar_id')->constrained('calendars')->nullOnDelete();
-            $table->enum('type', ['sms', 'mail']);
-            $table->string('during');
-            $table->string('during_type');
-            $table->string('sent_status');
+            $table->foreignId('calendar_id')->constrained('calendars')->cascadeOnDelete();
+            $table->enum('type', [SMS_NOTIF_TYPE, MAIL_NOTIF_TYPE]);
+            $table->string('duration');
+            $table->enum('duration_type', ['minutes', 'hour'])->default('minutes');
+            $table->boolean('sent_status')->default(false);
             $table->timestamps();
         });
     }

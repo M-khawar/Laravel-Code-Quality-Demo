@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\CalendarRepositoryInterface;
-use App\Models\{Calendar, Role, User};
+use App\Models\{Calendar, CalendarNotification, Role, User};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -13,11 +13,13 @@ class CalendarRepository implements CalendarRepositoryInterface
 {
     private Model $calenderModel;
     private $roleModel;
+    private $calendNotificationModel;
 
     public function __construct(Model $calender)
     {
         $this->calenderModel = $calender;
         $this->roleModel = app(config('permission.models.role'));
+        $this->calendNotificationModel = app(CalendarNotification::class);
     }
 
     public function calendarByUuid($uuid)
@@ -27,19 +29,27 @@ class CalendarRepository implements CalendarRepositoryInterface
 
     public function store(array $data)
     {
+        $currentUserID = currentUserId();
+
         $calendar = $this->calenderModel::create($data);
         $roleIds = $this->roleModel::whereUuidIn($data['allowed_audience_roles'])->pluck('id')->toArray();
         $calendar->allowedAudienceRoles()->attach($roleIds);
-        $calendar->load("allowedAudienceRoles");
+
+        $calendar->load(["allowedAudienceRoles", "calendarNotifications" => fn($q) => $q->where('user_id', $currentUserID)]);
+
         return $calendar;
     }
 
     public function edit(Calendar $calendar, array $data)
     {
+        $currentUserID = currentUserId();
+
         $calendar->update($data);
         $roleIds = $this->roleModel::whereUuidIn($data['allowed_audience_roles'])->pluck('id')->toArray();
         $calendar->allowedAudienceRoles()->sync($roleIds);
-        $calendar->load("allowedAudienceRoles");
+
+        $calendar->load(["allowedAudienceRoles", "calendarNotifications" => fn($q) => $q->where('user_id', $currentUserID)]);
+
         return $calendar;
     }
 
@@ -62,8 +72,8 @@ class CalendarRepository implements CalendarRepositoryInterface
         }
 
         $calendarEvents = $this->calenderModel::query()
-            ->whereHas('allowedAudienceRoles', fn($q) => $q->whereIn('roles.id', $roleIDs))
-            ->with('allowedAudienceRoles')
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs))
+            ->with(["allowedAudienceRoles", "calendarNotifications" => fn($q) => $q->where('user_id', $user->id)])
             ->when(!empty($startDate), fn($q) => $q->whereBetween('calendar_timestamp', [$startDate, $endDate]))
             ->get();
 
@@ -84,13 +94,42 @@ class CalendarRepository implements CalendarRepositoryInterface
         return $roleIDs;
     }
 
+    public function calendarNotificationByUuid($uuid)
+    {
+        return $this->calendNotificationModel::ByUUID($uuid)->firstOrFail();
+    }
+
+    public function storeNotification(array $data)
+    {
+        $currentUserID = currentUserId();
+        $calendar = $this->calenderModel::findByUuid($data['calendar_uuid']);
+
+        $data['user_id'] = $currentUserID;
+        $calendar->calendarNotifications()->create($data);
+        $calendar->load(["allowedAudienceRoles", "calendarNotifications" => fn($q) => $q->where('user_id', $currentUserID)]);
+
+        return $calendar;
+    }
+
+    public function editNotification(CalendarNotification $calendarNotification, array $data)
+    {
+        $calendarNotification->fill($data)->save();
+        return $calendarNotification;
+    }
+
+    public function deleteCalendarNotification($uuid)
+    {
+        $calendarNotification = $this->calendarNotificationByUuid($uuid);
+        return $calendarNotification->delete();
+    }
+
     public function storeCalenderValidation(array $data)
     {
         return Validator::make($data, [
             "title" => ['required', 'string'],
             "description" => ['required'],
             "link" => ['required'],
-            "color" => ['required', Rule::in($this->calenderColors())],
+            "color" => ['required', Rule::in(self::calenderColors)],
             "display_date" => ['required'],
             "start_time" => ['required'],
             "end_time" => ['required'],
@@ -104,7 +143,7 @@ class CalendarRepository implements CalendarRepositoryInterface
             "title" => ['required', 'string'],
             "description" => ['required'],
             "link" => ['required'],
-            "color" => ['required', Rule::in($this->calenderColors())],
+            "color" => ['required', Rule::in(self::calenderColors)],
             "display_date" => ['required'],
             "start_time" => ['required'],
             "end_time" => ['required'],
@@ -112,12 +151,21 @@ class CalendarRepository implements CalendarRepositoryInterface
         ]);
     }
 
-    public function calenderColors(): array
+    public function storeCalenderNotificationValidation(array $data)
     {
-        return [
-            "success", "primary", "info", "danger", "warning", "default",
-        ];
+        return Validator::make($data, [
+            "calendar_uuid" => ['required', 'string', 'exists:' . Calendar::class . ',uuid'],
+            "type" => ['required', Rule::in(self::notificationTypes)],
+            "duration" => ['required', 'integer'],
+        ]);
     }
 
+    public function editCalenderNotificationValidation(array $data)
+    {
+        return Validator::make($data, [
+            "type" => ['required', Rule::in(self::notificationTypes)],
+            "duration" => ['required', 'integer'],
+        ]);
+    }
 
 }

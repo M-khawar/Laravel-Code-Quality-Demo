@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\CalendarRepositoryInterface;
+use App\Http\Resources\CalendarNotificationResource;
 use App\Http\Resources\CalendarResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -82,5 +83,57 @@ class CalendarController extends Controller
         }
     }
 
+    public function storeNotification(Request $request)
+    {
+        try {
+            $data = $request->input();
 
+            DB::beginTransaction();
+            $this->calendarRepository->storeCalenderNotificationValidation($data)->validate();
+            $calendarNotification = $this->calendarRepository->storeNotification($data);
+            DB::commit();
+
+            $data = new CalendarResource($calendarNotification);
+            return response()->success(__("messages.calendar_notification.created"), $data);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+
+    }
+    public function editNotification(Request $request, $uuid)
+    {
+        try {
+            $calendarNotification = $this->calendarRepository->calendarNotificationByUuid($uuid);
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $validatedData=$this->calendarRepository->editCalenderNotificationValidation($data)->validate();
+            $notification = $this->calendarRepository->editNotification($calendarNotification, $validatedData);
+            DB::commit();
+
+            $data = new CalendarNotificationResource($notification);
+            return response()->success(__("messages.calendar_notification.edited"), $data);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
+    public function destroyNotification($uuid)
+    {
+        try {
+            DB::beginTransaction();
+            $this->calendarRepository->deleteCalendarNotification($uuid);
+            DB::commit();
+
+            return response()->message(__("messages.calendar_notification.deleted"));
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
 }

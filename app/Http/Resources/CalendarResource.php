@@ -19,7 +19,8 @@ class CalendarResource extends JsonResource
             "start_time" => $this->start_time,
             "end_time" => $this->end_time,
             "start" => $this->calendar_timestamp,
-            "allowed_audience_roles" => RoleResource::collection($this->whenLoaded("allowedAudienceRoles"))
+            "allowed_audience_roles" => RoleResource::collection($this->whenLoaded("allowedAudienceRoles")),
+            "calendar_notifications" => CalendarNotificationResource::collection($this->whenLoaded("calendarNotifications")),
         ];
     }
 }

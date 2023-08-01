@@ -11,7 +11,7 @@ class CalendarNotification extends Model
 {
     use HasFactory, HasUUID, CalendarNotificationRelation;
 
-    protected $fillable = ["user_id", "calendar_id", "type", "during", "during_type", "sent_status"];
+    protected $fillable = ["user_id", "calendar_id", "type", "duration", "during_type", "sent_status"];
 
 
 }

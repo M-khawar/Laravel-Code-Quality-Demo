@@ -59,6 +59,13 @@ Route::group(['prefix' => 'calendar', 'middleware' => 'auth:sanctum'], function 
     Route::get('/', [CalendarController::class, 'index']);
 });
 
+/*** Calendar-Notifications Routes ***/
+Route::group(['prefix' => 'calendar-notifications', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/', [CalendarController::class, 'storeNotification']);
+    Route::post('/{uuid}/edit', [CalendarController::class, 'editNotification']);
+    Route::delete('/{uuid}', [CalendarController::class, 'destroyNotification']);
+});
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';

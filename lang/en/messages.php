@@ -20,4 +20,7 @@ return [
     'calendar.edited' => 'Successfully, calendar event updated.',
     'calendar.deleted' => 'Successfully, calendar event deleted.',
     'calendar.fetched' => 'Successfully, calendar events fetched.',
+    'calendar_notification.created'=> 'Successfully, calendar notification created.',
+    'calendar_notification.edited'=> 'Successfully, calendar notification updated.',
+    'calendar_notification.deleted'=> 'Successfully, calendar notification deleted.',
 ];

@@ -27,3 +27,5 @@ define('ADVISOR_ROLE', 'Advisor');
 define('CORE_ROLE', 'Core');
 define('ACTIVE_RECRUITER_ROLE', 'Active-Recruiter');
 
+define('SMS_NOTIF_TYPE', 'sms');
+define('MAIL_NOTIF_TYPE', 'mail');
