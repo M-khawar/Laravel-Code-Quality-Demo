@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Traits\Globals\AffiliateCodeGenerator;
 use App\Models\Traits\Globals\FunnelGenerator;
+use App\Models\Traits\Globals\Searchable;
 use App\Models\Traits\Globals\UserSetting;
 use App\Models\Traits\Relations\UserRelations;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
@@ -17,13 +18,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting, FunnelGenerator;
+    use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting, FunnelGenerator, Searchable;
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar', 'affiliate_code', 'funnel_type',
         'advisor_id', 'affiliate_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
     ];
 
+    protected $searchable_columns = [
+        'name', 'email', 'instagram', 'phone', 'affiliate_code',
+    ];
 
     protected $hidden = [
         'password',

@@ -12,9 +12,24 @@ interface LeadRepositoryInterface
 
     public function storePageVisitValidation(array $data);
 
-    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false);
+    public function fetchLeads(
+        $funnelType, string $startDate,
+        string $endDate,
+        ?string $affiliateUuid = null,
+        ?bool $paginated = true,
+        ?bool $downLines = false,
+        ?string $queryString = null
+    );
 
-    public function fetchMembers($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false);
+    public function fetchMembers(
+        $funnelType,
+        string $startDate,
+        string $endDate,
+        ?string $affiliateUuid = null,
+        ?bool $paginated = true,
+        ?bool $downLines = false,
+        ?string $queryString = null
+    );
 
     public function deleteLead(string $uuid);
 

@@ -87,7 +87,7 @@ class LeadRepository implements LeadRepositoryInterface
         ]);
     }
 
-    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null)
     {
         $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
 
@@ -95,10 +95,11 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query = $this->leadModel::query();
 
-        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines) {
+        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
             $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
             $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
+            $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
         });
 
         $query->whereBetween("created_at", array($startDate, $endDate));
@@ -107,7 +108,7 @@ class LeadRepository implements LeadRepositoryInterface
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
     }
 
-    public function fetchMembers($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false)
+    public function fetchMembers($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null)
     {
         $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
 
@@ -115,10 +116,11 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query = $this->userModel::query()->excludeAdmins();
 
-        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines) {
+        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
             $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
             $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
+            $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
         });
 
         $query->whereBetween("created_at", array($startDate, $endDate));

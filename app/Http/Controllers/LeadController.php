@@ -67,6 +67,7 @@ class LeadController extends Controller
             $downLines = $request->boolean('downlines');
             $period = $request->period ?? "all";
             $funnelType = @$request->funnel_type;
+            $queryString = $request->input('query');
 
             $filterRange = [
                 "start_date" => @$request->start_date,
@@ -74,7 +75,7 @@ class LeadController extends Controller
             ];
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
-            $leads = $this->leadRepository->fetchLeads($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines);
+            $leads = $this->leadRepository->fetchLeads($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
             $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
@@ -91,6 +92,7 @@ class LeadController extends Controller
             $downLines = $request->boolean('downlines');
             $period = $request->period ?? "all";
             $funnelType = @$request->funnel_type;
+            $queryString = $request->input('query');
 
             $filterRange = [
                 "start_date" => @$request->start_date,
@@ -98,7 +100,7 @@ class LeadController extends Controller
             ];
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
-            $members = $this->leadRepository->fetchMembers($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines);
+            $members = $this->leadRepository->fetchMembers($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
             $members = (new MemberCollection($members))->response()->getData(true);
 
             return response()->success(__("messages.members.fetched"), $members);
