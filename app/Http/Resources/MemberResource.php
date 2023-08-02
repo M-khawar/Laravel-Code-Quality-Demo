@@ -12,6 +12,7 @@ class MemberResource extends JsonResource
             "uuid" => $this->uuid,
             "name" => $this->name,
             "email" => $this->email,
+            "phone" => $this->phone,
             "instagram" => $this->instagram,
             "funnel_type" => $this->funnel_type,
             "join_date" => $this->created_at->toDateString(),

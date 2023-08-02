@@ -15,7 +15,7 @@ trait Searchable
             if (!$columns) $columns = Schema::getColumnListing($this->getTable());
 
             foreach ($columns as $column) {
-                $query->orWhere($column, 'LIKE', '%' . $term . '%');
+                $query->orWhere($column, 'ILIKE', '%' . $term . '%');
             }
         });
 
@@ -56,7 +56,7 @@ trait Searchable
                     foreach ($columns as $column) {
                         if($column == 'id' || $column == 'created_by' || $column == 'updated_by' || $column == 'created_at' || $column == 'updated_at') continue;
                         $query->orWhereHasMorph($relation, $instance, function ($q)  use ($term,$column) {
-                            $q->where($column, 'LIKE', '%' . $term . '%');
+                            $q->where($column, 'ILIKE', '%' . $term . '%');
                         });
                     }
                 });
@@ -76,7 +76,7 @@ trait Searchable
                 foreach ($columns as $column) {
                     if($column == 'id' || $column == 'created_by' || $column == 'updated_by' || $column == 'created_at' || $column == 'updated_at') continue;
                     $query->orWhereHas($relation, function ($q) use ($column, $term) {
-                        $q->where($column, 'LIKE', '%' . $term . '%');
+                        $q->where($column, 'ILIKE', '%' . $term . '%');
                     });
                 }
             });
@@ -92,7 +92,7 @@ trait Searchable
             if (!$columns) $columns = Schema::getColumnListing($this->getTable());
 
             foreach ($columns as $column) {
-                $query->orWhere($column, 'LIKE', $term . '%');
+                $query->orWhere($column, 'ILIKE', $term . '%');
             }
         });
 
