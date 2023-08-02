@@ -56,6 +56,7 @@ Route::group(['prefix' => 'calendar', 'middleware' => 'auth:sanctum'], function 
     Route::post('/', [CalendarController::class, 'store']);
     Route::post('/{uuid}/edit', [CalendarController::class, 'edit']);
     Route::delete('/{uuid}', [CalendarController::class, 'destroy']);
+    Route::get('/events-date', [CalendarController::class, 'eventsDate']);
     Route::get('/', [CalendarController::class, 'index']);
 });
 

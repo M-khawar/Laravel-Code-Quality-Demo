@@ -28,6 +28,20 @@ class CalendarController extends Controller
         }
     }
 
+    public function eventsDate(Request $request)
+    {
+        try {
+            $month = $request->month;
+            $year = $request->year;
+            $calendarEvents = $this->calendarRepository->fetchEventsDates($month, $year);
+
+            return response()->success(__("messages.calendar.fetched"), $calendarEvents);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
+
     public function store(Request $request)
     {
         try {

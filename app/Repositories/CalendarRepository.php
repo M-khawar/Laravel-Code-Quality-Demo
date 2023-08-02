@@ -80,6 +80,30 @@ class CalendarRepository implements CalendarRepositoryInterface
         return $calendarEvents;
     }
 
+    public function fetchEventsDates(?string $month = null, ?string $year = null)
+    {
+        $user = currentUser();
+        $roleIDs = $this->userRoles($user);
+
+        $startDate = $endDate = null;
+        if ($month && $year) {
+            $startDate = Carbon::parse("$month $year")->startOfMonth();
+            $endDate = Carbon::parse("$month $year")->endOfMonth();
+        }
+
+
+        $calendarEventsDate = $this->calenderModel::query()
+            ->selectRaw('date(calendar_timestamp) as date')
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs))
+            ->when(($startDate && $endDate), fn($q) => $q->whereBetween('calendar_timestamp', [$startDate, $endDate]))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+
+        return $calendarEventsDate;
+    }
+
     protected function userRoles(User $user)
     {
         $user->loadMissing('roles');
