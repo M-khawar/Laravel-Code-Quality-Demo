@@ -20,6 +20,8 @@ interface CalendarRepositoryInterface
 
     public function fetchEvents(?string $date = null);
 
+    public function fetchEventsDates(?string $month = null, ?string $year = null);
+
     public function calendarNotificationByUuid($uuid);
 
     public function storeNotification(array $data);
