@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\ShortAuthTokenRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -23,7 +23,10 @@ class AuthenticatedSessionController extends Controller
             $request->authenticate();
 
             $user = $request->user();
-            $token = $user->createToken(config('sanctum.token_name'));
+            $token = $user->createToken(config(
+                'sanctum.token_name'),
+                expiresAt: now()->addMinutes(config('sanctum.expiration'))
+            );
             $authToken = $token->plainTextToken;
 
             $data = [
@@ -62,6 +65,31 @@ class AuthenticatedSessionController extends Controller
             $data = ["user" => $this->userRepository->getUserInfo($user)];
 
             return response()->success(__('auth.current_user_info.fetched'), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function authByIdentity(ShortAuthTokenRequest $request)
+    {
+        try {
+            $request->authenticate();
+
+            $user = $request->user();
+
+            $token = $user->createToken(
+                config('sanctum.short_term_token_name'),
+                expiresAt: now()->addMinutes(config('sanctum.short_expiration'))
+            );
+            $authToken = $token->plainTextToken;
+
+            $data = [
+                "auth_token" => $authToken,
+                "exp" => config('sanctum.short_expiration'),
+            ];
+
+            return response()->success(__('auth.login.success'), $data);
 
         } catch (\Exception $e) {
             return $this->handleException($e);

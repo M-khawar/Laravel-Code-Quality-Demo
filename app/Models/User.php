@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $query->whereNotIn('id', [config('default_settings.default_advisor')]);
     }
 
+    public static function findOrFailUserByUuid(string $uuid)
+    {
+        return static::byUUID($uuid)->firstOrFail();
+    }
+
     protected function avatarPath(): Attribute
     {
         return Attribute::make(

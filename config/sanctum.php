@@ -33,6 +33,8 @@ return [
 
     'expiration' => 20160,
 
+    'short_expiration' => 20,
+
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware
@@ -49,6 +51,7 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
-    'token_name' => 'BEARER_TOKEN'
+    'token_name' => 'BEARER_TOKEN',
+    'short_term_token_name' => 'SHORT_TERM_BEARER_TOKEN',
 
 ];

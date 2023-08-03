@@ -17,6 +17,10 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest')
     ->name('login');
 
+Route::post('/short-term-auth', [AuthenticatedSessionController::class, 'authByIdentity'])
+    ->middleware('guest')
+    ->name('short_term_auth');
+
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')
     ->name('password.email');
