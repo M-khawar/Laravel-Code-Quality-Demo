@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
-use App\Http\Resources\{RoleResource, UserResource};
+use App\Http\Resources\{RoleResource, UserPublicInfoResource, UserResource};
 use App\Models\{Role, User};
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +24,7 @@ class UserRepository implements UserRepositoryInterface
 
         $user->loadMissing([
             'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+            'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
         ]);
 
         $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
@@ -33,6 +34,18 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return new UserResource($user);
+    }
+
+    public function getUserPublicInfo(User $user)
+    {
+        $user->loadMissing(['address', 'profile']);
+
+        $user->loadMissing([
+            'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+            'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+        ]);
+
+        return new UserPublicInfoResource($user);
     }
 
     public function getRolesExceptAdmin()

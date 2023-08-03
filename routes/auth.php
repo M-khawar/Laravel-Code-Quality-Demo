@@ -47,6 +47,10 @@ Route::get('/me', [AuthenticatedSessionController::class, 'currentUserInfo'])
     ->middleware('auth:sanctum')
     ->name('current_user_info');
 
+Route::get('/user/{uuid}', [AuthenticatedSessionController::class, 'userInfoByUuid'])
+    ->middleware('auth:sanctum')
+    ->name('user_info');
+
 Route::get('/roles', [PermissionController::class, 'roles'])
     ->middleware('auth:sanctum')
     ->name('roles');

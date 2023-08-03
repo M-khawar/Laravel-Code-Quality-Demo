@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\ShortAuthTokenRequest;
+use App\Http\Requests\Auth\{LoginRequest, ShortAuthTokenRequest};
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AuthenticatedSessionController extends Controller
@@ -63,6 +63,19 @@ class AuthenticatedSessionController extends Controller
         try {
             $user = currentUser();
             $data = ["user" => $this->userRepository->getUserInfo($user)];
+
+            return response()->success(__('auth.current_user_info.fetched'), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function userInfoByUuid($uuid)
+    {
+        try {
+            $user = User::findOrFailUserByUuid($uuid);
+            $data = ["user" => $this->userRepository->getUserPublicInfo($user)];
 
             return response()->success(__('auth.current_user_info.fetched'), $data);
 
