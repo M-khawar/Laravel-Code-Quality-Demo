@@ -11,5 +11,6 @@ class DummyDatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(LeadSeeder::class);
+        $this->call(CalendarSeeder::class);
     }
 }

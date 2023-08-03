@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(UserBadgeSeeder::class);
         $this->call(AdminSeeder::class);
-        $this->call(CalendarSeeder::class);
 
         if (app()->environment('local', 'staging')) {
             $this->call(DummyDatabaseSeeder::class);
