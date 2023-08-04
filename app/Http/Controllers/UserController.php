@@ -2,25 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ReferralResource;
-use App\Models\User;
+use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Http\Resources\{ReferralResource, UserListResource};
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct(public UserRepositoryInterface $userRepository)
+    {
+    }
+
     public function getReferral()
     {
         try {
-            $referralID = request()->input('referral');
-
-            $user = User::query()
-                ->when(!empty($referralID), fn($q)=> $q->whereAffiliate($referralID))
-                ->when(empty($referralID), fn($q)=>$q->whereDefaultAdvisor())
-                ->with('profile')
-                ->firstOrFail();
+            $referralCode = request()->input('referral');
+            $user = $this->userRepository->fetchReferral($referralCode);
 
             $referral = new ReferralResource($user);
-            return response()->success('Successfuly, Referral Found', $referral);
+            return response()->success(__('messages.referral.found'), $referral);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function getUsers()
+    {
+        try {
+            $query = request()->input('query');
+            $users = $this->userRepository->fetchUsersIncludingAdmin($query);
+            $users = (UserListResource::collection($users))->response()->getData(true);
+
+            return response()->success(__('messages.users.fetched'), $users);
 
         } catch (\Exception $e) {
             return $this->handleException($e);

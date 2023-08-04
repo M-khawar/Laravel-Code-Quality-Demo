@@ -4,18 +4,20 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
 use App\Http\Resources\{RoleResource, UserPublicInfoResource, UserResource};
-use App\Models\{Role, User};
+use App\Models\{User};
 use Illuminate\Database\Eloquent\Model;
 
 class UserRepository implements UserRepositoryInterface
 {
     protected $onboardingRepository;
     protected Model $user;
+    private $roleModel;
 
     public function __construct(Model $user)
     {
         $this->onboardingRepository = app(OnboardingRepositoryInterface::class);
         $this->user = $user;
+        $this->roleModel = app(config('permission.models.role'));
     }
 
     public function getUserInfo(User $user): UserResource
@@ -36,7 +38,7 @@ class UserRepository implements UserRepositoryInterface
         return new UserResource($user);
     }
 
-    public function getUserPublicInfo(User $user)
+    public function getUserPublicInfo(User $user): UserPublicInfoResource
     {
         $user->loadMissing(['address', 'profile']);
 
@@ -50,8 +52,25 @@ class UserRepository implements UserRepositoryInterface
 
     public function getRolesExceptAdmin()
     {
-        $roles = Role::excludeAdminRole()->get();
+        $roles = $this->roleModel::excludeAdminRole()->get();
 
         return RoleResource::collection($roles);
+    }
+
+    public function fetchReferral(?string $referralCode = null)
+    {
+        return $this->user::query()
+            ->when(!empty($referralCode), fn($q) => $q->whereAffiliate($referralCode))
+            ->when(empty($referralCode), fn($q) => $q->whereDefaultAdvisor())
+            ->with('profile')
+            ->firstOrFail();
+    }
+
+    public function fetchUsersIncludingAdmin(?string $queryString = null)
+    {
+        return $this->user::query()
+            ->select('id', 'uuid', 'name', 'email', 'avatar')
+            ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
+            ->paginate()->withQueryString();
     }
 }

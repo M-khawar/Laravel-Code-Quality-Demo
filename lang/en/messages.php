@@ -2,6 +2,8 @@
 
 
 return [
+    'referral.found' => 'Successfully, Referral Found',
+    'users.fetched' => 'Successfully, Users Fetched',
     'lead.created' => 'Successfully, new Lead Created. Please go ahead!',
     'lead.existed' => 'This Lead already existed. Please go ahead!',
     'lead.fetched' => 'Successfully, Leads Fetched!',
@@ -20,7 +22,7 @@ return [
     'calendar.edited' => 'Successfully, calendar event updated.',
     'calendar.deleted' => 'Successfully, calendar event deleted.',
     'calendar.fetched' => 'Successfully, calendar events fetched.',
-    'calendar_notification.created'=> 'Successfully, calendar notification created.',
-    'calendar_notification.edited'=> 'Successfully, calendar notification updated.',
-    'calendar_notification.deleted'=> 'Successfully, calendar notification deleted.',
+    'calendar_notification.created' => 'Successfully, calendar notification created.',
+    'calendar_notification.edited' => 'Successfully, calendar notification updated.',
+    'calendar_notification.deleted' => 'Successfully, calendar notification deleted.',
 ];
