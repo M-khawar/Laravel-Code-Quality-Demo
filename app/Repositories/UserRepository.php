@@ -71,6 +71,6 @@ class UserRepository implements UserRepositoryInterface
         return $this->user::query()
             ->select('id', 'uuid', 'name', 'email', 'avatar')
             ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
-            ->paginate()->withQueryString();
+            ->paginate(20)->withQueryString();
     }
 }
