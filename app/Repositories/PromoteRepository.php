@@ -47,7 +47,7 @@ class PromoteRepository implements PromoteRepositoryInterface
             ->whereBetween("created_at", array($startDate, $endDate))
             ->count();
 
-        $members = User::where("advisor_id", $userId)->excludeAdmins()
+        $members = User::where("affiliate_id", $userId)->excludeAdmins()
             ->whereBetween("created_at", array($startDate, $endDate))
             ->count();
 
