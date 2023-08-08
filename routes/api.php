@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     CalendarController,
+    CourseController,
     LeadController,
     OnboardingController,
     PromoteController,
@@ -69,6 +70,14 @@ Route::group(['prefix' => 'calendar-notifications', 'middleware' => 'auth:sanctu
     Route::delete('/{uuid}', [CalendarController::class, 'destroyNotification']);
 });
 
+
+/*** Courses Routes ***/
+Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/{uuid}/mark-lesson-status', [CourseController::class, 'markLessonStatus']);
+    Route::get('/categories/{uuid}', [CourseController::class, 'coursesByCategory']);
+    Route::get('/categories', [CourseController::class, 'categories']);
+    Route::get('/{uuid}/lessons', [CourseController::class, 'courseLessons']);
+});
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';

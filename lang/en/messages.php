@@ -25,4 +25,5 @@ return [
     'calendar_notification.created' => 'Successfully, calendar notification created.',
     'calendar_notification.edited' => 'Successfully, calendar notification updated.',
     'calendar_notification.deleted' => 'Successfully, calendar notification deleted.',
+    'course_categories.fetched' => 'Successfully, course categories fetched.',
 ];
