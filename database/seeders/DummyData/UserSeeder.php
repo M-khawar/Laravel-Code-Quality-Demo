@@ -33,6 +33,8 @@ class UserSeeder extends Seeder
 
         $user = User::create($advisor);
         $user->profile()->create($advisorProfile);
+        $user->assignRole(ENAGIC_ROLE, TRIFECTA_ROLE);
+
         event(new Registered($user));
 
 
