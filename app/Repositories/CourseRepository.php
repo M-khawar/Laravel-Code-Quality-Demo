@@ -30,6 +30,8 @@ class CourseRepository implements CourseRepositoryInterface
             ->get();
 
         $courseCategories->map(function ($role) {
+            $role->description = ($role->name == ALL_MEMBER_ROLE) ? __("messages.course.all_member.desc") : null;
+            $role->prohibited_message = $this->prohibitedCoursesMessages($role->name);
             $role->name = ($role->name == CORE_ROLE) ? $role->name . " Rank Course" : $role->name . " Course";
         });
 
@@ -38,7 +40,7 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function getCourseByCategory(string $categoryUuid)
     {
-        $perPage= request()->input('per_page') ?? 10;
+        $perPage = request()->input('per_page') ?? 10;
 
         $user = currentUser();
         $role = $this->roleModel::whereUuidIn([$categoryUuid])->firstOrFail();
@@ -58,6 +60,19 @@ class CourseRepository implements CourseRepositoryInterface
             ->paginate($perPage)->withQueryString();
 
         return $courses;
+    }
+
+    protected function prohibitedCoursesMessages($role)
+    {
+        $messages = [
+            ENAGIC_ROLE => __('messages.course.enagic.prohibited'),
+            TRIFECTA_ROLE => __('messages.course.trifecta.prohibited'),
+            ADVISOR_ROLE => __('messages.course.advisor.prohibited'),
+            CORE_ROLE => __('messages.course.core.prohibited'),
+            ACTIVE_RECRUITER_ROLE => __('messages.course.active_recruiter.prohibited'),
+        ];
+
+        return array_key_exists($role, $messages) ? $messages[$role] : null;
     }
 
 }

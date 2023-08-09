@@ -12,6 +12,8 @@ class CourseCategoryResource extends JsonResource
             "uuid" => $this->uuid,
             "name" => $this->name,
             "has_access" => (boolean)$this->has_access,
+            "description" => $this->description,
+            "prohibited_message" => $this->prohibited_message,
         ];
     }
 }
