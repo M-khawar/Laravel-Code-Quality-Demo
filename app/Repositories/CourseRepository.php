@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\CourseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseRepository implements CourseRepositoryInterface
 {
@@ -33,6 +34,30 @@ class CourseRepository implements CourseRepositoryInterface
         });
 
         return $courseCategories;
+    }
+
+    public function getCourseByCategory(string $categoryUuid)
+    {
+        $perPage= request()->input('per_page') ?? 10;
+
+        $user = currentUser();
+        $role = $this->roleModel::whereUuidIn([$categoryUuid])->firstOrFail();
+
+        /**
+         * Here validating if user don't have admin or appropriate role of particular
+         * courses-category courses list then abort
+         */
+        abort_if(
+            !$user->hasRole(ADMIN_ROLE) && !$user->hasRole($role->name),
+            Response::HTTP_FORBIDDEN,
+            __('auth.roles.access_denied')
+        );
+
+        $courses = $this->courseModel::query()
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', [$role->id]))
+            ->paginate($perPage)->withQueryString();
+
+        return $courses;
     }
 
 }

@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->foreignId('badge_id')->constrained('user_badges');
             $table->string('name');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
             $table->text('description')->nullable();
             $table->bigInteger('sort')->nullable();
             $table->timestamps();
