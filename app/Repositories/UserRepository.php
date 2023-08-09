@@ -52,7 +52,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getRolesExceptAdmin()
     {
-        $roles = $this->roleModel::excludeAdminRole()->get();
+        $roles = $this->roleModel::excludeAdminRole()->excludeAllMemberRole()->get();
 
         return RoleResource::collection($roles);
     }

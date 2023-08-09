@@ -14,6 +14,7 @@ class RoleSeeder extends Seeder
     {
         $roles = array(
             ['name' => ADMIN_ROLE],
+            ['name' => ALL_MEMBER_ROLE],
             ['name' => ENAGIC_ROLE],
             ['name' => TRIFECTA_ROLE],
             ['name' => ADVISOR_ROLE],

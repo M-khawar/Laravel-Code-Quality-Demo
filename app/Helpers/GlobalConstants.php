@@ -21,6 +21,7 @@ define('LEAD_ACTIVE', 'active');
 define('LEAD_IN_ACTIVE', 'in_active');
 
 define('ADMIN_ROLE', 'Admin');
+define('ALL_MEMBER_ROLE', 'All-Member');
 define('ENAGIC_ROLE', 'Enagic');
 define('TRIFECTA_ROLE', 'Trifecta');
 define('ADVISOR_ROLE', 'Advisor');

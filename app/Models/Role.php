@@ -15,6 +15,11 @@ class Role extends SpatieRole
         return $query->where('name', '!=', ADMIN_ROLE);
     }
 
+    public function scopeExcludeAllMemberRole($query)
+    {
+        return $query->where('name', '!=', ALL_MEMBER_ROLE);
+    }
+
     public function scopeWhereUuidIn($query, array $uuids)
     {
         return $query->whereIn('uuid', $uuids);
