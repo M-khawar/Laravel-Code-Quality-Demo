@@ -21,7 +21,7 @@ class CourseResource extends JsonResource
            "thumbnail"=> $this->thumbnail,
            "description"=> $this->description,
            "sort"=> $this->sort,
-           "last_updated_at"=> $this->updated_at,
+           "last_updated"=> $this->updated_at->format('M d, Y'),
         ];
     }
 }
