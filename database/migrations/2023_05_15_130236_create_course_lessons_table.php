@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('course_lessons', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->foreignId('section_id')->constrained('course_sections');
+            $table->foreignId('section_id')->constrained('course_sections')->cascadeOnDelete();
+            $table->foreignId('video_id')->constrained('videos');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('video_source');
-            $table->string('video_link');
+            $table->longText('description')->nullable();
+            $table->longText('resources')->nullable();
+            $table->bigInteger('position')->nullable();
             $table->timestamps();
         });
     }

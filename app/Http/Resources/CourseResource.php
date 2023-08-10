@@ -16,12 +16,12 @@ class CourseResource extends JsonResource
     public function toArray($request)
     {
         return [
-           "uuid"=> $this->uuid,
-           "name"=> $this->name,
-           "thumbnail"=> $this->thumbnail,
-           "description"=> $this->description,
-           "sort"=> $this->sort,
-           "last_updated"=> $this->updated_at->format('M d, Y'),
+            "uuid" => $this->uuid,
+            "name" => $this->name,
+            "thumbnail" => $this->thumbnail_path,
+            "description" => $this->description,
+            "sort" => $this->sort,
+            "last_updated" => $this->updated_at->format('M d, Y'),
         ];
     }
 }

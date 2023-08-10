@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('course_sections', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
-            $table->foreignId('course_id')->constrained();
+            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
             $table->bigInteger('position')->nullable();

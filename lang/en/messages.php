@@ -32,4 +32,6 @@ return [
     'course.core.prohibited' => 'When you hit the first building block of this business you will gain access. Core rank can NOT be achieved by self purchases of products. You can only hit core rank when you make a minimum of 2 direct sales to other people. Then at least 1 of your direct sales has to make their own sale. This will motivate you to encourage your customers to refer a friend. Make sure your advisor knows when you hit core rank so they can enable you to gain access to these courses.',
     'course.active_recruiter.prohibited' => 'These courses are only for affiliates who have signed up a member in the last 30 days.',
     'course.all_member.desc'=> 'Enjoy these coures for becoming a member of Race to Freedom Academy',
+    'courses.fetched'=> 'Successfully, courses fetched',
+    'courses_lessons.fetched'=> 'Successfully, course lessons fetched',
 ];

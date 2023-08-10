@@ -38,30 +38,6 @@ class CourseRepository implements CourseRepositoryInterface
         return $courseCategories;
     }
 
-    public function getCourseByCategory(string $categoryUuid)
-    {
-        $perPage = request()->input('per_page') ?? 10;
-
-        $user = currentUser();
-        $role = $this->roleModel::whereUuidIn([$categoryUuid])->firstOrFail();
-
-        /**
-         * Here validating if user don't have admin or appropriate role of particular
-         * courses-category courses list then abort
-         */
-        abort_if(
-            !$user->hasRole(ADMIN_ROLE) && !$user->hasRole($role->name),
-            Response::HTTP_FORBIDDEN,
-            __('auth.roles.access_denied')
-        );
-
-        $courses = $this->courseModel::query()
-            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', [$role->id]))
-            ->paginate($perPage)->withQueryString();
-
-        return $courses;
-    }
-
     protected function prohibitedCoursesMessages($role)
     {
         $messages = [
@@ -73,6 +49,40 @@ class CourseRepository implements CourseRepositoryInterface
         ];
 
         return array_key_exists($role, $messages) ? $messages[$role] : null;
+    }
+
+    public function getCourseByCategory(string $categoryUuid)
+    {
+        $perPage = request()->input('per_page') ?? 10;
+
+        $user = currentUser();
+        $role = $this->roleModel::whereUuidIn([$categoryUuid])->firstOrFail();
+
+        /**
+         * Here validating if user don't have admin or appropriate role of particular
+         * courses-category courses list then abort
+         */
+        $hasAccessToCourses = $user->roles()->whereIn('roles.name', [ADMIN_ROLE, $role->name])->exists();
+        abort_if(
+            !$hasAccessToCourses,
+            Response::HTTP_FORBIDDEN,
+            __('auth.roles.access_denied')
+        );
+
+        $courses = $this->courseModel::query()
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', [$role->id]))
+            ->paginate($perPage)->withQueryString();
+
+        return $courses;
+    }
+
+    public function fetchLessonByCourseUuid(string $uuid)
+    {
+        $course = $this->courseModel::query()->byUUID($uuid)->firstOrFail();
+
+        $lessons = $course->sections()->with(["lessons.video"])->get();
+
+        return $lessons;
     }
 
 }
