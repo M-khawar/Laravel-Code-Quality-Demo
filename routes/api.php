@@ -79,5 +79,12 @@ Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function (
     Route::get('/{uuid}/lessons', [CourseController::class, 'courseLessons']);
 });
 
+/*** Admin-Courses Routes ***/
+Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/roles', [CourseController::class, 'coursesAudience']);
+    Route::get('/all', [CourseController::class, 'adminCourses']);
+    Route::get('/{uuid}', [CourseController::class, 'adminSingleCourse']);
+});
+
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';

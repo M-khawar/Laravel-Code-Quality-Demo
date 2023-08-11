@@ -65,4 +65,43 @@ class CourseController extends Controller
             return $this->handleException($exception);
         }
     }
+
+    /*** Admin-Courses Methods ***/
+    public function coursesAudience()
+    {
+        try {
+            $courseAudienceRoles = $this->courseRepository->fetchCoursesAudience();
+
+            return response()->success(__('auth.roles.fetched'), $courseAudienceRoles);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
+
+    public function adminCourses()
+    {
+        try {
+            $adminCourses = $this->courseRepository->fetchAllCourses();
+            $adminCourses = CourseResource::collection($adminCourses);
+
+            return response()->success(__('messages.admin_courses.fetched'), $adminCourses);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
+
+    public function adminSingleCourse($uuid)
+    {
+        try {
+            $adminCourse = $this->courseRepository->fetchSingleCourse($uuid);
+            $adminCourse = CourseResource::collection($adminCourse);
+
+            return response()->success(__('messages.admin_course.fetched'), $adminCourse);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
 }

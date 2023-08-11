@@ -22,6 +22,8 @@ class CourseResource extends JsonResource
             "description" => $this->description,
             "sort" => $this->sort,
             "last_updated" => $this->updated_at->format('M d, Y'),
+            "allowed_audience_roles" => RoleResource::collection($this->whenLoaded("allowedAudienceRoles")),
+            "sections"=> SectionResouce::collection($this->whenLoaded("sections")),
         ];
     }
 }
