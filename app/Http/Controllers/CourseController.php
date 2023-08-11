@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\CourseRepositoryInterface;
-use App\Http\Resources\CourseCategoryResource;
-use App\Http\Resources\CourseResource;
-use App\Http\Resources\SectionResouce;
+use App\Http\Resources\{CourseCategoryResource, CourseResource, LessonResource, SectionResouce};
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -43,8 +41,8 @@ class CourseController extends Controller
     public function courseLessons($uuid)
     {
         try {
-            $sections= $this->courseRepository->fetchLessonByCourseUuid($uuid);
-            $lessons= SectionResouce::collection($sections);
+            $sections = $this->courseRepository->fetchLessonByCourseUuid($uuid);
+            $lessons = SectionResouce::collection($sections);
 
             return response()->success(__("messages.courses_lessons.fetched"), $lessons);
 
@@ -53,8 +51,18 @@ class CourseController extends Controller
         }
     }
 
-    public function markLessonStatus()
+    public function markLessonStatus(Request $request)
     {
+        try {
+            $data = $request->input();
+            $this->courseRepository->markLessonStatusValidation($data)->validate();
+            $lesson = $this->courseRepository->markLessonStatus($data);
+            $lessons = new LessonResource($lesson);
 
+            return response()->success(__("messages.lesson.status_marked"), $lessons);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
     }
 }

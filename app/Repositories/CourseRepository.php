@@ -3,18 +3,23 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\CourseRepositoryInterface;
+use App\Models\CourseLesson;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseRepository implements CourseRepositoryInterface
 {
 
     private Model $courseModel;
+    private mixed $lessonModel;
+    private mixed $roleModel;
 
     public function __construct(Model $courseModel)
     {
         $this->courseModel = $courseModel;
         $this->roleModel = app(config('permission.models.role'));
+        $this->lessonModel = app(CourseLesson::class);
     }
 
     public function getCourseCategories()
@@ -78,11 +83,42 @@ class CourseRepository implements CourseRepositoryInterface
 
     public function fetchLessonByCourseUuid(string $uuid)
     {
+        $userId = currentUserId();
+
         $course = $this->courseModel::query()->byUUID($uuid)->firstOrFail();
 
-        $lessons = $course->sections()->with(["lessons.video"])->get();
+        $lessonsQuery = $course->sections();
+        $lessonsQuery->with([
+            "lessons.video",
+            "lessons" => fn($q) => $q->selectRaw("*,
+            (SELECT count(*) from completed_lessons where completed_lessons.lesson_id = course_lessons.id
+             and completed_lessons.watched = true and completed_lessons.user_id =" . $userId . " limit 1) as watched"),
+        ]);
+        $lessons = $lessonsQuery->get();
 
         return $lessons;
+    }
+
+    public function markLessonStatus(array $data)
+    {
+        $uuid = $data['lesson_uuid'];
+        $status = $data['status'];
+        $userId = currentUserId();
+
+        $lesson = $this->lessonModel::byUUID($uuid)->firstOrFail();
+        $lesson->lessonUsers()->toggle([$userId => ["watched" => $status]]);
+        $lesson->load("video");
+        $lesson->loadCount(["lessonUsers as watched"=> fn($q)=> $q->where('users.id', $userId)]);
+
+        return $lesson;
+    }
+
+    public function markLessonStatusValidation(array $data)
+    {
+        return Validator::make($data, [
+            "lesson_uuid" => ['required', 'string', 'exists:' . CourseLesson::class . ',uuid'],
+            "status" => ['required', 'boolean']
+        ]);
     }
 
 }

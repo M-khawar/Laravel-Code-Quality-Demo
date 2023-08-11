@@ -16,10 +16,11 @@ class LessonResource extends JsonResource
             "description" => $this->description,
             "resources" => $this->resources,
             "position" => $this->position,
-            "video_uuid"=> $this->video->uuid,
-            "video_slug"=> $this->video->slug,
-            "video_source"=> $this->video->source,
-            "video_link"=> $this->video->link,
+            "watched" => (boolean)$this->watched,
+            "video_uuid" => $this->video->uuid,
+            "video_slug" => $this->video->slug,
+            "video_source" => $this->video->source,
+            "video_link" => $this->video->link,
         ];
     }
 }

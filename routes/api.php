@@ -73,7 +73,7 @@ Route::group(['prefix' => 'calendar-notifications', 'middleware' => 'auth:sanctu
 
 /*** Courses Routes ***/
 Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/{uuid}/mark-lesson-status', [CourseController::class, 'markLessonStatus']);
+    Route::post('/mark-lesson-status', [CourseController::class, 'markLessonStatus']);
     Route::get('/categories/{uuid}', [CourseController::class, 'coursesByCategory']);
     Route::get('/categories', [CourseController::class, 'categories']);
     Route::get('/{uuid}/lessons', [CourseController::class, 'courseLessons']);
