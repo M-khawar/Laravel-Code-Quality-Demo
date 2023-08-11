@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\CourseRepositoryInterface;
-use App\Http\Resources\RoleResource;
 use App\Models\CourseLesson;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -120,34 +119,6 @@ class CourseRepository implements CourseRepositoryInterface
             "lesson_uuid" => ['required', 'string', 'exists:' . CourseLesson::class . ',uuid'],
             "status" => ['required', 'boolean']
         ]);
-    }
-
-    /*** Admin-Courses ***/
-    public function fetchCoursesAudience()
-    {
-        $roles = $this->roleModel::excludeAdminRole()->get();
-        return RoleResource::collection($roles);
-    }
-
-    public function fetchAllCourses()
-    {
-        $user = currentUser();
-
-        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
-
-        return $this->courseModel::with("allowedAudienceRoles")->get();
-    }
-
-    public function fetchSingleCourse(string $uuid)
-    {
-        $user = currentUser();
-
-        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
-
-        return $this->courseModel::query()
-            ->byUUID($uuid)
-            ->with("allowedAudienceRoles", "sections.lessons.video")
-            ->get();
     }
 
 }

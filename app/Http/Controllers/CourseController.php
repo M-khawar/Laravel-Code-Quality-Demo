@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\AdminCourseRepositoryInterface;
 use App\Contracts\Repositories\CourseRepositoryInterface;
 use App\Http\Resources\{CourseCategoryResource, CourseResource, LessonResource, SectionResouce};
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    public function __construct(public CourseRepositoryInterface $courseRepository)
+    public function __construct(
+        public CourseRepositoryInterface      $courseRepository,
+        public AdminCourseRepositoryInterface $adminCourseRepository
+    )
     {
     }
 
@@ -70,7 +74,7 @@ class CourseController extends Controller
     public function coursesAudience()
     {
         try {
-            $courseAudienceRoles = $this->courseRepository->fetchCoursesAudience();
+            $courseAudienceRoles = $this->adminCourseRepository->fetchCoursesAudience();
 
             return response()->success(__('auth.roles.fetched'), $courseAudienceRoles);
 
@@ -82,7 +86,7 @@ class CourseController extends Controller
     public function adminCourses()
     {
         try {
-            $adminCourses = $this->courseRepository->fetchAllCourses();
+            $adminCourses = $this->adminCourseRepository->fetchAllCourses();
             $adminCourses = CourseResource::collection($adminCourses);
 
             return response()->success(__('messages.admin_courses.fetched'), $adminCourses);
@@ -95,10 +99,25 @@ class CourseController extends Controller
     public function adminSingleCourse($uuid)
     {
         try {
-            $adminCourse = $this->courseRepository->fetchSingleCourse($uuid);
+            $adminCourse = $this->adminCourseRepository->fetchSingleCourse($uuid);
             $adminCourse = CourseResource::collection($adminCourse);
 
             return response()->success(__('messages.admin_course.fetched'), $adminCourse);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
+
+    public function createCourse(Request $request)
+    {
+        try {
+            $data = $request->input();
+            $this->adminCourseRepository->createCourseValidation($data)->validate();
+            $course = $this->adminCourseRepository->createCourse($data);
+            $course = new CourseResource($course);
+
+            return response()->success(__('messages.admin_course.created'), $course);
 
         } catch (\Exception $exception) {
             return $this->handleException($exception);

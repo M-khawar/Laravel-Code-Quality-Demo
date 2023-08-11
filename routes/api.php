@@ -81,6 +81,8 @@ Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function (
 
 /*** Admin-Courses Routes ***/
 Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/', [CourseController::class, 'createCourse']);
+    Route::post('/{uuid}/edit', [CourseController::class, 'editCourse']);
     Route::get('/roles', [CourseController::class, 'coursesAudience']);
     Route::get('/all', [CourseController::class, 'adminCourses']);
     Route::get('/{uuid}', [CourseController::class, 'adminSingleCourse']);

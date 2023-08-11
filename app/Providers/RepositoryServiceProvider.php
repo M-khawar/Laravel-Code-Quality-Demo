@@ -2,23 +2,21 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\{
+use App\Contracts\Repositories\{AdminCourseRepositoryInterface,
     CalendarRepositoryInterface,
     CourseRepositoryInterface,
     LeadRepositoryInterface,
     OnboardingRepositoryInterface,
     PromoteRepositoryInterface,
-    UserRepositoryInterface
-};
+    UserRepositoryInterface};
 use App\Models\{Calendar, Course, Lead, Question, User};
-use App\Repositories\{
+use App\Repositories\{AdminCourseRepository,
     CalendarRepository,
     CourseRepository,
     LeadRepository,
     OnboardingRepository,
     PromoteRepository,
-    UserRepository
-};
+    UserRepository};
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -30,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         LeadRepositoryInterface::class => ["class" => LeadRepository::class, "model" => Lead::class],
         CalendarRepositoryInterface::class => ["class" => CalendarRepository::class, "model" => Calendar::class],
         CourseRepositoryInterface::class => ["class" => CourseRepository::class, "model" => Course::class],
+        AdminCourseRepositoryInterface::class => ["class" => AdminCourseRepository::class, "model" => Course::class],
     ];
 
 
