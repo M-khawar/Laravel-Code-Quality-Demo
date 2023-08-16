@@ -13,4 +13,9 @@ interface AdminCourseRepositoryInterface
     public function createCourse(array $data);
 
     public function createCourseValidation(array $data);
+
+    public function editCourse(string $courseUuid, array $data);
+
+    public function editCourseValidation(array $data);
+
 }

@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('completed_lessons', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('lesson_id')->constrained('course_lessons');
+            $table->foreignId('lesson_id')->constrained('course_lessons')->cascadeOnDelete();
             $table->boolean('watched');
             $table->timestamps();
         });

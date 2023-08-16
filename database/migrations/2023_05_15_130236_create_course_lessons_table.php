@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('resources')->nullable();
             $table->bigInteger('position')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

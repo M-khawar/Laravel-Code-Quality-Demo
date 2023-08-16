@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->bigInteger('sort')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

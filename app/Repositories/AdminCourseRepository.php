@@ -55,16 +55,6 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         return $course;
     }
 
-    public function createCourseValidation(array $data)
-    {
-        return Validator::make($data, [
-            "name" => ["required", "string"],
-            "description" => ["required", "string"],
-            "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
-        ]);
-
-    }
-
     public function editCourse(string $courseUuid, array $data)
     {
         $this->validatePermission();
@@ -79,6 +69,28 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $course->load("allowedAudienceRoles");
 
         return $course;
+    }
+
+    public function deleteCourse(string $courseUuid)
+    {
+        $course = $this->courseModel::findOrFailCourseByUuid($courseUuid);
+
+        $course->allowedAudienceRoles()->detach();
+        $course->lessons()->delete();
+        $course->sections()->delete();
+
+        $course->delete();
+    }
+
+
+    public function createCourseValidation(array $data)
+    {
+        return Validator::make($data, [
+            "name" => ["required", "string"],
+            "description" => ["required", "string"],
+            "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
+        ]);
+
     }
 
     public function editCourseValidation(array $data)

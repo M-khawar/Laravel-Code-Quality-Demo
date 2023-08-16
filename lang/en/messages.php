@@ -37,4 +37,6 @@ return [
     'admin_courses.fetched' => 'Successfully, admin courses fetched.',
     'admin_course.fetched' => 'Successfully, admin course fetched.',
     'admin_course.created' => 'Successfully, admin course created.',
+    'admin_course.updated' => 'Successfully, admin course updated.',
+    'admin_course.deleted' => 'Successfully, admin course deleted.',
 ];

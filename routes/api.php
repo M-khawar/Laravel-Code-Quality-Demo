@@ -87,6 +87,7 @@ Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], func
     Route::get('/roles', [AdminCourseController::class, 'coursesAudience']);
     Route::get('/all', [AdminCourseController::class, 'adminCourses']);
     Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
+    Route::delete('/{uuid}', [AdminCourseController::class, 'destroyCourse']);
 });
 
 require __DIR__ . '/auth.php';
