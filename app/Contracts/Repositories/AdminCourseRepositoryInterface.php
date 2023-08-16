@@ -16,6 +16,18 @@ interface AdminCourseRepositoryInterface
 
     public function editCourse(string $courseUuid, array $data);
 
+    public function deleteCourse(string $courseUuid);
+
     public function editCourseValidation(array $data);
+
+    public function createSection(array $data);
+
+    public function createSectionValidation(array $data);
+
+    public function editSection(array $data);
+
+    public function editSectionValidation(array $data);
+
+    public function deleteSection(string $sectionUuid);
 
 }

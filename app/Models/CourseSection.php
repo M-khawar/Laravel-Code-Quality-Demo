@@ -13,4 +13,9 @@ class CourseSection extends Model
     use HasFactory, HasUUID, SoftDeletes, CourseSectionRelations;
 
     protected $fillable = ["course_id", "name", "description", "position"];
+
+    public static function findOrFailSectionByUuid(string $uuid)
+    {
+        return static::byUUID($uuid)->firstOrFail();
+    }
 }

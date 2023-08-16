@@ -80,6 +80,14 @@ Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function (
     Route::get('/{uuid}/lessons', [CourseController::class, 'courseLessons']);
 });
 
+
+/*** Admin-Courses Sections Routes ***/
+Route::group(['prefix' => 'admin-courses/sections', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/edit', [AdminCourseController::class, 'editSection']);
+    Route::post('/', [AdminCourseController::class, 'createSection']);
+    Route::delete('/{uuid}', [AdminCourseController::class, 'destroySection']);
+});
+
 /*** Admin-Courses Routes ***/
 Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/', [AdminCourseController::class, 'createCourse']);
@@ -89,6 +97,7 @@ Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], func
     Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
     Route::delete('/{uuid}', [AdminCourseController::class, 'destroyCourse']);
 });
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';

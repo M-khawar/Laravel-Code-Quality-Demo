@@ -39,4 +39,7 @@ return [
     'admin_course.created' => 'Successfully, admin course created.',
     'admin_course.updated' => 'Successfully, admin course updated.',
     'admin_course.deleted' => 'Successfully, admin course deleted.',
+    'admin_course_section.created' => 'Successfully, section created.',
+    'admin_course_section.updated' => 'Successfully, section updated.',
+    'admin_course_section.deleted' => 'Successfully, section deleted.',
 ];
