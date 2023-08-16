@@ -10,4 +10,7 @@ interface AdminCourseRepositoryInterface
 
     public function fetchSingleCourse(string $uuid);
 
+    public function createCourse(array $data);
+
+    public function createCourseValidation(array $data);
 }

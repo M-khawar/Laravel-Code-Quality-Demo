@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
+    AdminCourseController,
     CalendarController,
     CourseController,
     LeadController,
@@ -81,11 +82,11 @@ Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function (
 
 /*** Admin-Courses Routes ***/
 Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/', [CourseController::class, 'createCourse']);
-    Route::post('/{uuid}/edit', [CourseController::class, 'editCourse']);
-    Route::get('/roles', [CourseController::class, 'coursesAudience']);
-    Route::get('/all', [CourseController::class, 'adminCourses']);
-    Route::get('/{uuid}', [CourseController::class, 'adminSingleCourse']);
+    Route::post('/', [AdminCourseController::class, 'createCourse']);
+    Route::post('/{uuid}/edit', [AdminCourseController::class, 'editCourse']);
+    Route::get('/roles', [AdminCourseController::class, 'coursesAudience']);
+    Route::get('/all', [AdminCourseController::class, 'adminCourses']);
+    Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
 });
 
 require __DIR__ . '/auth.php';

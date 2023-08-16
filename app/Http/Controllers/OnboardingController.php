@@ -18,7 +18,8 @@ class OnboardingController extends Controller
     public function getQuestion()
     {
         try {
-            $questions = $this->onboardingRepository->all();
+            $userUuid= request()->input('user');
+            $questions = $this->onboardingRepository->all($userUuid);
             $questions = QuestionResource::collection($questions);
 
             return response()->success(__('question_fetched.success'), $questions);

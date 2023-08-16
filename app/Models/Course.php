@@ -17,6 +17,11 @@ class Course extends Model
     protected $appends = ["thumbnail_path"];
 
 
+    public static function findOrFailCourseByUuid(string $uuid)
+    {
+        return static::byUUID($uuid)->firstOrFail();
+    }
+
     protected function thumbnailPath(): Attribute
     {
         return Attribute::make(

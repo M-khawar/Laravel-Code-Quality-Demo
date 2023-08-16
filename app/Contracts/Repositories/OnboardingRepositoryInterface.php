@@ -8,7 +8,7 @@ interface OnboardingRepositoryInterface
 {
     public function getQuestionByUuid($uuid);
 
-    public function all();
+    public function all(?string $userUuid);
 
     public function storeAnswerValidation(array $data);
 

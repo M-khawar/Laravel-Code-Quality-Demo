@@ -26,18 +26,14 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function fetchAllCourses()
     {
-        $user = currentUser();
-
-        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
+        $this->validatePermission();
 
         return $this->courseModel::with("allowedAudienceRoles")->get();
     }
 
     public function fetchSingleCourse(string $uuid)
     {
-        $user = currentUser();
-
-        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
+        $this->validatePermission();
 
         return $this->courseModel::query()
             ->byUUID($uuid)
@@ -47,13 +43,12 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function createCourse(array $data)
     {
-        $user = currentUser();
-        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
+        $this->validatePermission();
 
-        $rolesUuids= $data["allowed_audience_roles"];
-        $roleIDs= $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
+        $rolesUuids = $data["allowed_audience_roles"];
+        $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
 
-        $course= $this->courseModel::create($data);
+        $course = $this->courseModel::create($data);
         $course->allowedAudienceRoles()->attach($roleIDs);
         $course->load("allowedAudienceRoles");
 
@@ -68,5 +63,39 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
+    }
+
+    public function editCourse(string $courseUuid, array $data)
+    {
+        $this->validatePermission();
+
+        $course = $this->courseModel::findOrFailCourseByUuid($courseUuid);
+
+        $rolesUuids = $data["allowed_audience_roles"];
+        $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
+
+        $course->fill($data)->update();
+        $course->allowedAudienceRoles()->sync($roleIDs);
+        $course->load("allowedAudienceRoles");
+
+        return $course;
+    }
+
+    public function editCourseValidation(array $data)
+    {
+        return Validator::make($data, [
+            "name" => ["required", "string"],
+            "description" => ["required", "string"],
+            "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
+        ]);
+
+    }
+
+    protected function validatePermission()
+    {
+        $user = currentUser();
+        abort_if(!$user->hasRole(ADMIN_ROLE), Response::HTTP_FORBIDDEN, __("auth.roles.access_denied"));
+
+        return $user;
     }
 }

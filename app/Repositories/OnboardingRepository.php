@@ -23,9 +23,10 @@ class OnboardingRepository implements OnboardingRepositoryInterface
         return $this->model::findByUuid($uuid);
     }
 
-    public function all()
+    public function all(?string $userUuid)
     {
-        $userId = currentUserId();
+        $userId = $userUuid ? User::findOrFailUserByUuid($userUuid)?->id : currentUserId();
+
         $query = $this->model::query();
         $query->with([
             'video',
