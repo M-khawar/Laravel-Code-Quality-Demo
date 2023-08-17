@@ -20,6 +20,10 @@ interface AdminCourseRepositoryInterface
 
     public function editCourseValidation(array $data);
 
+    public function updateCoursePermissions(array $data);
+
+    public function updateCoursePermissionsValidation(array $data);
+
     public function createSection(array $data);
 
     public function createSectionValidation(array $data);

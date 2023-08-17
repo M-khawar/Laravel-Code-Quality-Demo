@@ -104,6 +104,25 @@ class AdminCourseController extends Controller
         }
     }
 
+    public function updatePermissions(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $this->adminCourseRepository->updateCoursePermissionsValidation($data)->validate();
+            $course = $this->adminCourseRepository->updateCoursePermissions($data);
+            DB::commit();
+
+            $course = new CourseResource($course);
+            return response()->success(__('messages.admin_course.permissions_updated'), $course);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
     public function createSection(Request $request)
     {
         try {

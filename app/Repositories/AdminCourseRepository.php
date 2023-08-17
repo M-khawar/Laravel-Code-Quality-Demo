@@ -121,6 +121,27 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         return $user;
     }
 
+    public function updateCoursePermissions(array $data)
+    {
+        $this->validatePermission();
+
+        $roleID = $this->roleModel::ByUUID($data["toggleable_audience_role"])->pluck('id')->toArray();
+        $course = $this->courseModel::findOrFailCourseByUuid($data["course_uuid"]);
+
+        $course->allowedAudienceRoles()->toggle($roleID);
+        $course->load("allowedAudienceRoles");
+
+        return $course;
+    }
+
+    public function updateCoursePermissionsValidation(array $data)
+    {
+        return Validator::make($data, [
+            "course_uuid" => ["required", "string", "exists:" . get_class($this->courseModel) . ",uuid"],
+            "toggleable_audience_role" => ["required", "string", "exists:" . get_class($this->roleModel) . ",uuid"],
+        ]);
+    }
+
     public function createSection(array $data)
     {
         $this->validatePermission();
@@ -167,6 +188,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function deleteSection(string $sectionUuid)
     {
+        $this->validatePermission();
+
         $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
         $section->lessons()->delete();
         return $section->delete();
@@ -174,6 +197,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function createLesson(array $data)
     {
+        $this->validatePermission();
+
         $sectionUuid = $data["section_uuid"];
         $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
 
@@ -202,6 +227,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function editLesson(array $data)
     {
+        $this->validatePermission();
+
         $lessonUuid = $data["lesson_uuid"];
         $lesson = $this->lessonModel::findOrFailLessonByUuid($lessonUuid);
 
@@ -248,6 +275,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function deleteLesson(string $lessonUuid)
     {
+        $this->validatePermission();
+
         $lesson = $this->lessonModel::findOrFailLessonByUuid($lessonUuid);
         return $lesson->delete();
     }

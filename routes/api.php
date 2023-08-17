@@ -99,6 +99,7 @@ Route::group(['prefix' => 'admin-courses/lessons', 'middleware' => 'auth:sanctum
 Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/', [AdminCourseController::class, 'createCourse']);
     Route::post('/{uuid}/edit', [AdminCourseController::class, 'editCourse']);
+    Route::post('/update-permissions', [AdminCourseController::class, 'updatePermissions']);
     Route::get('/roles', [AdminCourseController::class, 'coursesAudience']);
     Route::get('/all', [AdminCourseController::class, 'adminCourses']);
     Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
