@@ -246,4 +246,10 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         ];
     }
 
+    public function deleteLesson(string $lessonUuid)
+    {
+        $lesson = $this->lessonModel::findOrFailLessonByUuid($lessonUuid);
+        return $lesson->delete();
+    }
+
 }

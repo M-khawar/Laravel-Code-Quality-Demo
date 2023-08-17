@@ -196,11 +196,11 @@ class AdminCourseController extends Controller
 
     }
 
-    public function destroyLesson()
+    public function destroyLesson($uuid)
     {
         try {
             DB::beginTransaction();
-//            $this->adminCourseRepository->deleteSection($uuid);
+            $this->adminCourseRepository->deleteLesson($uuid);
             DB::commit();
 
             return response()->message(__("messages.admin_course_lesson.deleted"));

@@ -38,4 +38,6 @@ interface AdminCourseRepositoryInterface
 
     public function editLessonValidation(array $data);
 
+    public function deleteLesson(string $lessonUuid);
+
 }
