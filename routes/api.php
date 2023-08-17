@@ -88,6 +88,13 @@ Route::group(['prefix' => 'admin-courses/sections', 'middleware' => 'auth:sanctu
     Route::delete('/{uuid}', [AdminCourseController::class, 'destroySection']);
 });
 
+/*** Admin-Courses Lesson Routes ***/
+Route::group(['prefix' => 'admin-courses/lessons', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/edit', [AdminCourseController::class, 'editLesson']);
+    Route::post('/', [AdminCourseController::class, 'createLesson']);
+    Route::delete('/{uuid}', [AdminCourseController::class, 'destroyLesson']);
+});
+
 /*** Admin-Courses Routes ***/
 Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/', [AdminCourseController::class, 'createCourse']);

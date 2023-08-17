@@ -30,4 +30,12 @@ interface AdminCourseRepositoryInterface
 
     public function deleteSection(string $sectionUuid);
 
+    public function createLesson(array $data);
+
+    public function createLessonValidation(array $data);
+
+    public function editLesson(array $data);
+
+    public function editLessonValidation(array $data);
+
 }

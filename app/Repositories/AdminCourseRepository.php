@@ -4,9 +4,10 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\AdminCourseRepositoryInterface;
 use App\Http\Resources\RoleResource;
-use App\Models\{CourseLesson, CourseSection};
+use App\Models\{CourseLesson, CourseSection, Video};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminCourseRepository implements AdminCourseRepositoryInterface
@@ -15,6 +16,9 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     private $roleModel;
     private $lessonModel;
     private $sectionModel;
+    private mixed $videoModel;
+
+    const VIDEO_SOURCES = [VIMEO, WISTIA];
 
     public function __construct(Model $courseModel)
     {
@@ -22,6 +26,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $this->roleModel = app(config('permission.models.role'));
         $this->lessonModel = app(CourseLesson::class);
         $this->sectionModel = app(CourseSection::class);
+        $this->videoModel = app(Video::class);
     }
 
     public function fetchCoursesAudience()
@@ -165,6 +170,80 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
         $section->lessons()->delete();
         return $section->delete();
+    }
+
+    public function createLesson(array $data)
+    {
+        $sectionUuid = $data["section_uuid"];
+        $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
+
+        $videoDict = $this->buildVideoDict($data);
+        $video = $this->videoModel::firstOrCreate($videoDict, ["slug" => generateVideoSlug()]);
+
+        $data['video_id'] = $video->id;
+        $lessonDict = $this->buildLessonDic($data);
+        $lesson = $section->lessons()->create($lessonDict);
+        $lesson->load("video");
+
+        return $lesson;
+    }
+
+    public function createLessonValidation(array $data)
+    {
+        return Validator::make($data, [
+            "section_uuid" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "name" => ["required", "string"],
+            "description" => ["nullable", "string"],
+            "resources" => ["nullable", "string"],
+            "video_link" => ["required"],
+            "video_source" => ["required", Rule::In(self::VIDEO_SOURCES)],
+        ]);
+    }
+
+    public function editLesson(array $data)
+    {
+        $lessonUuid = $data["lesson_uuid"];
+        $lesson = $this->lessonModel::findOrFailLessonByUuid($lessonUuid);
+
+        $videoDict = $this->buildVideoDict($data);
+        $video = $this->videoModel::firstOrCreate($videoDict, ["slug" => generateVideoSlug()]);
+
+        $data['video_id'] = $video->id;
+        $lessonDict = $this->buildLessonDic($data);
+        $lesson->update($lessonDict);
+        $lesson->load("video");
+
+        return $lesson;
+    }
+
+    public function editLessonValidation(array $data)
+    {
+        return Validator::make($data, [
+            "lesson_uuid" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "name" => ["required", "string"],
+            "description" => ["nullable", "string"],
+            "resources" => ["nullable", "string"],
+            "video_link" => ["required"],
+            "video_source" => ["required", Rule::In(self::VIDEO_SOURCES)],
+        ]);
+    }
+
+    protected function buildVideoDict(array $data): array
+    {
+        return [
+            "link" => $data["video_link"],
+            "source" => $data["video_source"]
+        ];
+    }
+
+    protected function buildLessonDic(array $data): array
+    {
+        return [
+            "video_id" => $data["video_id"],
+            "name" => $data["name"],
+            "description" => $data["description"],
+            "resources" => $data["resources"],
+        ];
     }
 
 }

@@ -19,3 +19,8 @@ function currentUserId()
 
     return null;
 }
+
+function generateVideoSlug()
+{
+    return "v-" . rand(111111, 99999);
+}

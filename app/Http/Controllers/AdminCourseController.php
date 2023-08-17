@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\AdminCourseRepositoryInterface;
-use App\Http\Resources\{CourseResource, SectionResouce};
+use App\Http\Resources\{CourseResource, LessonResource, SectionResouce};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -150,6 +150,60 @@ class AdminCourseController extends Controller
             DB::commit();
 
             return response()->message(__("messages.admin_course_section.deleted"));
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
+    public function createLesson(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $this->adminCourseRepository->createLessonValidation($data)->validate();
+            $lesson = $this->adminCourseRepository->createLesson($data);
+            DB::commit();
+
+            $lesson = new LessonResource($lesson);
+            return response()->success(__('messages.admin_course_lesson.created'), $lesson);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
+    public function editLesson(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $this->adminCourseRepository->editLessonValidation($data)->validate();
+            $lesson = $this->adminCourseRepository->editLesson($data);
+            DB::commit();
+
+            $lesson = new LessonResource($lesson);
+            return response()->success(__('messages.admin_course_lesson.updated'), $lesson);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+
+    }
+
+    public function destroyLesson()
+    {
+        try {
+            DB::beginTransaction();
+//            $this->adminCourseRepository->deleteSection($uuid);
+            DB::commit();
+
+            return response()->message(__("messages.admin_course_lesson.deleted"));
 
         } catch (\Exception $exception) {
             DB::rollBack();

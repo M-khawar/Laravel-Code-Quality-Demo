@@ -15,4 +15,9 @@ class CourseLesson extends Model
     protected $fillable = [
         "section_id", "video_id", "name", "description", "resources", "position",
     ];
+
+    public static function findOrFailLessonByUuid(string $uuid)
+    {
+        return static::byUUID($uuid)->firstOrFail();
+    }
 }
