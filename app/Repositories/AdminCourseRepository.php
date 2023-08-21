@@ -198,6 +198,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
     public function sortSections(array $data)
     {
+        $this->validatePermission();
+
         list("source_section" => $sourceSection, "destination_section" => $destinationSection, "action_type" => $actionType) = $data;
         $actionType = $actionType ?? "after";   //setting default actionType value = "after"
 
