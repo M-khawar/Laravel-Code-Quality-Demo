@@ -34,6 +34,10 @@ interface AdminCourseRepositoryInterface
 
     public function deleteSection(string $sectionUuid);
 
+    public function sortSections(array $data);
+
+    public function sortSectionsValidation(array $data);
+
     public function createLesson(array $data);
 
     public function createLessonValidation(array $data);

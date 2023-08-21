@@ -19,6 +19,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     private mixed $videoModel;
 
     const VIDEO_SOURCES = [VIMEO, WISTIA];
+    const SORT_ACTIONS_TYPE = [SORT_AFTER, SORT_BEFORE];
 
     public function __construct(Model $courseModel)
     {
@@ -193,6 +194,32 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
         $section->lessons()->delete();
         return $section->delete();
+    }
+
+    public function sortSections(array $data)
+    {
+        list("source_section" => $sourceSection, "destination_section" => $destinationSection, "action_type" => $actionType) = $data;
+        $actionType = $actionType ?? "after";   //setting default actionType value = "after"
+
+        $sections = $this->sectionModel::whereIn("uuid", [$sourceSection, $destinationSection])->get();
+        $source = $sections[0];
+        $destination = $sections[1];
+
+
+        $actionType == SORT_AFTER ? $source->moveAfter($destination) : $source->moveBefore($destination);
+
+        $sections = $this->sectionModel::where("course_id", $source->course_id)->with("lessons.video")->sorted()->get();
+
+        return $sections;
+    }
+
+    public function sortSectionsValidation(array $data)
+    {
+        return Validator::make($data, [
+            "source_section" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "destination_section" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "action_type" => ["required", "string", Rule::in(self::SORT_ACTIONS_TYPE)],
+        ]);
     }
 
     public function createLesson(array $data)

@@ -176,6 +176,25 @@ class AdminCourseController extends Controller
         }
     }
 
+    public function sortSection(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $this->adminCourseRepository->sortSectionsValidation($data)->validate();
+            $sections = $this->adminCourseRepository->sortSections($data);
+            DB::commit();
+
+            $sections = SectionResouce::collection($sections);
+            return response()->success(__('messages.admin_course_section.sorted'), $sections);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return $this->handleException($exception);
+        }
+    }
+
     public function createLesson(Request $request)
     {
         try {

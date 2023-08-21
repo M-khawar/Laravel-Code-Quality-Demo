@@ -30,3 +30,6 @@ define('ACTIVE_RECRUITER_ROLE', 'Active-Recruiter');
 
 define('SMS_NOTIF_TYPE', 'sms');
 define('MAIL_NOTIF_TYPE', 'mail');
+
+define("SORT_AFTER", "after");
+define("SORT_BEFORE", "before");

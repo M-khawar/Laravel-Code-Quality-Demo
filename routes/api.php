@@ -84,6 +84,7 @@ Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function (
 /*** Admin-Courses Sections Routes ***/
 Route::group(['prefix' => 'admin-courses/sections', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/edit', [AdminCourseController::class, 'editSection']);
+    Route::post('/sort', [AdminCourseController::class, 'sortSection']);
     Route::post('/', [AdminCourseController::class, 'createSection']);
     Route::delete('/{uuid}', [AdminCourseController::class, 'destroySection']);
 });
