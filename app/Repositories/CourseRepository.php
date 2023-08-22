@@ -92,9 +92,9 @@ class CourseRepository implements CourseRepositoryInterface
             "lessons.video",
             "lessons" => fn($q) => $q->selectRaw("*,
             (SELECT count(*) from completed_lessons where completed_lessons.lesson_id = course_lessons.id
-             and completed_lessons.watched = true and completed_lessons.user_id =" . $userId . " limit 1) as watched"),
+             and completed_lessons.watched = true and completed_lessons.user_id =" . $userId . " limit 1) as watched")->orderBy("course_lessons.position"),
         ]);
-        $lessons = $lessonsQuery->get();
+        $lessons = $lessonsQuery->orderBy("course_sections.position")->get();
 
         return $lessons;
     }

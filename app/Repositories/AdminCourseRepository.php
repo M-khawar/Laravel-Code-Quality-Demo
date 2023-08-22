@@ -49,7 +49,12 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
         return $this->courseModel::query()
             ->byUUID($uuid)
-            ->with("allowedAudienceRoles", "sections.lessons.video")
+            ->with([
+                "allowedAudienceRoles",
+                "sections.lessons.video",
+                "sections" => fn($q) => $q->sorted(),
+                "sections.lessons" => fn($q) => $q->sorted(),
+            ])
             ->get();
     }
 
@@ -151,7 +156,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $course = $this->courseModel::findOrFailCourseByUuid($courseUuid);
 
         $section = $course->sections()->create($data);
-        $section->load("lessons");
+        $section->load(["lessons" => fn($q) => $q->sorted()]);
 
         return $section;
     }
@@ -173,7 +178,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $section = $this->sectionModel::findOrFailSectionByUuid($sectionUuid);
 
         $section->fill($data)->save();
-        $section->load("lessons");
+        $section->load(["lessons" => fn($q) => $q->sorted()]);
 
         return $section;
     }
