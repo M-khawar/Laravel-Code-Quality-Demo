@@ -9,6 +9,7 @@ use App\Http\Controllers\{
     LeadController,
     OnboardingController,
     PromoteController,
+    SupportController,
     UserController,
     VideoController
 };
@@ -106,6 +107,12 @@ Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], func
     Route::get('/all', [AdminCourseController::class, 'adminCourses']);
     Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
     Route::delete('/{uuid}', [AdminCourseController::class, 'destroyCourse']);
+});
+
+/*** Support Routes ***/
+Route::group(['prefix' => 'support', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('/issue-categories', [SupportController::class, 'issueCategories']);
+    Route::post('/submit-ticket', [SupportController::class, 'submitTicket']);
 });
 
 

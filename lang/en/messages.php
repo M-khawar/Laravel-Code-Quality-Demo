@@ -48,4 +48,6 @@ return [
     'admin_course_lesson.updated' => 'Successfully, lesson updated.',
     'admin_course_lesson.deleted' => 'Successfully, lesson deleted.',
     'admin_course_lesson.sorted' => 'Successfully, lesson sorted.',
+    'support.categories' => 'Successfully, support categories fetched.',
+    'support.ticket_submit' => 'You ticket successfully submitted to our support.',
 ];
