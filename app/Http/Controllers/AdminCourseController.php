@@ -245,4 +245,20 @@ class AdminCourseController extends Controller
             return $this->handleException($exception);
         }
     }
+
+    public function sortLesson(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            $this->adminCourseRepository->sortLessonsValidation($data)->validate();
+            $lessons = $this->adminCourseRepository->sortLessons($data);
+
+            $lessons = LessonResource::collection($lessons);
+            return response()->success(__('messages.admin_course_lesson.sorted'), $lessons);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
+    }
 }

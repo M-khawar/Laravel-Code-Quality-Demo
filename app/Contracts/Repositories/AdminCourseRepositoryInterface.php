@@ -48,4 +48,8 @@ interface AdminCourseRepositoryInterface
 
     public function deleteLesson(string $lessonUuid);
 
+    public function sortLessons(array $data);
+
+    public function sortLessonsValidation(array $data);
+
 }

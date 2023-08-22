@@ -201,7 +201,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $this->validatePermission();
 
         list("source_section" => $sourceSection, "destination_section" => $destinationSection, "action_type" => $actionType) = $data;
-        $actionType = $actionType ?? "after";   //setting default actionType value = "after"
+        $actionType = $actionType ?? SORT_AFTER;   //setting default actionType value = "after"
 
         $sections = $this->sectionModel::whereIn("uuid", [$sourceSection, $destinationSection])->get();
         $source = $sections[0];
@@ -308,6 +308,33 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
         $lesson = $this->lessonModel::findOrFailLessonByUuid($lessonUuid);
         return $lesson->delete();
+    }
+
+    public function sortLessons(array $data)
+    {
+        $this->validatePermission();
+
+        list("source_lesson" => $sourceSection, "destination_lesson" => $destinationSection, "action_type" => $actionType) = $data;
+        $actionType = $actionType ?? SORT_AFTER;   //setting default actionType value = "after"
+
+        $lessons = $this->lessonModel::whereIn("uuid", [$sourceSection, $destinationSection])->get();
+        $source = $lessons[0];
+        $destination = $lessons[1];
+
+        $actionType == SORT_AFTER ? $source->moveAfter($destination) : $source->moveBefore($destination);
+
+        $sections = $this->lessonModel::where("section_id", $source->section_id)->with("video")->sorted()->get();
+
+        return $sections;
+    }
+
+    public function sortLessonsValidation(array $data)
+    {
+        return Validator::make($data, [
+            "source_lesson" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "destination_lesson" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "action_type" => ["required", "string", Rule::in(self::SORT_ACTIONS_TYPE)],
+        ]);
     }
 
 }
