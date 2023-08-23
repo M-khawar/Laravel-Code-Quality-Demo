@@ -17,8 +17,8 @@ class RoleSeeder extends Seeder
             ['name' => ALL_MEMBER_ROLE],
             ['name' => ENAGIC_ROLE],
             ['name' => TRIFECTA_ROLE],
-            ['name' => ADVISOR_ROLE],
             ['name' => CORE_ROLE],
+            ['name' => ADVISOR_ROLE],
             ['name' => ACTIVE_RECRUITER_ROLE],
         );
 

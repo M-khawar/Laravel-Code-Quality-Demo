@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(VideoSeeder::class);
         $this->call(QuestionSeeder::class);
         $this->call(RoleSeeder::class);
-        $this->call(UserBadgeSeeder::class);
         $this->call(AdminSeeder::class);
 
         if (app()->environment('local', 'staging')) {
