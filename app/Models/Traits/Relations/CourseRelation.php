@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits\Relations;
 
-use App\Models\{CourseLesson, CourseSection};
-use Illuminate\Database\Eloquent\Relations\{BelongsToMany, HasMany, HasManyThrough};
+use App\Models\{CourseLesson, CourseSection, Media};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasManyThrough};
 
 trait CourseRelation
 {
@@ -22,6 +22,11 @@ trait CourseRelation
     public function lessons(): HasManyThrough
     {
         return $this->hasManyThrough(CourseLesson::class, CourseSection::class, 'course_id', 'section_id');
+    }
+
+    public function thumbnail(): BelongsTo
+    {
+        return $this->belongsTo(Media::class, "thumbnail_id")->withDefault(["path" => asset('assets/images/no_image_available.jpg')]);
     }
 
 }

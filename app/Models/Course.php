@@ -13,9 +13,9 @@ class Course extends Model
 {
     use HasFactory, HasUUID, CourseRelation, SoftDeletes;
 
-    protected $fillable = ["name", "description", "thumbnail"];
+    protected $fillable = ["name", "description", "thumbnail_id"];
 
-    protected $appends = ["thumbnail_path"];
+//    protected $appends = ["thumbnail_path"];
 
 
     public static function findOrFailCourseByUuid(string $uuid)
@@ -23,12 +23,12 @@ class Course extends Model
         return static::byUUID($uuid)->firstOrFail();
     }
 
-    protected function thumbnailPath(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                return $attributes['thumbnail_path'] = $attributes['thumbnail'] ?? asset('assets/images/no_image_available.jpg');
-            }
-        );
-    }
+    /* protected function thumbnailPath(): Attribute
+     {
+         return Attribute::make(
+             get: function ($value, $attributes) {
+                 return $attributes['thumbnail_path'] = $attributes['thumbnail'] ?? asset('assets/images/no_image_available.jpg');
+             }
+         );
+     }*/
 }

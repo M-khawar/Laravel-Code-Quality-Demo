@@ -76,6 +76,7 @@ class CourseRepository implements CourseRepositoryInterface
 
         $courses = $this->courseModel::query()
             ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', [$role->id]))
+            ->with("thumbnail")
             ->paginate($perPage)->withQueryString();
 
         return $courses;

@@ -18,7 +18,7 @@ class CourseResource extends JsonResource
         return [
             "uuid" => $this->uuid,
             "name" => $this->name,
-            "thumbnail" => $this->thumbnail_path,
+            "thumbnail" => $this?->thumbnail?->media_path,
             "description" => $this->description,
             "sort" => $this->sort,
             "last_updated" => $this->updated_at->format('M d, Y'),

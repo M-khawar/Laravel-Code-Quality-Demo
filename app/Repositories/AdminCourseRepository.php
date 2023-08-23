@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\AdminCourseRepositoryInterface;
 use App\Http\Resources\RoleResource;
-use App\Models\{CourseLesson, CourseSection, Video};
+use App\Models\{CourseLesson, CourseSection, Media, Video};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -16,7 +16,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     private $roleModel;
     private $lessonModel;
     private $sectionModel;
-    private mixed $videoModel;
+    private $videoModel;
+    private $mediaModel;
 
     const VIDEO_SOURCES = [VIMEO, WISTIA];
     const SORT_ACTIONS_TYPE = [SORT_AFTER, SORT_BEFORE];
@@ -28,6 +29,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $this->lessonModel = app(CourseLesson::class);
         $this->sectionModel = app(CourseSection::class);
         $this->videoModel = app(Video::class);
+        $this->mediaModel = app(Media::class);
     }
 
     public function fetchCoursesAudience()
@@ -40,7 +42,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         $this->validatePermission();
 
-        return $this->courseModel::with("allowedAudienceRoles")->get();
+        return $this->courseModel::with("allowedAudienceRoles", "thumbnail")->get();
     }
 
     public function fetchSingleCourse(string $uuid)
@@ -50,6 +52,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         return $this->courseModel::query()
             ->byUUID($uuid)
             ->with([
+                "thumbnail",
                 "allowedAudienceRoles",
                 "sections.lessons.video",
                 "sections" => fn($q) => $q->sorted(),
@@ -65,9 +68,14 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $rolesUuids = $data["allowed_audience_roles"];
         $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
 
+        $thumbnailUuid = $data["thumbnail"];
+        unset($data["thumbnail"]);
+        $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
+        $data["thumbnail_id"] = @$media->id;
+
         $course = $this->courseModel::create($data);
         $course->allowedAudienceRoles()->attach($roleIDs);
-        $course->load("allowedAudienceRoles");
+        $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
     }
@@ -77,6 +85,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         return Validator::make($data, [
             "name" => ["required", "string"],
             "description" => ["required", "string"],
+            "thumbnail" => ["required", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
             "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
@@ -91,9 +100,16 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $rolesUuids = $data["allowed_audience_roles"];
         $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
 
+        if (!empty($data["thumbnail"])) {
+            $thumbnailUuid = $data["thumbnail"];
+            unset($data["thumbnail"]);
+            $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
+            $data["thumbnail_id"] = @$media->id;
+        }
+
         $course->fill($data)->update();
         $course->allowedAudienceRoles()->sync($roleIDs);
-        $course->load("allowedAudienceRoles");
+        $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
     }
@@ -104,6 +120,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             "name" => ["required", "string"],
             "description" => ["required", "string"],
             "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
+            "thumbnail" => ["nullable", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
         ]);
 
     }
@@ -135,7 +152,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $course = $this->courseModel::findOrFailCourseByUuid($data["course_uuid"]);
 
         $course->allowedAudienceRoles()->toggle($roleID);
-        $course->load("allowedAudienceRoles");
+        $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
     }

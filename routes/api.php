@@ -7,12 +7,12 @@ use App\Http\Controllers\{
     CalendarController,
     CourseController,
     LeadController,
+    MediaController,
     OnboardingController,
     PromoteController,
     SupportController,
     UserController,
-    VideoController
-};
+    VideoController};
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +27,15 @@ use App\Http\Controllers\{
 
 Route::get('/referral', [UserController::class, 'getReferral']);
 
-Route::get('/users', [UserController::class, 'getUsers'])->middleware('auth:sanctum');
 
 Route::post('/visits', [LeadController::class, 'storeVisits']);
 
 Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/users', [UserController::class, 'getUsers']);
+    Route::post("/upload-media", [MediaController::class, 'uploadMedia']);
+});
 
 /*** Leads Routes ***/
 Route::group(['prefix' => 'leads'], function () {

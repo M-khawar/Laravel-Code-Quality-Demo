@@ -12,15 +12,13 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->unique();
-            $table->string('name')->index();
-            $table->foreignId('thumbnail_id')->nullable()->constrained('media')->nullOnDelete();
-            $table->text('description')->nullable();
-            $table->bigInteger('sort')->nullable();
+            $table->uuid();
+            $table->enum("source", ["spaces", "local", "s3"])->default("spaces");
+            $table->string("path");
+            $table->boolean("archived")->default(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('media');
     }
 };

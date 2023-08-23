@@ -33,3 +33,5 @@ define('MAIL_NOTIF_TYPE', 'mail');
 
 define("SORT_AFTER", "after");
 define("SORT_BEFORE", "before");
+
+define("SPACES_STORAGE", "spaces");

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\DummyData;
 
-use App\Models\{Course, Video};
+use App\Models\{Course, Media, Video};
 use Database\Seeders\Traits\{DisableForeignKeys, TruncateTable};
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -12,10 +12,12 @@ class CourseSeeder extends Seeder
     use DisableForeignKeys, TruncateTable;
 
     private $roleModel;
+    private $mediaModel;
 
     public function __construct()
     {
         $this->roleModel = app(config('permission.models.role'));
+        $this->mediaModel = app(Media::class);
     }
 
     public function run()
@@ -1879,6 +1881,12 @@ class CourseSeeder extends Seeder
             unset($course['roles'], $course['sections']);
             $rolesId = $this->roleModel::whereIn('name', $roles)->pluck('id')->toArray();
 
+            if (!empty($course["thumbnail"])) {
+                $media = $this->mediaModel::firstOrCreate(["path" => $course["thumbnail"]], ["source" => SPACES_STORAGE]);
+                $course["thumbnail_id"] = $media->id;
+            }
+
+            unset($course["thumbnail"]);
             $createdCourse = Course::create($course);
             $createdCourse->allowedAudienceRoles()->attach($rolesId);
 
