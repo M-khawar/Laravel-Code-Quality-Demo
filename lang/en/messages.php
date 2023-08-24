@@ -50,4 +50,5 @@ return [
     'admin_course_lesson.sorted' => 'Successfully, lesson sorted.',
     'support.categories' => 'Successfully, support categories fetched.',
     'support.ticket_submit' => 'You ticket successfully submitted to our support.',
+    'media.uploaded' => 'Successfully, media Uploaded.',
 ];

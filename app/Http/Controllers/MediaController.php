@@ -18,6 +18,10 @@ class MediaController extends Controller
     public function uploadMedia(Request $request)
     {
         try {
+            $request->validate([
+                "image" => ["required", "image", "mimes:jpeg,jpg,png", "max:5120"],
+            ]);
+
             $filePath = $this->mediaModel->storeMediaByHashName($request->image, "course-thumbnail");
 
             $media = $this->mediaModel::create([
