@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Illuminate\Support\Facades\Validator;
 use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
 use App\Http\Resources\{RoleResource, UserPublicInfoResource, UserResource};
 use App\Models\{User};
@@ -81,10 +82,6 @@ class UserRepository implements UserRepositoryInterface
         $advisorUuid = $data["advisor_uuid"];
         $affiliateUuid = $data["affiliate_uuid"];
 
-        /* $users = $this->user::query()
-             ->whereIn("uuid", [$userUuid, $advisorUuid, $affiliateUuid])
-             ->get();*/
-
         $currentUser = $this->user::findOrFailUserByUuid($userUuid);
         $advisor = $this->user::findOrFailUserByUuid($advisorUuid);
         $affiliate = $this->user::findOrFailUserByUuid($affiliateUuid);
@@ -92,5 +89,15 @@ class UserRepository implements UserRepositoryInterface
         $currentUser->fill(["advisor_id" => $advisor->id, "affiliate_id" => $affiliate->id])->save();
 
         return $this->getUserPublicInfo($currentUser);
+    }
+
+    public function updateAdministratorValidation(array $data)
+    {
+        return Validator::make($data, [
+            "user_uuid" => ["required", "string", 'exists:' . get_class($this->user) . ',uuid'],
+            "advisor_uuid" => ["required", "string", 'exists:' . get_class($this->user) . ',uuid'],
+            "affiliate_uuid" => ["required", "string", 'exists:' . get_class($this->user) . ',uuid'],
+        ]);
+
     }
 }

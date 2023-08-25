@@ -113,8 +113,10 @@ class AuthenticatedSessionController extends Controller
     {
         try {
             $data = $request->input();
-            $data = ["user" => $this->userRepository->updateAdministrator($data)];
+            $this->userRepository->updateAdministratorValidation($data)->validate();
+            $user = $this->userRepository->updateAdministrator($data);
 
+            $data = ["user" => $user];
             return response()->success(__('auth.user_administrator.updated'), $data);
 
         } catch (\Exception $e) {
