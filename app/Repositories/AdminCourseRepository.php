@@ -68,8 +68,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $rolesUuids = $data["allowed_audience_roles"];
         $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
 
-        $thumbnailUuid = $data["thumbnail"];
-        unset($data["thumbnail"]);
+        $thumbnailUuid = $data["thumbnail_uuid"];
         $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
         $data["thumbnail_id"] = @$media->id;
 
@@ -85,7 +84,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         return Validator::make($data, [
             "name" => ["required", "string"],
             "description" => ["required", "string"],
-            "thumbnail" => ["required", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "thumbnail_uuid" => ["required", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
             "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
@@ -100,9 +99,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $rolesUuids = $data["allowed_audience_roles"];
         $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
 
-        if (!empty($data["thumbnail"])) {
-            $thumbnailUuid = $data["thumbnail"];
-            unset($data["thumbnail"]);
+        if (!empty($data["thumbnail_uuid"])) {
+            $thumbnailUuid = $data["thumbnail_uuid"];
             $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
             $data["thumbnail_id"] = @$media->id;
         }
@@ -120,7 +118,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             "name" => ["required", "string"],
             "description" => ["required", "string"],
             "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
-            "thumbnail" => ["nullable", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "thumbnail_uuid" => ["nullable", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
         ]);
 
     }
