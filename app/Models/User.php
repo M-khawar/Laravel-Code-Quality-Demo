@@ -16,7 +16,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting, FunnelGenerator, Searchable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting,
+        FunnelGenerator, Searchable, HasRoles;
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar', 'affiliate_code', 'funnel_type',

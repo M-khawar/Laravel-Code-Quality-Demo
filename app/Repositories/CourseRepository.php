@@ -37,7 +37,7 @@ class CourseRepository implements CourseRepositoryInterface
         $courseCategories->map(function ($role) {
             $role->description = ($role->name == ALL_MEMBER_ROLE) ? __("messages.course.all_member.desc") : null;
             $role->prohibited_message = $this->prohibitedCoursesMessages($role->name);
-            $role->name = ($role->name == CORE_ROLE) ? $role->name . " Rank Course" : $role->name . " Course";
+            $role->name = ($role->name == CORE_ROLE) ? $role->name . " Rank Courses" : $role->name . " Courses";
         });
 
         return $courseCategories;

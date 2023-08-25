@@ -24,4 +24,5 @@ return [
     'current_user_info.fetched' => 'Successfully, current authenticated user info fetched.',
     'roles.fetched' => 'Successfully, available roles fetched.',
     'roles.access_denied' => 'You don\'t have access to particular data.',
+    'user_administrator.updated' => 'Successfully, user administrator updated.',
 ];

@@ -65,6 +65,8 @@ class UserFactory extends Factory
                 "address" => fake()->address(),
             ]);
 
+            $user->assignRole(ALL_MEMBER_ROLE, ENAGIC_ROLE);
+
             event(new Registered($user));
         });
     }

@@ -8,7 +8,7 @@ class UserPublicInfoResource extends JsonResource
 {
     public function toArray($request)
     {
-        return [
+        $data = [
             'uuid' => $this->uuid,
             'name' => $this->name,
             'email' => $this->email,
@@ -22,5 +22,16 @@ class UserPublicInfoResource extends JsonResource
             'advisor' => new AdvisorResource($this->whenLoaded('advisor')),
             'affiliate' => new AdvisorResource($this->whenLoaded('affiliate')),
         ];
+
+        //this whenLoad filter not working, if relation not loaded then it is loading implicitly
+        $roles= $this->whenLoaded("roles", $this->mapRoles(), []);
+        $data = array_merge($data, ["roles" => $roles]);
+
+        return $data;
+    }
+
+    protected function mapRoles()
+    {
+        return $this->roles->map(fn($role, $index) => $role->uuid)->toArray();
     }
 }

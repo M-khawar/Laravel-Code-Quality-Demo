@@ -45,6 +45,7 @@ class UserRepository implements UserRepositoryInterface
         $user->loadMissing([
             'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
             'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+            'roles' => fn($q) => $q->where("name", "!=", ADMIN_ROLE),
         ]);
 
         return new UserPublicInfoResource($user);
@@ -72,5 +73,24 @@ class UserRepository implements UserRepositoryInterface
             ->select('id', 'uuid', 'name', 'email', 'avatar')
             ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->paginate(20)->withQueryString();
+    }
+
+    public function updateAdministrator(array $data)
+    {
+        $userUuid = $data["user_uuid"];
+        $advisorUuid = $data["advisor_uuid"];
+        $affiliateUuid = $data["affiliate_uuid"];
+
+        /* $users = $this->user::query()
+             ->whereIn("uuid", [$userUuid, $advisorUuid, $affiliateUuid])
+             ->get();*/
+
+        $currentUser = $this->user::findOrFailUserByUuid($userUuid);
+        $advisor = $this->user::findOrFailUserByUuid($advisorUuid);
+        $affiliate = $this->user::findOrFailUserByUuid($affiliateUuid);
+
+        $currentUser->fill(["advisor_id" => $advisor->id, "affiliate_id" => $affiliate->id])->save();
+
+        return $this->getUserPublicInfo($currentUser);
     }
 }

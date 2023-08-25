@@ -108,4 +108,17 @@ class AuthenticatedSessionController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function updateAdministrator(Request $request)
+    {
+        try {
+            $data = $request->input();
+            $data = ["user" => $this->userRepository->updateAdministrator($data)];
+
+            return response()->success(__('auth.user_administrator.updated'), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }
