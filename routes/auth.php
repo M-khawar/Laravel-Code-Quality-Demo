@@ -55,6 +55,10 @@ Route::get('/roles', [PermissionController::class, 'roles'])
     ->middleware('auth:sanctum')
     ->name('roles');
 
+Route::post('/assign-role', [PermissionController::class, 'assignRole'])
+    ->middleware('auth:sanctum')
+    ->name('assign_roles');
+
 Route::post('/update-administrator', [AuthenticatedSessionController::class, 'updateAdministrator'])
     ->middleware('auth:sanctum')
     ->name('update_administrator');

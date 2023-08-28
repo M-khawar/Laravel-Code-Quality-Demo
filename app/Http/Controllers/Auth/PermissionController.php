@@ -23,4 +23,17 @@ class PermissionController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function assignRole(Request $request)
+    {
+        try {
+            $data = $request->input();
+            $roles = $this->userRepository->assignRole($data);
+
+            return response()->success(__('auth.roles.updated'), ["roles" => $roles]);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }

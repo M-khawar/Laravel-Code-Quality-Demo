@@ -98,6 +98,16 @@ class UserRepository implements UserRepositoryInterface
             "advisor_uuid" => ["required", "string", 'exists:' . get_class($this->user) . ',uuid'],
             "affiliate_uuid" => ["required", "string", 'exists:' . get_class($this->user) . ',uuid'],
         ]);
+    }
 
+    public function assignRole(array $data)
+    {
+        $user = $this->user::findOrFailUserByUuid($data["user_uuid"]);
+        $roleIds = $this->roleModel::byUUID($data["role_uuid"])->pluck("id")->toArray();
+
+        $user->roles()->toggle($roleIds);
+
+        $query = $user->roles()->whereNotIn("name", [ADMIN_ROLE, ALL_MEMBER_ROLE]);
+        return $query->pluck("uuid")->toArray();
     }
 }

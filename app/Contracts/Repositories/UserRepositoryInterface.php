@@ -16,4 +16,9 @@ interface UserRepositoryInterface
     public function fetchReferral(?string $referralCode = null);
 
     public function fetchUsersIncludingAdmin(?string $queryString = null);
+
+    public function updateAdministrator(array $data);
+
+    public function updateAdministratorValidation(array $data);
+
 }
