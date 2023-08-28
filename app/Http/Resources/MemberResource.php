@@ -6,6 +6,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class MemberResource extends JsonResource
 {
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+
+        self::wrap("collection");
+    }
+
     public function toArray($request)
     {
         return [

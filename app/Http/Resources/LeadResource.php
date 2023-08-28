@@ -6,6 +6,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class LeadResource extends JsonResource
 {
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+
+        self::wrap("collection");
+    }
 
     public function toArray($request)
     {
