@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
-use App\Http\Resources\{LeadResource, MemberResource};
+use App\Http\Resources\{LeadCollection, MemberCollection};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -76,7 +76,7 @@ class LeadController extends Controller
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
             $leads = $this->leadRepository->fetchLeads($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
-            $leads = (LeadResource::collection($leads))->response()->getData(true);
+            $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
 
@@ -101,7 +101,7 @@ class LeadController extends Controller
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
             $members = $this->leadRepository->fetchMembers($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
-            $members = (MemberResource::collection($members))->response()->getData(true);
+            $members = (new MemberCollection($members))->response()->getData(true);
 
             return response()->success(__("messages.members.fetched"), $members);
 
