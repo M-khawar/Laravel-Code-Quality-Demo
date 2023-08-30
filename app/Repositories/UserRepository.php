@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserInfo(User $user): UserResource
     {
-        $user->loadMissing(['address', 'profile']);
+        $user->loadMissing(['address', 'profile'])->append("has_active_subscription");
 
         $user->loadMissing([
             'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
@@ -35,6 +35,8 @@ class UserRepository implements UserRepositoryInterface
         if (!array_key_exists('subscription', $user->toArray())) {
             $user->setRelation('subscription', $user->subscription(config('cashier.subscription_name')));
         }
+
+        $user->setRelation('permissions', $user->getAllPermissions()->pluck("name")->toArray());
 
         return new UserResource($user);
     }

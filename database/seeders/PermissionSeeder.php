@@ -35,33 +35,37 @@ class PermissionSeeder extends Seeder
             Permission::create($permission);
         });
 
-        //Admin Roles
+        $this->adminPermissions();
+        $this->advisorPermissios();
+        $this->enagicPermissions();
+        $this->allMemberPermissions();
+    }
+
+    private function adminPermissions()
+    {
         $adminRole = $this->roleModel::whereName(ADMIN_ROLE)->first();
         $adminPermissions = config("permission_list.admin_permissions");
         $adminRole->givePermissionTo($adminPermissions);
+    }
 
-        //Advisor Roles
+    private function advisorPermissios()
+    {
         $advisorRole = $this->roleModel::whereName(ADVISOR_ROLE)->first();
         $advisorPermissions = config("permission_list.advisor_permissions");
         $advisorRole->givePermissionTo($advisorPermissions);
+    }
 
-        //Enagic Roles
+    private function enagicPermissions()
+    {
         $enagicRole = $this->roleModel::whereName(ENAGIC_ROLE)->first();
         $enagicPermissions = config("permission_list.enagic_permissions");
         $enagicRole->givePermissionTo($enagicPermissions);
+    }
 
-        //Common Roles
-        $permissionsExceptAllMember = config("permission_list.except_all_member_role");
-        $rolesExceptAllMember = $this->roleModel::excludeAllMemberRole()->get();
-        $rolesExceptAllMember->each(function ($role) use ($permissionsExceptAllMember) {
-            $role->givePermissionTo($permissionsExceptAllMember);
-        });
-
-        /*
-         admin_permissions
-         enagic_permissions
-         advisor_permissions
-         except_all_member_role
-        */
+    private function allMemberPermissions() //edit it
+    {
+        $permissionsExceptAllMember = config("permission_list.all_members");
+        $allMember = $this->roleModel::whereName(ALL_MEMBER_ROLE)->first();
+        $allMember->givePermissionTo($permissionsExceptAllMember);
     }
 }

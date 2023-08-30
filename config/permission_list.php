@@ -6,7 +6,10 @@ return [
         ["name" => "course"],  // user.subscription || user.is_advisor || user.questionnaire_complete===true || user.is_enagic ||
         ["name" => "leaderboard"],  //user.is_advisor || (user.subscription && user.is_enagic))
         ["name" => "questionnaire.watch_answers"],  //advisor
+
         ["name" => "member.update_role"],  //advisor,  (user.is_advisor && member.advisor_id==user.id)
+        ["name" => "member.member_info.view"],  //advisor
+        ["name" => "member.affiliate_info.view"],  //advisor
 
         ["name" => "admin.dashboard"],  //admin
         ["name" => "admin.admin_course"],  //admin
@@ -20,7 +23,7 @@ return [
         ["name" => "notes.create"],  //advisor
         ["name" => "notes.edit"],  //advisor
 
-        ["name" => "calendar.notifications.watch"], //admin
+        ["name" => "calendar.notifications.view"], //admin
         ["name" => "calendar.notifications.create"], //admin
         ["name" => "calendar.notifications.edit"], //admin
         ["name" => "calendar.notifications.delete"], //admin
@@ -45,7 +48,7 @@ return [
         PERMISSION_ADMIN_DASHBOARD,
         PERMISSION_ADMIN_COURSE,
         PERMISSION_UPDATE_MEMBER_ADMINISTRATION,
-        PERMISSION_CALENDAR_NOTIFICATIONS_WATCH,
+        PERMISSION_CALENDAR_NOTIFICATIONS_VIEW,
         PERMISSION_CALENDAR_NOTIFICATIONS_CREATE,
         PERMISSION_CALENDAR_NOTIFICATIONS_EDIT,
         PERMISSION_CALENDAR_NOTIFICATIONS_DELETE,
@@ -72,6 +75,8 @@ return [
         PERMISSION_LEADERBOARD,
         PERMISSION_QUESTIONNAIRE_WATCH_ANSWER,
         PERMISSION_MEMBER_UPDATE_ROLE,
+        PERMISSION_MEMBER_INFO_VIEW,
+        PERMISSION_MEMBER_AFFILIATE_INFO_VIEW,
         PERMISSION_ADVISOR_SETTINGS,
         PERMISSION_SETTINGS_LEAD_NOTIFICATION,
         PERMISSION_SETTINGS_MEMBER_NOTIFICATION,
@@ -81,7 +86,7 @@ return [
         PERMISSION_QUICKLINKS_ADVISOR_TELEGRAM,
     ),
 
-    "except_all_member_role" => array(
+    "all_members" => array(
         PERMISSION_SETTINGS_CALENDAR_EVENT_NOTIFICATION,
         PERMISSION_CALENDAR_EVENTS_VIEW,
     ),

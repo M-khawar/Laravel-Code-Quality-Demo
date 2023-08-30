@@ -64,6 +64,14 @@ class User extends Authenticatable
         return static::byUUID($uuid)->firstOrFail();
     }
 
+    public static function getAffiliateByCode($affiliateCode)
+    {
+        return self::query()
+            ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
+            ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
+            ->first();
+    }
+
     protected function avatarPath(): Attribute
     {
         return Attribute::make(
@@ -73,11 +81,12 @@ class User extends Authenticatable
         );
     }
 
-    public static function getAffiliateByCode($affiliateCode)
+    protected function hasActiveSubscription(): Attribute
     {
-        return self::query()
-            ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
-            ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
-            ->first();
+        return Attribute::make(
+            get: function ($value, $attributes) {
+                return $this->subscribed(config('cashier.subscription_name'));
+            }
+        );
     }
 }

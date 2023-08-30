@@ -3,7 +3,10 @@
 define("PERMISSION_COURSE", "course");
 define("PERMISSION_LEADERBOARD", "leaderboard");
 define("PERMISSION_QUESTIONNAIRE_WATCH_ANSWER", "questionnaire.watch_answers");
+
 define("PERMISSION_MEMBER_UPDATE_ROLE", "member.update_role");
+define("PERMISSION_MEMBER_INFO_VIEW", "member.member_info.view");
+define("PERMISSION_MEMBER_AFFILIATE_INFO_VIEW", "member.affiliate_info.view");
 
 define("PERMISSION_ADMIN_DASHBOARD", "admin.dashboard");
 define("PERMISSION_ADMIN_COURSE", "admin.admin_course");
@@ -17,7 +20,7 @@ define("PERMISSION_SETTINGS_CALENDAR_EVENT_NOTIFICATION", "settings.notification
 define("PERMISSION_NOTES_CREATE", "notes.create");
 define("PERMISSION_NOTES_EDIT", "notes.edit");
 
-define("PERMISSION_CALENDAR_NOTIFICATIONS_WATCH", "calendar.notifications.watch");
+define("PERMISSION_CALENDAR_NOTIFICATIONS_VIEW", "calendar.notifications.view");
 define("PERMISSION_CALENDAR_NOTIFICATIONS_CREATE", "calendar.notifications.create");
 define("PERMISSION_CALENDAR_NOTIFICATIONS_EDIT", "calendar.notifications.edit");
 define("PERMISSION_CALENDAR_NOTIFICATIONS_DELETE", "calendar.notifications.delete");
