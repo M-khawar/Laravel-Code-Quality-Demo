@@ -41,6 +41,7 @@
         },
         "files": [
             "app/Helpers/GlobalConstants.php",
+            "app/Helpers/PermissionConstants.php",
             "app/Helpers/GlobalMethods.php"
         ]
     },

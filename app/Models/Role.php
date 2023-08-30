@@ -25,4 +25,9 @@ class Role extends SpatieRole
         return $query->whereIn('uuid', $uuids);
     }
 
+    public function scopeWhereName($query, string $name)
+    {
+        return $query->where('name', $name);
+    }
+
 }
