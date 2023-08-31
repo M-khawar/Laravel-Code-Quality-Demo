@@ -49,6 +49,6 @@ return [
     'admin_course_lesson.deleted' => 'Successfully, lesson deleted.',
     'admin_course_lesson.sorted' => 'Successfully, lesson sorted.',
     'support.categories' => 'Successfully, support categories fetched.',
-    'support.ticket_submit' => 'Thanks for reaching out to support. We will respond ASAP. Thank you for your patience.',
+    'support.ticket_submit' => 'Thanks for reaching out to support. We will respond ASAP. Thank you for your patience',
     'media.uploaded' => 'Successfully, media Uploaded.',
 ];

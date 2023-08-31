@@ -44,12 +44,15 @@ class UserRepository implements UserRepositoryInterface
     public function getUserPublicInfo(User $user): UserPublicInfoResource
     {
         $user->loadMissing(['address', 'profile']);
+        $user->append("has_active_subscription");
 
         $user->loadMissing([
             'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
             'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
             'roles' => fn($q) => $q->where("name", "!=", ADMIN_ROLE),
         ]);
+
+        $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
 
         return new UserPublicInfoResource($user);
     }

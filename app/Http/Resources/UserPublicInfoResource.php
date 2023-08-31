@@ -21,10 +21,13 @@ class UserPublicInfoResource extends JsonResource
             'joined_at' => $this->created_at->format('M d, Y'),
             'advisor' => new AdvisorResource($this->whenLoaded('advisor')),
             'affiliate' => new AdvisorResource($this->whenLoaded('affiliate')),
+            'has_active_subscription' => $this->has_active_subscription,
+            'is_onboarding_completed' => $this->isOnboardingCompleted(),
+            'onboarding_steps_state' => $this->onboardingStepsState,
         ];
 
         //this whenLoad filter not working, if relation not loaded then it is loading implicitly
-        $roles= $this->whenLoaded("roles", $this->mapRoles(), []);
+        $roles = $this->whenLoaded("roles", $this->mapRoles(), []);
         $data = array_merge($data, ["roles" => $roles]);
 
         return $data;
@@ -33,5 +36,13 @@ class UserPublicInfoResource extends JsonResource
     protected function mapRoles()
     {
         return $this->roles->map(fn($role, $index) => $role->uuid)->toArray();
+    }
+
+    protected function isOnboardingCompleted()
+    {
+        $stepsState = $this->onboardingStepsState;
+        unset($stepsState[FB_GROUP_JOINED]); //excluding FB_GROUP_JOINED property from onboarding steps
+
+        return in_array(false, array_values($stepsState)) ? false : true;
     }
 }
