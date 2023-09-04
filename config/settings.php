@@ -17,10 +17,15 @@ return [
         'adviser_settings.advisor_message' => '',
 
         /*** account settings ***/
-        'account_settings.lead_email' => true,
-        'account_settings.lead_sms' => true,
-        'account_settings.mem_email' => true,
-        'account_settings.mem_sms' => true,
+        'account_settings.paypal_account' => '',
+
+        /*** notifications settings ***/
+        'notifications.lead_email' => true,
+        'notifications.lead_sms' => true,
+        'notifications.mem_email' => true,
+        'notifications.mem_sms' => true,
+        'notifications.event_email' => true,
+        'notifications.event_sms' => true,
 
     ],
 ];

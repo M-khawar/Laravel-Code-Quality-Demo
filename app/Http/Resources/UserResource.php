@@ -37,6 +37,7 @@ class UserResource extends JsonResource
             'promote_settings' => new PromoteSettingResource($this->whenLoaded('profile')),
             'master_class_funnel' => $this->masterClassFunnel(),
             'live_opportunity_call_funnel' => $this->liveOpportunityCallFunnel(),
+            'notifications' => $this->notifications,
             'permissions' => $this->permissions,
             'has_active_subscription' => $this->has_active_subscription,
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),

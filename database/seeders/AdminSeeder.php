@@ -64,10 +64,10 @@ class AdminSeeder extends Seeder
 
     private function updateSettings(User $user)
     {
-        $user->updateProperty('account_settings', 'lead_email', false);
-        $user->updateProperty('account_settings', 'lead_sms', true);
-        $user->updateProperty('account_settings', 'mem_email', false);
-        $user->updateProperty('account_settings', 'mem_sms', true);
+        $user->updateProperty('notifications', 'lead_email', false);
+        $user->updateProperty('notifications', 'lead_sms', true);
+        $user->updateProperty('notifications', 'mem_email', false);
+        $user->updateProperty('notifications', 'mem_sms', true);
 
         $user->updateProperty('onboarding', 'welcome_video_watched', false);
         $user->updateProperty('onboarding', 'questionnaire_completed', false);

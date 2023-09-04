@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\NewPasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\PermissionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\{ProfileController};
+use App\Http\Controllers\Auth\{
+    AuthenticatedSessionController,
+    EmailVerificationNotificationController,
+    NewPasswordController,
+    PasswordResetLinkController,
+    PermissionController,
+    RegisteredUserController,
+    VerifyEmailController,
+};
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -62,3 +65,10 @@ Route::post('/assign-role', [PermissionController::class, 'assignRole'])
 Route::post('/update-administrator', [AuthenticatedSessionController::class, 'updateAdministrator'])
     ->middleware('auth:sanctum')
     ->name('update_administrator');
+
+/*** Profile Settings Routes ***/
+Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('/update-info', [ProfileController::class, 'updateUserInfo']);
+    Route::post('/update-password', [ProfileController::class, 'updatePassword']);
+    Route::post('/update-notification', [ProfileController::class, 'updateNotifications']);
+});

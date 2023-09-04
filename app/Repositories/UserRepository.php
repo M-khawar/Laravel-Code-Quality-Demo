@@ -21,6 +21,19 @@ class UserRepository implements UserRepositoryInterface
         $this->roleModel = app(config('permission.models.role'));
     }
 
+    protected function getNotifications(): array
+    {
+        $user = $user ?? auth()->user();
+        $notifications = $user->getPropertiesInGroup(NOTIFICATION_SETTING_GROUP);
+
+        $notificationsData = [];
+        foreach ($notifications as $notification) {
+            $notificationsData = array_merge($notificationsData, [$notification->name => (bool)$notification->value]);
+        }
+
+        return $notificationsData;
+    }
+
     public function getUserInfo(User $user): UserResource
     {
         $user->loadMissing(['address', 'profile'])->append("has_active_subscription");
@@ -37,6 +50,7 @@ class UserRepository implements UserRepositoryInterface
         }
 
         $user->setRelation('permissions', $user->getAllPermissions()->pluck("name")->toArray());
+        $user->setRelation('notifications', $this->getNotifications());
 
         return new UserResource($user);
     }

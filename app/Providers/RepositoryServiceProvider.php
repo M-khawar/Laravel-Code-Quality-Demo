@@ -7,16 +7,20 @@ use App\Contracts\Repositories\{AdminCourseRepositoryInterface,
     CourseRepositoryInterface,
     LeadRepositoryInterface,
     OnboardingRepositoryInterface,
+    ProfileRepositoryInterface,
     PromoteRepositoryInterface,
-    UserRepositoryInterface};
+    UserRepositoryInterface
+};
 use App\Models\{Calendar, Course, Lead, Question, User};
 use App\Repositories\{AdminCourseRepository,
     CalendarRepository,
     CourseRepository,
     LeadRepository,
     OnboardingRepository,
+    ProfileRepository,
     PromoteRepository,
-    UserRepository};
+    UserRepository
+};
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -29,6 +33,7 @@ class RepositoryServiceProvider extends ServiceProvider
         CalendarRepositoryInterface::class => ["class" => CalendarRepository::class, "model" => Calendar::class],
         CourseRepositoryInterface::class => ["class" => CourseRepository::class, "model" => Course::class],
         AdminCourseRepositoryInterface::class => ["class" => AdminCourseRepository::class, "model" => Course::class],
+        ProfileRepositoryInterface::class => ["class" => ProfileRepository::class, "model" => User::class],
     ];
 
 
