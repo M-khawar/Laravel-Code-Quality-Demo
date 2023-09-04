@@ -65,15 +65,18 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         $this->validatePermission();
 
-        $rolesUuids = $data["allowed_audience_roles"];
-        $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
-
         $thumbnailUuid = $data["thumbnail_uuid"];
         $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
         $data["thumbnail_id"] = @$media->id;
 
         $course = $this->courseModel::create($data);
-        $course->allowedAudienceRoles()->attach($roleIDs);
+
+        if (!empty($data["thumbnail_uuid"])) {
+            $rolesUuids = $data["allowed_audience_roles"];
+            $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
+            $course->allowedAudienceRoles()->attach($roleIDs);
+        }
+
         $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
@@ -82,10 +85,10 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function createCourseValidation(array $data)
     {
         return Validator::make($data, [
-            "name" => ["required", "string"],
-            "description" => ["required", "string"],
-            "thumbnail_uuid" => ["required", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
-            "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
+            "name" => ['required', 'string'],
+            "thumbnail_uuid" => ['required', 'string', 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "description" => ['nullable', 'string'],
+            "allowed_audience_roles" => ['array', 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
     }
@@ -96,9 +99,6 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
 
         $course = $this->courseModel::findOrFailCourseByUuid($courseUuid);
 
-        $rolesUuids = $data["allowed_audience_roles"];
-        $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
-
         if (!empty($data["thumbnail_uuid"])) {
             $thumbnailUuid = $data["thumbnail_uuid"];
             $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
@@ -106,7 +106,13 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         }
 
         $course->fill($data)->update();
-        $course->allowedAudienceRoles()->sync($roleIDs);
+
+        if (!empty($data["allowed_audience_roles"])) {
+            $rolesUuids = $data["allowed_audience_roles"];
+            $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
+            $course->allowedAudienceRoles()->sync($roleIDs);
+        }
+
         $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
@@ -115,10 +121,10 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function editCourseValidation(array $data)
     {
         return Validator::make($data, [
-            "name" => ["required", "string"],
-            "description" => ["required", "string"],
-            "allowed_audience_roles" => ["required", 'exists:' . get_class($this->roleModel) . ',uuid'],
-            "thumbnail_uuid" => ["nullable", "string", 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "name" => ['required', 'string'],
+            "thumbnail_uuid" => ['nullable', 'string', 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "description" => ['nullable', 'string'],
+            "allowed_audience_roles" => ['array', 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
     }
