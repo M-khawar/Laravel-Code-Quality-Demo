@@ -113,6 +113,10 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             $course->allowedAudienceRoles()->sync($roleIDs);
         }
 
+        if (empty($data["allowed_audience_roles"])){
+            $course->allowedAudienceRoles()->detach();
+        }
+
         $course->load("allowedAudienceRoles", "thumbnail");
 
         return $course;
