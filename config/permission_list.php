@@ -5,6 +5,7 @@ return [
     "permissions" => array(
         ["name" => "course"],  // user.subscription || user.is_advisor || user.questionnaire_complete===true || user.is_enagic ||
         ["name" => "leaderboard"],  //user.is_advisor || (user.subscription && user.is_enagic))
+        ["name" => "promote"],  //user.is_advisor || (user.subscription && user.is_enagic))
         ["name" => "questionnaire.watch_answers"],  //advisor
 
         ["name" => "member.update_role"],  //advisor,  (user.is_advisor && member.advisor_id==user.id)
@@ -62,6 +63,7 @@ return [
     "enagic_permissions" => array(
         PERMISSION_COURSE,
         PERMISSION_LEADERBOARD,
+        PERMISSION_PROMOTE,
         PERMISSION_SETTINGS_LEAD_NOTIFICATION,
         PERMISSION_SETTINGS_MEMBER_NOTIFICATION,
         PERMISSION_QUICKLINKS_PRO_FB_GROUP,
@@ -73,6 +75,7 @@ return [
     "advisor_permissions" => array(
         PERMISSION_COURSE,
         PERMISSION_LEADERBOARD,
+        PERMISSION_PROMOTE,
         PERMISSION_QUESTIONNAIRE_WATCH_ANSWER,
         PERMISSION_MEMBER_UPDATE_ROLE,
         PERMISSION_MEMBER_INFO_VIEW,

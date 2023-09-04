@@ -2,6 +2,7 @@
 
 define("PERMISSION_COURSE", "course");
 define("PERMISSION_LEADERBOARD", "leaderboard");
+define("PERMISSION_PROMOTE", "promote");
 define("PERMISSION_QUESTIONNAIRE_WATCH_ANSWER", "questionnaire.watch_answers");
 
 define("PERMISSION_MEMBER_UPDATE_ROLE", "member.update_role");
