@@ -51,4 +51,6 @@ return [
     'support.categories' => 'Successfully, support categories fetched.',
     'support.ticket_submit' => 'Thanks for reaching out to support. We will respond ASAP. Thank you for your patience',
     'media.uploaded' => 'Successfully, media Uploaded.',
+    'profile_setting.updated' => 'Successfully, profile updated.',
+    'password.updated' => 'Successfully, password update.'
 ];

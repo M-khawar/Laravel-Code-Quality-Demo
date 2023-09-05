@@ -15,13 +15,17 @@ class ProfileController extends Controller
     public function updateUserInfo(Request $request)
     {
         try {
+            DB::beginTransaction();
+
             $data = $request->input();
-            $user = $this->profileRepository->updateProfile($data);
+            $validated = $this->profileRepository->updateProfileValidation($data)->validated();
+            $user = $this->profileRepository->updateProfile($validated);
+            DB::commit();
 
             return response()->success(__('messages.profile_setting.updated'), $user);
 
         } catch (\Exception $exception) {
-//            DB::rollBack();
+            DB::rollBack();
             return $this->handleException($exception);
         }
     }
@@ -29,10 +33,16 @@ class ProfileController extends Controller
     public function updatePassword(Request $request)
     {
         try {
-            dd($request->all());
+            DB::beginTransaction();
+            $data = $request->input();
+            $validated = $this->profileRepository->updatePasswordValidation($data)->validated();
+            $this->profileRepository->updatePassword($validated);
+            DB::commit();
+
+            return response()->message(__('messages.password.updated'));
 
         } catch (\Exception $exception) {
-//            DB::rollBack();
+            DB::rollBack();
             return $this->handleException($exception);
         }
     }
