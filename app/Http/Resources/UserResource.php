@@ -15,7 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = array(
             'uuid' => $this->uuid,
             'name' => $this->name,
             'email' => $this->email,
@@ -25,6 +25,12 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'avatar' => $this->avatar_path,
             'joined_at' => $this->created_at->format('M d, Y'),
+        );
+
+        $settings = (new SettingResource($this->whenLoaded("settings")));
+        $data = array_merge($data, $settings->jsonSerialize());
+
+        $relations = array(
             'address' => new AddressResource($this->whenLoaded('address')),
             'card' => [
                 'type' => @$this->pm_type,
@@ -41,10 +47,13 @@ class UserResource extends JsonResource
             'permissions' => $this->permissions,
             'has_active_subscription' => $this->has_active_subscription,
             'active_subscription' => new SubscriptionResource($this->whenLoaded('subscription')),
-        ];
+        );
+        $data = array_merge($data, $relations);
+
+        return $data;
     }
 
-    public function isOnboardingCompleted()
+    protected function isOnboardingCompleted()
     {
         $stepsState = $this->onboardingStepsState;
         unset($stepsState[FB_GROUP_JOINED]); //excluding FB_GROUP_JOINED property from onboarding steps

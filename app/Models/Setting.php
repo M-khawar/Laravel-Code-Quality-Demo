@@ -13,15 +13,17 @@ class Setting extends Model
 
     public $timestamps = false;
 
-    public function scopeSettingFilters($query, array $data)
+    public function scopeSettingFilters($query, string|array $group = null, string $property = null)
     {
-        $query->when(!empty($data['group']), fn($q) => $q->where("group", $data["group"]));
+        $group = is_array($group) ? $group : [$group];
 
-        $query->when(!empty($data['property']), function ($q) use ($data) {
-            $property = $data['property'];
+        $query->when(!empty($group), fn($q) => $q->whereIn("group", $group));
+
+        $query->when(!empty($data['property']), function ($q) use ($property) {
+//            $property = $data['property'];
 
             if (str_contains($property, '.')) {
-                [$group, $property] = $this->splitKey($data['property']);
+                [$group, $property] = $this->splitKey($property);
                 $q->where(["group" => $group, "name" => $property]);
 
             } else {

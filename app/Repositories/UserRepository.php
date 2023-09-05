@@ -39,8 +39,9 @@ class UserRepository implements UserRepositoryInterface
         $user->loadMissing(['address', 'profile'])->append("has_active_subscription");
 
         $user->loadMissing([
-            'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
-            'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+            'advisor.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
+            'affiliate.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
+            'settings' => fn($q) => $q->settingFilters(group: [ACCOUNT_SETTING_GROUP, ADVISOR_SETTING_GROUP]),
         ]);
 
         $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));
@@ -61,8 +62,8 @@ class UserRepository implements UserRepositoryInterface
         $user->append("has_active_subscription");
 
         $user->loadMissing([
-            'advisor.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
-            'affiliate.settings' => fn($q) => $q->settingFilters(['group' => ADVISOR_SETTING_GROUP]),
+            'advisor.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
+            'affiliate.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
             'roles' => fn($q) => $q->where("name", "!=", ADMIN_ROLE),
         ]);
 

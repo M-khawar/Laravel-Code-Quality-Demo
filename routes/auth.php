@@ -71,4 +71,5 @@ Route::group(['prefix' => 'profile', 'middleware' => 'auth:sanctum'], function (
     Route::post('/update-info', [ProfileController::class, 'updateUserInfo']);
     Route::post('/update-password', [ProfileController::class, 'updatePassword']);
     Route::post('/update-notification', [ProfileController::class, 'updateNotifications']);
+    Route::post('/update-advisor-settings', [ProfileController::class, 'updateAdvisorSettings']);
 });
