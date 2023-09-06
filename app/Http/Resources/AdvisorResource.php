@@ -16,7 +16,7 @@ class AdvisorResource extends JsonResource
             'instagram' => $this->instagram,
             'affiliate_code' => $this->affiliate_code,
             'phone' => $this->phone,
-            'avatar' => $this->avatar_path,
+            'avatar' => $this?->avatar?->media_path,
         ];
 
         if (@$this->settings) {

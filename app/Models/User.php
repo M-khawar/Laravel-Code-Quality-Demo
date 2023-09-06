@@ -20,7 +20,7 @@ class User extends Authenticatable
         FunnelGenerator, Searchable, HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password', 'instagram', 'phone', 'avatar', 'affiliate_code', 'funnel_type',
+        'name', 'email', 'password', 'instagram', 'phone', 'avatar_id', 'affiliate_code', 'funnel_type',
         'advisor_id', 'affiliate_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
     ];
 
@@ -42,7 +42,7 @@ class User extends Authenticatable
         'advisor_date'
     ];
 
-    protected $appends = ['avatar_path'];
+    protected $with = ["avatar"];
 
     public function scopeWhereAffiliate($query, $affiliateCode)
     {
@@ -70,15 +70,6 @@ class User extends Authenticatable
             ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
             ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
             ->first();
-    }
-
-    protected function avatarPath(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, $attributes) {
-                return $attributes['avatar_path'] = $attributes['avatar'] ?? asset('assets/images/default_avatar.png');
-            }
-        );
     }
 
     protected function hasActiveSubscription(): Attribute

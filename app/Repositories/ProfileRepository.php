@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Media;
 use Illuminate\Support\Facades\Hash;
 use App\Contracts\Repositories\{ProfileRepositoryInterface, UserRepositoryInterface};
 use Illuminate\Database\Eloquent\Model;
@@ -13,17 +14,26 @@ class ProfileRepository implements ProfileRepositoryInterface
 {
     private Model $userModel;
     private $userRepository;
+    private $mediaModel;
 
     public function __construct(Model $userModel)
     {
         $this->userModel = $userModel;
         $this->userRepository = app(UserRepositoryInterface::class);
+        $this->mediaModel = app(Media::class);
     }
 
     public function updateProfile(array $data)
     {
         $user = currentUser();
+
+        if (!empty($data['avatar_uuid'])){
+            $media = $this->mediaModel::findOrFailByUuid($data['avatar_uuid']);
+            $data["avatar_id"] = @$media->id;
+        }
+
         $user->update($data);
+        $user->refresh();
 
         $paypal = @$data["paypal"] ?? "";
         $user->updateProperty(ACCOUNT_SETTING_GROUP, PAYPAL_ACCOUNT_SETTING, $paypal);
@@ -39,6 +49,7 @@ class ProfileRepository implements ProfileRepositoryInterface
             'phone' => ['required', 'string'],
             'instagram' => ['nullable', 'string'],
             'paypal' => ['nullable', 'string'],
+            'avatar_uuid' => ['nullable', 'uuid', 'exists:' . get_class($this->mediaModel) . ',uuid'],
         ]);
     }
 

@@ -20,7 +20,7 @@ class ReferralResource extends JsonResource
             'email' => $this->email,
             'instagram' => $this->instagram,
             'affiliate_code' => $this->affiliate_code,
-            'avatar' => $this->avatar_path,
+            'avatar' => $this?->avatar?->media_path,
             'display_name' => @$this->profile->display_name,
             'display_text' => @$this->profile->display_text,
             'head_code' => @$this->profile->head_code,

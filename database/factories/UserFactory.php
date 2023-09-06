@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'instagram' => null,
             'phone' => fake()->phoneNumber(),
-            'avatar' => null,
+            'avatar_id' => null,
             'advisor_id' => config('default_settings.default_advisor'),
             'affiliate_id' => config('default_settings.default_advisor'),
             'affiliate_code' => null,

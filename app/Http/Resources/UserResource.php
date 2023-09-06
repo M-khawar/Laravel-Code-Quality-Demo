@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'affiliate_code' => $this->affiliate_code,
             'funnel_type' => $this->funnel_type,
             'phone' => $this->phone,
-            'avatar' => $this->avatar_path,
+            'avatar' => $this?->avatar?->media_path,
             'joined_at' => $this->created_at->format('M d, Y'),
         );
 

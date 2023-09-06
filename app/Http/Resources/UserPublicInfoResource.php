@@ -16,7 +16,7 @@ class UserPublicInfoResource extends JsonResource
             'affiliate_code' => $this->affiliate_code,
             'funnel_type' => $this->funnel_type,
             'phone' => $this->phone,
-            'avatar' => $this->avatar_path,
+            'avatar' => $this?->avatar?->media_path,
             'address' => new AddressResource($this->whenLoaded('address')),
             'joined_at' => $this->created_at->format('M d, Y'),
             'advisor' => new AdvisorResource($this->whenLoaded('advisor')),

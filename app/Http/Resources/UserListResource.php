@@ -19,7 +19,7 @@ class UserListResource extends JsonResource
             "uuid" => $this->uuid,
             "name" => $this->name,
             "email" => $this->email,
-            "avatar_path" => $this->avatar_path,
+            "avatar" => $this?->avatar?->media_path,
         ];
     }
 }

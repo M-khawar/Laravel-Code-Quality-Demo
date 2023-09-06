@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('instagram')->nullable();
             $table->string('phone')->nullable();
-            $table->string('avatar')->nullable();
+            $table->foreignId('avatar_id')->nullable()->constrained('media')->nullOnDelete();
             $table->foreignId('advisor_id')->nullable()->constrained('users');
             $table->foreignId('affiliate_id')->nullable()->constrained('users');
             $table->string('affiliate_code')->nullable()->index();

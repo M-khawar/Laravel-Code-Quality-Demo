@@ -91,7 +91,7 @@ class UserRepository implements UserRepositoryInterface
     public function fetchUsersIncludingAdmin(?string $queryString = null)
     {
         return $this->user::query()
-            ->select('id', 'uuid', 'name', 'email', 'avatar')
+            ->select('id', 'uuid', 'name', 'email')
             ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->paginate(20)->withQueryString();
     }
