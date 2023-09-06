@@ -53,7 +53,7 @@ trait CommonServices
 
             case "yesterday":
                 $start_date = now()->subDay(1)->startOfDay();
-                $end_date = now()->endOfDay();
+                $end_date = now()->subDay(1)->endOfDay();
                 break;
 
             case "last_seven":

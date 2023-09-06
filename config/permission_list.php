@@ -12,6 +12,7 @@ return [
         ["name" => "member.member_info.view"],  //advisor
         ["name" => "member.affiliate_info.view"],  //advisor
 
+        ["name" => "admin.complete_access"],  //admin
         ["name" => "admin.dashboard"],  //admin
         ["name" => "admin.admin_course"],  //admin
         ["name" => "admin.update_member_administration"],  //admin
@@ -42,10 +43,14 @@ return [
         ["name" => "quick_links.r2f_members"], //enagic
         ["name" => "quick_links.r2f_telegram"], //enagic
         ["name" => "quick_links.software_guide"], //enagic
-        ["name" => "quick_links.advisor_telegram"] //advisor
+        ["name" => "quick_links.advisor_telegram"], //advisor
+
+        ["name" => "dashboard.hide_onboarding"], //enagic
+
     ),
 
     "admin_permissions" => array(
+        PERMISSION_ADMIN_COMPLETE_ACCESS,
         PERMISSION_ADMIN_DASHBOARD,
         PERMISSION_ADMIN_COURSE,
         PERMISSION_UPDATE_MEMBER_ADMINISTRATION,
@@ -70,6 +75,7 @@ return [
         PERMISSION_QUICKLINKS_R2F_MEMBERS,
         PERMISSION_QUICKLINKS_R2F_TELEGRAM,
         PERMISSION_QUICKLINKS_SOFTWARE_GUID,
+        PERMISSION_DASHBOARD_HIDE_ONBOARDING,
     ),
 
     "advisor_permissions" => array(
