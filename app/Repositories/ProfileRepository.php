@@ -76,12 +76,14 @@ class ProfileRepository implements ProfileRepositoryInterface
 
     public function updateAdvisorSetting(array $data)
     {
-        $user= currentUser();
-        $user->updateProperty(ADVISOR_SETTING_GROUP, SCHEDULING_LINK_ATTR, $data["scheduling_link"]);
-        $user->updateProperty(ADVISOR_SETTING_GROUP, FB_ACCOUNT, $data["facebook_link"]);
-        $user->updateProperty(ADVISOR_SETTING_GROUP, ADVISOR_MESSAGE, $data["advisor_message"]);
+        $user = currentUser();
 
-        $advisorSettings= $user->settingFilters(group: ADVISOR_SETTING_GROUP)->get();
+        list("scheduling_link" => $schedulingLink, "facebook_link" => $fbAccount, "advisor_message" => $advisorMessage) = $data;
+
+        $properties = [SCHEDULING_LINK_ATTR => $schedulingLink, FB_ACCOUNT => $fbAccount, ADVISOR_MESSAGE => $advisorMessage];
+        $user->updateMultipleProperties(ADVISOR_SETTING_GROUP, $properties);
+
+        $advisorSettings = $user->settingFilters(group: ADVISOR_SETTING_GROUP)->get();
 
         return $advisorSettings;
     }

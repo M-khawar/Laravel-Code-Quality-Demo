@@ -19,7 +19,7 @@ class ProfileController extends Controller
             DB::beginTransaction();
 
             $data = $request->input();
-            $validated = $this->profileRepository->updateProfileValidation($data)->validated();
+            $validated = $this->profileRepository->updateProfileValidation($data)->validate();
             $user = $this->profileRepository->updateProfile($validated);
             DB::commit();
 
@@ -36,7 +36,7 @@ class ProfileController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->input();
-            $validated = $this->profileRepository->updatePasswordValidation($data)->validated();
+            $validated = $this->profileRepository->updatePasswordValidation($data)->validate();
             $this->profileRepository->updatePassword($validated);
             DB::commit();
 
@@ -65,7 +65,7 @@ class ProfileController extends Controller
 
             DB::beginTransaction();
             $data = $request->input();
-            $validated = $this->profileRepository->updateAdvisorSettingValidation($data)->validated();
+            $validated = $this->profileRepository->updateAdvisorSettingValidation($data)->validate();
             $advisorSettings= $this->profileRepository->updateAdvisorSetting($validated);
             DB::commit();
 

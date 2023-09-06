@@ -12,16 +12,24 @@ trait UserSetting
         return $this->hasMany(Setting::class);
     }
 
-    public function settingFilters(array $data)
+    public function settingFilters(string|array $group = null, string $property = null)
     {
         $query = $this->settings();
 
-        $query->when(!empty($data['group']), fn($q) => $q->where("group", $data["group"]));
+        $group = is_array($group) ? $group : [$group];
 
-        $query->when(!empty($data['property']), function ($q) use ($data) {
-            [$group, $property] = $this->splitKey($data['property']);
 
-            $q->where(["group" => $group, "name" => $property]);
+        $query->when(!empty($group), fn($q) => $q->whereIn("group", $group));
+
+        $query->when(!empty($data['property']), function ($q) use ($property) {
+
+            if (str_contains($property, '.')) {
+                [$group, $property] = $this->splitKey($property);
+                $q->where(["group" => $group, "name" => $property]);
+
+            } else {
+                $q->where("name", $property);
+            }
         });
 
         return $query;
@@ -55,6 +63,35 @@ trait UserSetting
             );
     }
 
+    /**
+     * It will update single group's multiple properties
+     */
+    public function updateMultipleProperties(string $group, string|array $properties)
+    {
+        $values = [];
+
+        if (!is_array($properties)) {
+            $properties = [$properties];
+        }
+
+        $keys = array_keys($properties);
+        $isAssociativeArr = $keys != array_keys($keys) ? true : false;
+
+        if ($isAssociativeArr) {
+            $values = $properties;
+            $properties = $keys;
+        }
+
+        $settings = $this->settings()
+            ->where('group', $group)
+            ->whereIn('name', $properties)
+            ->get();
+
+        $settings->each->mapPropertyValues($values);
+
+        $this->settings()->upsert($settings->toArray(), ["id"]);
+    }
+
     public function updateProperty(string $group, string $name, $payload)
     {
         $setting = $this->settings()
@@ -76,5 +113,16 @@ trait UserSetting
         return $this->settings()->where('group', $group)
             ->where('name', $name)
             ->delete();
+    }
+
+    /**
+     * @param array $properties
+     * it should be associative i.e. ["property-name"=> "property-value"]
+     */
+    public function mapPropertyValues(array $properties)
+    {
+        $propertyValue = @$properties[$this->name];
+
+        $this->value = $propertyValue;
     }
 }
