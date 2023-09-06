@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\ProfileRepositoryInterface;
+use App\Http\Resources\SettingResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -61,10 +62,20 @@ class ProfileController extends Controller
     public function updateAdvisorSettings(Request $request)
     {
         try {
-            dd($request->all());
+
+            DB::beginTransaction();
+            $data = $request->input();
+            $validated = $this->profileRepository->updateAdvisorSettingValidation($data)->validated();
+            $advisorSettings= $this->profileRepository->updateAdvisorSetting($validated);
+            DB::commit();
+
+            $advisorSettings= new SettingResource($advisorSettings);
+
+            return response()->success(__('messages.advisor_setting.updated'), $advisorSettings);
+
 
         } catch (\Exception $exception) {
-//            DB::rollBack();
+            DB::rollBack();
             return $this->handleException($exception);
         }
     }

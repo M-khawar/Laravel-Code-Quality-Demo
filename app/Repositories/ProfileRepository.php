@@ -27,7 +27,7 @@ class ProfileRepository implements ProfileRepositoryInterface
     {
         $user = currentUser();
 
-        if (!empty($data['avatar_uuid'])){
+        if (!empty($data['avatar_uuid'])) {
             $media = $this->mediaModel::findOrFailByUuid($data['avatar_uuid']);
             $data["avatar_id"] = @$media->id;
         }
@@ -73,4 +73,26 @@ class ProfileRepository implements ProfileRepositoryInterface
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
     }
+
+    public function updateAdvisorSetting(array $data)
+    {
+        $user= currentUser();
+        $user->updateProperty(ADVISOR_SETTING_GROUP, SCHEDULING_LINK_ATTR, $data["scheduling_link"]);
+        $user->updateProperty(ADVISOR_SETTING_GROUP, FB_ACCOUNT, $data["facebook_link"]);
+        $user->updateProperty(ADVISOR_SETTING_GROUP, ADVISOR_MESSAGE, $data["advisor_message"]);
+
+        $advisorSettings= $user->settingFilters(group: ADVISOR_SETTING_GROUP)->get();
+
+        return $advisorSettings;
+    }
+
+    public function updateAdvisorSettingValidation(array $data)
+    {
+        return Validator::make($data, [
+            'scheduling_link' => ['required', 'string', 'max:70'],
+            'facebook_link' => ['nullable', 'string', 'max:70'],
+            'advisor_message' => ['nullable', 'string', 'max:190'],
+        ]);
+    }
+
 }

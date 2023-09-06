@@ -8,6 +8,8 @@ define('NOTIFICATION_SETTING_GROUP', 'notifications');
 define('SCHEDULING_LINK_ATTR', 'scheduling_link');
 define('FB_GROUP_JOINED', 'joined_facebook_group');
 define('PAYPAL_ACCOUNT_SETTING', 'paypal_account');
+define('FB_ACCOUNT', 'facebook_link');
+define('ADVISOR_MESSAGE', 'advisor_message');
 
 define('WISTIA', 'wistia');
 define('VIMEO', 'vimeo');

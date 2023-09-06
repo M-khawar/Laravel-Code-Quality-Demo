@@ -9,4 +9,8 @@ interface ProfileRepositoryInterface
 
     public function updateProfileValidation(array $data);
 
+    public function updatePassword(array $data);
+
+    public function updatePasswordValidation(array $data);
+
 }
