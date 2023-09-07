@@ -92,14 +92,14 @@ trait UserSetting
         $this->settings()->upsert($settings->toArray(), ["id"]);
     }
 
-    public function updateProperty(string $group, string $name, $payload)
+    public function updateProperty(string $group, string $property, $payload)
     {
         $setting = $this->settings()
             ->where('group', $group)
-            ->where('name', $name)
+            ->where('name', $property)
             ->first();
 
-        throw_if(!$setting, "Setting property `{$group}.{$name}` not found");
+        throw_if(!$setting, "Setting property `{$group}.{$property}` not found");
 
         $setting->update([
             'value' => $payload,

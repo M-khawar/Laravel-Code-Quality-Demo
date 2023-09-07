@@ -42,7 +42,7 @@ class User extends Authenticatable
         'advisor_date'
     ];
 
-    protected $with = ["avatar"];
+//    protected $with = ["avatar"];
 
     public function scopeWhereAffiliate($query, $affiliateCode)
     {

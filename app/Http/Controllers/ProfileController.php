@@ -51,10 +51,16 @@ class ProfileController extends Controller
     public function updateNotifications(Request $request)
     {
         try {
-            dd($request->all());
+            DB::beginTransaction();
 
+            $data = $request->input();
+            $validated = $this->profileRepository->updateNotificationSettingValidation($data)->validate();
+            $notificationSettings = $this->profileRepository->updateNotificationSetting($validated);
+            DB::commit();
+
+            return response()->success(__('messages.notification_setting.updated'), $notificationSettings);
         } catch (\Exception $exception) {
-//            DB::rollBack();
+            DB::rollBack();
             return $this->handleException($exception);
         }
     }
@@ -66,10 +72,10 @@ class ProfileController extends Controller
             DB::beginTransaction();
             $data = $request->input();
             $validated = $this->profileRepository->updateAdvisorSettingValidation($data)->validate();
-            $advisorSettings= $this->profileRepository->updateAdvisorSetting($validated);
+            $advisorSettings = $this->profileRepository->updateAdvisorSetting($validated);
             DB::commit();
 
-            $advisorSettings= new SettingResource($advisorSettings);
+            $advisorSettings = new SettingResource($advisorSettings);
 
             return response()->success(__('messages.advisor_setting.updated'), $advisorSettings);
 

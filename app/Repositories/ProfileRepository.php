@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Media;
+use App\Models\{Media, Setting};
 use Illuminate\Support\Facades\Hash;
 use App\Contracts\Repositories\{ProfileRepositoryInterface, UserRepositoryInterface};
 use Illuminate\Database\Eloquent\Model;
@@ -94,6 +94,26 @@ class ProfileRepository implements ProfileRepositoryInterface
             'scheduling_link' => ['required', 'string', 'max:70'],
             'facebook_link' => ['nullable', 'string', 'max:70'],
             'advisor_message' => ['nullable', 'string', 'max:190'],
+        ]);
+    }
+
+    public function updateNotificationSetting(array $data)
+    {
+        $user = currentUser();
+
+        list("notification_key" => $property, "notification_value" => $value) = $data;
+        $user->updateProperty(NOTIFICATION_SETTING_GROUP, $property, $value);
+
+        return $this->userRepository->getNotifications($user);
+    }
+
+    public function updateNotificationSettingValidation(array $data)
+    {
+        $userId = currentUserId();
+
+        return Validator::make($data, [
+            'notification_key' => ['required', 'string', 'exists:' . Setting::class . ',name,user_id,' . $userId],
+            'notification_value' => ['required', 'boolean',],
         ]);
     }
 

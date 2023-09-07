@@ -21,7 +21,14 @@ class UserRepository implements UserRepositoryInterface
         $this->roleModel = app(config('permission.models.role'));
     }
 
-    protected function getNotifications(): array
+    public function __call($method, $parameters)
+    {
+        throw_if(!in_array($method, ['getNotifications']), "Method {$method} not found in " . static::class);
+
+        return $this->$method(...$parameters);
+    }
+
+    protected function getNotifications(?Model $user = null): array
     {
         $user = $user ?? auth()->user();
         $notifications = $user->getPropertiesInGroup(NOTIFICATION_SETTING_GROUP);

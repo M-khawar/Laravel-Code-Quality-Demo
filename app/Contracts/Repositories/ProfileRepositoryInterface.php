@@ -13,4 +13,12 @@ interface ProfileRepositoryInterface
 
     public function updatePasswordValidation(array $data);
 
+    public function updateAdvisorSetting(array $data);
+
+    public function updateAdvisorSettingValidation(array $data);
+
+    public function updateNotificationSetting(array $data);
+
+    public function updateNotificationSettingValidation(array $data);
+
 }
