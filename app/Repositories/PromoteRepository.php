@@ -39,16 +39,18 @@ class PromoteRepository implements PromoteRepositoryInterface
     {
         $views = PageView::distinct('ip')
             ->where(["affiliate_id" => $userId, "funnel_step" => WELCOME_FUNNEL_STEP])
-            ->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType))
+            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->whereBetween("created_at", array($startDate, $endDate))
             ->count();
 
         $leads = Lead::where("affiliate_id", $userId)
             ->whereBetween("created_at", array($startDate, $endDate))
+            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->count();
 
         $members = User::where("affiliate_id", $userId)->excludeAdmins()
             ->whereBetween("created_at", array($startDate, $endDate))
+            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->count();
 
         return [
