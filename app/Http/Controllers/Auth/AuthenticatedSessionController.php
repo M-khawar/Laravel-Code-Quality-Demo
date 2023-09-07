@@ -49,7 +49,7 @@ class AuthenticatedSessionController extends Controller
     {
         try {
             $user = currentUser();
-            $user->tokens()->delete();
+            $user->currentAccessToken()->delete();
 
             return response()->message(__('auth.logout.success'));
 
