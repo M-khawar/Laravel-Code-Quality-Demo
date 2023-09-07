@@ -33,4 +33,16 @@ class Setting extends Model
 
         return $query;
     }
+
+    /**
+     * @param array $properties
+     * it should be associative i.e. ["property-name"=> "property-value"]
+     * @return void
+     */
+    public function mapValueForMassUpdate(array $properties)
+    {
+        $propertyValue = @$properties[$this->name];
+
+        $this->value = $propertyValue;
+    }
 }

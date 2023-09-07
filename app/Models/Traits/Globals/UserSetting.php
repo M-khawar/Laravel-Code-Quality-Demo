@@ -87,7 +87,7 @@ trait UserSetting
             ->whereIn('name', $properties)
             ->get();
 
-        $settings->each->mapPropertyValues($values);
+        $settings->each->mapValueForMassUpdate($values);
 
         $this->settings()->upsert($settings->toArray(), ["id"]);
     }
@@ -115,14 +115,5 @@ trait UserSetting
             ->delete();
     }
 
-    /**
-     * @param array $properties
-     * it should be associative i.e. ["property-name"=> "property-value"]
-     */
-    public function mapPropertyValues(array $properties)
-    {
-        $propertyValue = @$properties[$this->name];
 
-        $this->value = $propertyValue;
-    }
 }
