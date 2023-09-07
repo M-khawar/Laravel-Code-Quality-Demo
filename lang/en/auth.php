@@ -23,7 +23,7 @@ return [
     'step_validation.accepted' => 'All data in `:step_name` step is valid, not error found.',
     'current_user_info.fetched' => 'Successfully, current authenticated user info fetched.',
     'roles.fetched' => 'Successfully, available roles fetched.',
-    'roles.access_denied' => 'Unauthorized',
+    'roles.access_denied' => 'Unauthorized: Access Denied!',
     'user_administrator.updated' => 'Successfully, user administrator updated.',
     'roles.updated' => 'Successfully, assigned roles updated.',
     'password_not_matched'=> 'Password not matched.'

@@ -65,13 +65,15 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         $this->validatePermission();
 
-        $thumbnailUuid = $data["thumbnail_uuid"];
-        $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
-        $data["thumbnail_id"] = @$media->id;
+        if (!empty($data["thumbnail_uuid"])) {
+            $thumbnailUuid = $data["thumbnail_uuid"];
+            $media = $this->mediaModel::findOrFailByUuid($thumbnailUuid);
+            $data["thumbnail_id"] = @$media->id;
+        }
 
         $course = $this->courseModel::create($data);
 
-        if (!empty($data["thumbnail_uuid"])) {
+        if (!empty($data["allowed_audience_roles"])) {
             $rolesUuids = $data["allowed_audience_roles"];
             $roleIDs = $this->roleModel::WhereUuidIn($rolesUuids)->pluck('id')->toArray();
             $course->allowedAudienceRoles()->attach($roleIDs);
@@ -86,8 +88,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         return Validator::make($data, [
             "name" => ['required', 'string'],
-            "thumbnail_uuid" => ['required', 'string', 'exists:' . get_class($this->mediaModel) . ',uuid'],
             "description" => ['nullable', 'string'],
+            "thumbnail_uuid" => ['nullable', 'uuid', 'exists:' . get_class($this->mediaModel) . ',uuid'],
             "allowed_audience_roles" => ['array', 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
 
@@ -113,7 +115,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             $course->allowedAudienceRoles()->sync($roleIDs);
         }
 
-        if (empty($data["allowed_audience_roles"])){
+        if (empty($data["allowed_audience_roles"])) {
             $course->allowedAudienceRoles()->detach();
         }
 
@@ -126,7 +128,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         return Validator::make($data, [
             "name" => ['required', 'string'],
-            "thumbnail_uuid" => ['nullable', 'string', 'exists:' . get_class($this->mediaModel) . ',uuid'],
+            "thumbnail_uuid" => ['nullable', 'uuid', 'exists:' . get_class($this->mediaModel) . ',uuid'],
             "description" => ['nullable', 'string'],
             "allowed_audience_roles" => ['array', 'exists:' . get_class($this->roleModel) . ',uuid'],
         ]);
@@ -168,7 +170,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function updateCoursePermissionsValidation(array $data)
     {
         return Validator::make($data, [
-            "course_uuid" => ["required", "string", "exists:" . get_class($this->courseModel) . ",uuid"],
+            "course_uuid" => ["required", "uuid", "exists:" . get_class($this->courseModel) . ",uuid"],
             "toggleable_audience_role" => ["required", "string", "exists:" . get_class($this->roleModel) . ",uuid"],
         ]);
     }
@@ -189,7 +191,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function createSectionValidation(array $data)
     {
         return Validator::make($data, [
-            "course_uuid" => ["required", "string", "exists:" . get_class($this->courseModel) . ",uuid"],
+            "course_uuid" => ["required", "uuid", "exists:" . get_class($this->courseModel) . ",uuid"],
             "name" => ["required", "string"],
             "description" => ["nullable", "string"],
         ]);
@@ -211,7 +213,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function editSectionValidation(array $data)
     {
         return Validator::make($data, [
-            "section_uuid" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "section_uuid" => ["required", "uuid", "exists:" . get_class($this->sectionModel) . ",uuid"],
             "name" => ["required", "string"],
             "description" => ["nullable", "string"],
         ]);
@@ -248,8 +250,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function sortSectionsValidation(array $data)
     {
         return Validator::make($data, [
-            "source_section" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
-            "destination_section" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "source_section" => ["required", "uuid", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "destination_section" => ["required", "uuid", "exists:" . get_class($this->sectionModel) . ",uuid"],
             "action_type" => ["required", "string", Rule::in(self::SORT_ACTIONS_TYPE)],
         ]);
     }
@@ -275,7 +277,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function createLessonValidation(array $data)
     {
         return Validator::make($data, [
-            "section_uuid" => ["required", "string", "exists:" . get_class($this->sectionModel) . ",uuid"],
+            "section_uuid" => ["required", "uuid", "exists:" . get_class($this->sectionModel) . ",uuid"],
             "name" => ["required", "string"],
             "description" => ["nullable", "string"],
             "resources" => ["nullable", "string"],
@@ -305,7 +307,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function editLessonValidation(array $data)
     {
         return Validator::make($data, [
-            "lesson_uuid" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "lesson_uuid" => ["required", "uuid", "exists:" . get_class($this->lessonModel) . ",uuid"],
             "name" => ["required", "string"],
             "description" => ["nullable", "string"],
             "resources" => ["nullable", "string"],
@@ -361,8 +363,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     public function sortLessonsValidation(array $data)
     {
         return Validator::make($data, [
-            "source_lesson" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
-            "destination_lesson" => ["required", "string", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "source_lesson" => ["required", "uuid", "exists:" . get_class($this->lessonModel) . ",uuid"],
+            "destination_lesson" => ["required", "uuid", "exists:" . get_class($this->lessonModel) . ",uuid"],
             "action_type" => ["required", "string", Rule::in(self::SORT_ACTIONS_TYPE)],
         ]);
     }
