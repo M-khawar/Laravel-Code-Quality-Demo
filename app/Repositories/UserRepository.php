@@ -46,7 +46,7 @@ class UserRepository implements UserRepositoryInterface
     protected function getPermissions(User $user): array
     {
         if ($user->hasRole(ADMIN_ROLE)) {
-            return $this->permissionModel::all()->pluck("name")->toArray();
+            return $this->permissionModel::orderBy("name", "asc")->pluck("name")->toArray();
         } else {
             return $user->getAllPermissions()->pluck("name")->toArray();
         }
