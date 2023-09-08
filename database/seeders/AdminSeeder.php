@@ -54,7 +54,7 @@ class AdminSeeder extends Seeder
 
         $user = User::create($admin);
         $user->profile()->create($adminProfile);
-        $user->assignRole(ADMIN_ROLE, ALL_MEMBER_ROLE, ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE, CORE_ROLE, ACTIVE_RECRUITER_ROLE);
+        $user->assignRole(ADMIN_ROLE);
 
         event(new Registered($user));
 
@@ -64,19 +64,18 @@ class AdminSeeder extends Seeder
 
     private function updateSettings(User $user)
     {
-        $user->updateProperty('notifications', 'lead_email', false);
-        $user->updateProperty('notifications', 'lead_sms', true);
-        $user->updateProperty('notifications', 'mem_email', false);
-        $user->updateProperty('notifications', 'mem_sms', true);
+        $properties = ["lead_email" => false, "lead_sms" => true, "mem_email" => false, "mem_sms" => true];
+        $user->updateMultipleProperties(NOTIFICATION_SETTING_GROUP, $properties);
 
-        $user->updateProperty('onboarding', 'welcome_video_watched', false);
-        $user->updateProperty('onboarding', 'questionnaire_completed', false);
-        $user->updateProperty('onboarding', 'meeting_scheduled', false);
-        $user->updateProperty('onboarding', 'joined_facebook_group', false);
+        $properties = ["welcome_video_watched" => false, "questionnaire_completed" => false, "meeting_scheduled" => false, "joined_facebook_group" => false];
+        $user->updateMultipleProperties(ONBOARDING_GROUP_ALIAS, $properties);
 
-        $user->updateProperty('adviser_settings', 'scheduling_link', "https://calendly.com/muhammad-khawar/30min");
-        $user->updateProperty('adviser_settings', 'facebook_link', "https://www.facebook.com/colten.shea.echave/");
-        $user->updateProperty('adviser_settings', 'advisor_message', "Hey friend, I can't wait to connect with you & give you a roadmap for success!!!");
+        $properties = [
+            "scheduling_link" => "https://calendly.com/muhammad-khawar/30min",
+            "facebook_link" => "https://www.facebook.com/colten.shea.echave/",
+            "advisor_message" => "Hey friend, I can't wait to connect with you & give you a roadmap for success!!!"
+        ];
+        $user->updateMultipleProperties(ADVISOR_SETTING_GROUP, $properties);
 
         $user->updateProperty('promote', 'promote_watched', false);
     }

@@ -13,12 +13,14 @@ class UserRepository implements UserRepositoryInterface
     protected $onboardingRepository;
     protected Model $user;
     private $roleModel;
+    private $permissionModel;
 
     public function __construct(Model $user)
     {
         $this->onboardingRepository = app(OnboardingRepositoryInterface::class);
         $this->user = $user;
         $this->roleModel = app(config('permission.models.role'));
+        $this->permissionModel = app(config('permission.models.permission'));
     }
 
     public function __call($method, $parameters)
@@ -41,6 +43,15 @@ class UserRepository implements UserRepositoryInterface
         return $notificationsData;
     }
 
+    protected function getPermissions(User $user): array
+    {
+        if ($user->hasRole(ADMIN_ROLE)) {
+            return $this->permissionModel::all()->pluck("name")->toArray();
+        } else {
+            return $user->getAllPermissions()->pluck("name")->toArray();
+        }
+    }
+
     public function getUserInfo(User $user): UserResource
     {
         $user->loadMissing(['address', 'profile'])->append("has_active_subscription");
@@ -57,7 +68,7 @@ class UserRepository implements UserRepositoryInterface
             $user->setRelation('subscription', $user->subscription(config('cashier.subscription_name')));
         }
 
-        $user->setRelation('permissions', $user->getAllPermissions()->pluck("name")->toArray());
+        $user->setRelation('permissions', $this->getPermissions($user));
         $user->setRelation('notifications', $this->getNotifications());
 
         return new UserResource($user);
