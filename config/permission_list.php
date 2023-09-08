@@ -3,6 +3,13 @@
 
 return [
     "permissions" => array(
+        ["name" => "access_level.admin"],
+        ["name" => "access_level.enagic"],
+        ["name" => "access_level.trifecta"],
+        ["name" => "access_level.advisor"],
+        ["name" => "access_level.core"],
+        ["name" => "access_level.active_recruiter"],
+
         ["name" => "course"],  // user.subscription || user.is_advisor || user.questionnaire_complete===true || user.is_enagic ||
         ["name" => "leaderboard"],  //user.is_advisor || (user.subscription && user.is_enagic))
         ["name" => "promote"],  //user.is_advisor || (user.subscription && user.is_enagic))
@@ -12,7 +19,6 @@ return [
         ["name" => "member.member_info.view"],  //advisor
         ["name" => "member.affiliate_info.view"],  //advisor
 
-        ["name" => "admin.complete_access"],  //admin
         ["name" => "admin.dashboard"],  //admin
         ["name" => "admin.admin_course"],  //admin
         ["name" => "admin.update_member_administration"],  //admin
@@ -45,12 +51,10 @@ return [
         ["name" => "quick_links.software_guide"], //enagic
         ["name" => "quick_links.advisor_telegram"], //advisor
 
-        ["name" => "dashboard.hide_onboarding"], //enagic
-
     ),
 
     "admin_permissions" => array(
-        PERMISSION_ADMIN_COMPLETE_ACCESS,
+        PERMISSION_LEVEL_ADMIN,
         PERMISSION_ADMIN_DASHBOARD,
         PERMISSION_ADMIN_COURSE,
         PERMISSION_UPDATE_MEMBER_ADMINISTRATION,
@@ -66,6 +70,7 @@ return [
     ),
 
     "enagic_permissions" => array(
+        PERMISSION_LEVEL_ENAGIC,
         PERMISSION_COURSE,
         PERMISSION_LEADERBOARD,
         PERMISSION_PROMOTE,
@@ -75,10 +80,10 @@ return [
         PERMISSION_QUICKLINKS_R2F_MEMBERS,
         PERMISSION_QUICKLINKS_R2F_TELEGRAM,
         PERMISSION_QUICKLINKS_SOFTWARE_GUID,
-        PERMISSION_DASHBOARD_HIDE_ONBOARDING,
     ),
 
     "advisor_permissions" => array(
+        PERMISSION_LEVEL_ADVISOR,
         PERMISSION_COURSE,
         PERMISSION_LEADERBOARD,
         PERMISSION_PROMOTE,

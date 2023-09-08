@@ -9,7 +9,6 @@ define("PERMISSION_MEMBER_UPDATE_ROLE", "member.update_role");
 define("PERMISSION_MEMBER_INFO_VIEW", "member.member_info.view");
 define("PERMISSION_MEMBER_AFFILIATE_INFO_VIEW", "member.affiliate_info.view");
 
-define("PERMISSION_ADMIN_COMPLETE_ACCESS", "admin.complete_access");
 define("PERMISSION_ADMIN_DASHBOARD", "admin.dashboard");
 define("PERMISSION_ADMIN_COURSE", "admin.admin_course");
 define("PERMISSION_UPDATE_MEMBER_ADMINISTRATION", "admin.update_member_administration");
@@ -42,7 +41,9 @@ define("PERMISSION_QUICKLINKS_R2F_TELEGRAM", "quick_links.r2f_telegram");
 define("PERMISSION_QUICKLINKS_SOFTWARE_GUID", "quick_links.software_guide");
 define("PERMISSION_QUICKLINKS_ADVISOR_TELEGRAM", "quick_links.advisor_telegram");
 
-define("PERMISSION_DASHBOARD_HIDE_ONBOARDING", "dashboard.hide_onboarding");
+define("PERMISSION_LEVEL_ADMIN", "access_level.admin");
+define("PERMISSION_LEVEL_ENAGIC", "access_level.enagic");
+define("PERMISSION_LEVEL_ADVISOR", "access_level.advisor");
 
 
 
