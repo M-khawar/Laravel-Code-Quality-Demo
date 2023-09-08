@@ -30,7 +30,8 @@ class UserController extends Controller
     {
         try {
             $query = request()->input('query');
-            $users = $this->userRepository->fetchUsersIncludingAdmin($query);
+            $filterAdvisors = request()->input('filter_advisors');
+            $users = $this->userRepository->fetchUsersIncludingAdmin($query, $filterAdvisors);
             $users = (UserListResource::collection($users))->response()->getData(true);
 
             return response()->success(__('messages.users.fetched'), $users);

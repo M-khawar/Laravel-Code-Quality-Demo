@@ -95,11 +95,12 @@ class UserRepository implements UserRepositoryInterface
             ->firstOrFail();
     }
 
-    public function fetchUsersIncludingAdmin(?string $queryString = null)
+    public function fetchUsersIncludingAdmin(?string $queryString = null, ?bool $filterAdvisor = false)
     {
         return $this->user::query()
             ->select('id', 'uuid', 'name', 'email')
             ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
+            ->when($filterAdvisor, fn($q) => $q->whereHas("roles", fn($q) => $q->where("name", ADVISOR_ROLE)))
             ->paginate(20)->withQueryString();
     }
 
