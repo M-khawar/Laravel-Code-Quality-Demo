@@ -43,7 +43,10 @@ define("PERMISSION_QUICKLINKS_ADVISOR_TELEGRAM", "quick_links.advisor_telegram")
 
 define("PERMISSION_LEVEL_ADMIN", "access_level.admin");
 define("PERMISSION_LEVEL_ENAGIC", "access_level.enagic");
+define("PERMISSION_LEVEL_TRIGECTA", "access_level.trifecta");
 define("PERMISSION_LEVEL_ADVISOR", "access_level.advisor");
+define("PERMISSION_LEVEL_CORE", "access_level.core");
+define("PERMISSION_LEVEL_ACTIVE_RECRUITER", "access_level.active_recruiter");
 
 
 

@@ -236,8 +236,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $actionType = $actionType ?? SORT_AFTER;   //setting default actionType value = "after"
 
         $sections = $this->sectionModel::whereIn("uuid", [$sourceSection, $destinationSection])->get();
-        $source = $sections[0];
-        $destination = $sections[1];
+        $source = $sections->where("uuid", $sourceSection)->first();    //collection filter
+        $destination = $sections->where("uuid", $destinationSection)->first();   //collection filter
 
 
         $actionType == SORT_AFTER ? $source->moveAfter($destination) : $source->moveBefore($destination);
@@ -350,8 +350,8 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
         $actionType = $actionType ?? SORT_AFTER;   //setting default actionType value = "after"
 
         $lessons = $this->lessonModel::whereIn("uuid", [$sourceSection, $destinationSection])->get();
-        $source = $lessons[0];
-        $destination = $lessons[1];
+        $source = $lessons->where("uuid", $sourceSection)->first();                 //collection filter
+        $destination = $lessons->where("uuid", $destinationSection)->first();       //collection filter
 
         $actionType == SORT_AFTER ? $source->moveAfter($destination) : $source->moveBefore($destination);
 
