@@ -2,6 +2,7 @@
 
 namespace App\Packages\StripeWrapper\SubscriptionActions;
 
+use Illuminate\Support\Facades\Validator;
 use App\Models\{SubscriptionPlan, User};
 use Exception;
 
@@ -10,6 +11,7 @@ class ChangeSubscriptionAction extends StripeSubscriptionAbstract
     public function handle(User $user, array $data)
     {
 //        $user = currentUser();
+        $this->changeSubscriptionValidation($data)->validate();
 
         if (!$user->subscribed($this->subscription_name)) {
             throw new Exception("You are not subscribed to any subscription yet");
@@ -27,5 +29,12 @@ class ChangeSubscriptionAction extends StripeSubscriptionAbstract
         $subscription->refresh();
 
         return $subscription;
+    }
+
+    protected function changeSubscriptionValidation(array $data)
+    {
+        return Validator::make($data, [
+            'plan_id' => ['required', 'uuid', 'exists:' . SubscriptionPlan::class . ',uuid'],
+        ]);
     }
 }

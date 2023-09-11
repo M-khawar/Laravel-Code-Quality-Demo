@@ -57,7 +57,7 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
     protected function buySubscriptionValidation(array $data)
     {
         return Validator::make($data, [
-            'plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
+            'plan_id' => ['required', 'uuid', 'exists:' . SubscriptionPlan::class . ',uuid'],
             'payment_method_id' => 'required'
         ]);
     }

@@ -112,4 +112,24 @@ class SubscriptionController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function resubscribe(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $input = $request->input();
+
+            $subscription = $this->resubscribeSubscription()->handle($user, $input);
+            $subscription->loadMissing('subscriptionPlan');
+
+            $data = [
+                'active_subscription' => new SubscriptionResource($subscription),
+            ];
+
+            return response()->success(__('subscription.resubscribed.success', ['plan_interval' => $subscription?->subscriptionPlan?->meta['interval']]), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }

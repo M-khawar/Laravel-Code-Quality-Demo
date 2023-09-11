@@ -7,6 +7,7 @@ use App\Packages\StripeWrapper\SubscriptionActions\{
     BuySubscriptionAction,
     CancelSubscriptionAction,
     ChangeSubscriptionAction,
+    ResubscribeSubscriptionAction,
     ResumeSubscriptionAction
 };
 
@@ -36,5 +37,10 @@ trait StripeFactoryTrait
     public function addNewCard()
     {
         return app(AddPaymentCardAction::class);
+    }
+
+    public function resubscribeSubscription()
+    {
+        return app(ResubscribeSubscriptionAction::class);
     }
 }
