@@ -13,19 +13,17 @@ class AddPaymentCardAction
     public function handle(User $user, array $data)
     {
         $validated = $this->paymentMethodValidation($data)->validate();
-
         $paymentMethodId = $validated["payment_method_id"];
 
         //get existing stripe customer or create new if not available
         $user->createOrGetStripeCustomer();
 
-        //attach payment method with customer and set it as default payment method
-        $user->addPaymentMethod($paymentMethodId);
-
         if ($user instanceof DeleteOldCardOnUpdate) {
-            $user->paymentMethods()->each->delete();
+            $user->deletePaymentMethods();
         }
 
+        //attach payment method with customer and set it as default payment method
+        $user->addPaymentMethod($paymentMethodId);
         $user->updateDefaultPaymentMethod($paymentMethodId);
 
         return $this->returnableResponse($user);
