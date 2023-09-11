@@ -24,6 +24,8 @@ class ChangeSubscriptionAction extends StripeSubscriptionAbstract
         $subscription = $user->subscription($this->subscription_name)->swap([$plan->meta["stripe_price_id"]]);
         $subscription->fill(['subscription_plan_id' => $plan->id])->save();
 
+        $subscription->refresh();
+
         return $subscription;
     }
 }

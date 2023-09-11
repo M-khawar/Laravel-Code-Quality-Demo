@@ -16,3 +16,6 @@ Route::post('/subscription/cancel', [SubscriptionController::class, 'cancelSubsc
 
 Route::post('/subscription/resume', [SubscriptionController::class, 'resumeSubscription'])
     ->middleware('auth:sanctum');
+
+Route::post('/subscription/change-plan', [SubscriptionController::class, 'changeSubscriptionPlan'])
+    ->middleware('auth:sanctum');

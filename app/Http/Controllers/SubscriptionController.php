@@ -14,6 +14,7 @@ class SubscriptionController extends Controller
     use StripeFactoryTrait {
         cancelSubscription as cancelStripeSubscription;
         resumeSubscription as resumeStripeSubscription;
+        changeSubscriptionPlan as changeSubscription;
     }
 
     public function createClientSecret(StripeFactory $stripeFactory)
@@ -75,5 +76,25 @@ class SubscriptionController extends Controller
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
         return response()->success(__('subscription.plans_retrieved.success'), ['subscription_plans' => $subscriptionPlans]);
 
+    }
+
+    public function changeSubscriptionPlan(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $input = $request->input();
+
+            $subscription = $this->changeSubscription()->handle($user, $input);
+            $subscription->loadMissing('subscriptionPlan');
+
+            $data = [
+                'active_subscription' => new SubscriptionResource($subscription),
+            ];
+
+            return response()->success(__('subscription.plan_changed.success'), $data);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
     }
 }
