@@ -80,7 +80,7 @@ class ProfileRepository implements ProfileRepositoryInterface
 
         list("scheduling_link" => $schedulingLink, "facebook_link" => $fbAccount, "advisor_message" => $advisorMessage) = $data;
 
-        $properties = [SCHEDULING_LINK_ATTR => $schedulingLink, FB_ACCOUNT => $fbAccount, ADVISOR_MESSAGE => $advisorMessage];
+        $properties = [SCHEDULING_LINK_ATTR => @$schedulingLink ?? "", FB_ACCOUNT => @$fbAccount ?? "", ADVISOR_MESSAGE => @$advisorMessage ?? ""];
         $user->updateMultipleProperties(ADVISOR_SETTING_GROUP, $properties);
 
         $advisorSettings = $user->settingFilters(group: ADVISOR_SETTING_GROUP)->get();
