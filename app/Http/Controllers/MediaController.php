@@ -19,7 +19,7 @@ class MediaController extends Controller
     {
         try {
             $request->validate([
-                "image" => ["required", "image", "mimes:jpeg,jpg,png", "max:5120"],
+                "image" => ["required", "image", "mimes:jpeg,jpg,png", "max:" . config("default_settings.max_image_size")],
             ]);
 
             $filePath = $this->mediaModel->storeMediaByHashName($request->image, "course-thumbnail");

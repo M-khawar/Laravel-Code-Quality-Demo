@@ -26,5 +26,5 @@ return [
     'roles.access_denied' => 'Unauthorized: Access Denied!',
     'user_administrator.updated' => 'Successfully, user administrator updated.',
     'roles.updated' => 'Successfully, assigned roles updated.',
-    'password_not_matched'=> 'Password not matched.'
+    'incorrect_old_password' => 'old password is incorrect.'
 ];
