@@ -11,6 +11,9 @@ Route::get('/create-client-secret', [SubscriptionController::class, 'createClien
 
 Route::get('/subscription/plans', [SubscriptionController::class, 'getSubscriptionPlans']);
 
+Route::post('/update-payment-card', [SubscriptionController::class, 'updatePaymentMethod'])
+    ->middleware('auth:sanctum');
+
 Route::post('/subscription/cancel', [SubscriptionController::class, 'cancelSubscription'])
     ->middleware('auth:sanctum');
 

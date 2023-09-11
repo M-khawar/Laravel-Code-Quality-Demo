@@ -2,10 +2,13 @@
 
 namespace App\Packages\StripeWrapper;
 
-use App\Packages\StripeWrapper\SubscriptionActions\BuySubscriptionAction;
-use App\Packages\StripeWrapper\SubscriptionActions\CancelSubscriptionAction;
-use App\Packages\StripeWrapper\SubscriptionActions\ChangeSubscriptionAction;
-use App\Packages\StripeWrapper\SubscriptionActions\ResumeSubscriptionAction;
+use App\Packages\StripeWrapper\CardActions\{AddPaymentCardAction};
+use App\Packages\StripeWrapper\SubscriptionActions\{
+    BuySubscriptionAction,
+    CancelSubscriptionAction,
+    ChangeSubscriptionAction,
+    ResumeSubscriptionAction
+};
 
 trait StripeFactoryTrait
 {
@@ -28,5 +31,10 @@ trait StripeFactoryTrait
     public function changeSubscriptionPlan()
     {
         return app(ChangeSubscriptionAction::class);
+    }
+
+    public function addNewCard()
+    {
+        return app(AddPaymentCardAction::class);
     }
 }

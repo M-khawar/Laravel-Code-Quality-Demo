@@ -97,4 +97,19 @@ class SubscriptionController extends Controller
             return $this->handleException($e);
         }
     }
+
+    public function updatePaymentMethod(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $input = $request->input();
+
+            $card = $this->addNewCard()->handle($user, $input);
+
+            return response()->success(__('subscription.plan_changed.success'), $card);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 }
