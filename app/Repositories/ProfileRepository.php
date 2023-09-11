@@ -58,20 +58,20 @@ class ProfileRepository implements ProfileRepositoryInterface
         $user = currentUser();
         $password = $data["password"];
 
-        $validPassword = Hash::check($data["old_password"], $user->password);
-
-        abort_if(!$validPassword, Response::HTTP_UNPROCESSABLE_ENTITY, __("auth.password_not_matched"));
-
         $passwordHash = Hash::make($password);
         return $user->fill(["password" => $passwordHash])->save();
     }
 
     public function updatePasswordValidation(array $data)
     {
+        $errorMessages = [
+            'old_password' => __("auth.incorrect_old_password"),
+        ];
+
         return Validator::make($data, [
-            'old_password' => ['required', Rules\Password::defaults()],
+            'old_password' => ['required', Rules\Password::defaults(), 'current_password'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        ], $errorMessages);
     }
 
     public function updateAdvisorSetting(array $data)
