@@ -3,6 +3,7 @@
 namespace App\Packages\StripeWrapper\CardActions;
 
 use App\Models\User;
+use App\Packages\StripeWrapper\Contracts\{DeleteOldCardOnUpdate};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -20,6 +21,11 @@ class AddPaymentCardAction
 
         //attach payment method with customer and set it as default payment method
         $user->addPaymentMethod($paymentMethodId);
+
+        if ($user instanceof DeleteOldCardOnUpdate) {
+            $user->paymentMethods()->each->delete();
+        }
+
         $user->updateDefaultPaymentMethod($paymentMethodId);
 
         return $this->returnableResponse($user);

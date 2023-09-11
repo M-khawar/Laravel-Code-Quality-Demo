@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Traits\Globals\{AffiliateCodeGenerator, FunnelGenerator, Searchable, UserSetting};
 use App\Models\Traits\Relations\UserRelations;
+use App\Packages\StripeWrapper\Contracts\DeleteOldCardOnUpdate;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,7 @@ use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements DeleteOldCardOnUpdate
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting,
         FunnelGenerator, Searchable, HasRoles;
