@@ -88,6 +88,7 @@ class SubscriptionController extends Controller
             $subscription->loadMissing('subscriptionPlan');
 
             $data = [
+                'has_active_subscription' => $user->has_active_subscription,
                 'active_subscription' => new SubscriptionResource($subscription),
             ];
 
@@ -106,7 +107,7 @@ class SubscriptionController extends Controller
 
             $card = $this->addNewCard()->handle($user, $input);
 
-            return response()->success(__('subscription.plan_changed.success'), $card);
+            return response()->success(__('subscription.payment_card.updated'), $card);
 
         } catch (\Exception $e) {
             return $this->handleException($e);
@@ -122,7 +123,10 @@ class SubscriptionController extends Controller
             $subscription = $this->resubscribeSubscription()->handle($user, $input);
             $subscription->loadMissing('subscriptionPlan');
 
+            $user->refresh();
+
             $data = [
+                'has_active_subscription' => $user->has_active_subscription,
                 'active_subscription' => new SubscriptionResource($subscription),
             ];
 
