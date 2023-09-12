@@ -25,6 +25,6 @@ class SubscriptionPlan extends Model
             return $this->amount_text = Subscription::MONTHLY_TRAIL_TEXT;
         }
 
-        return $this->amount_text = (double)$this->amount;
+        return $this->amount_text = "$" . (double)$this->amount;
     }
 }
