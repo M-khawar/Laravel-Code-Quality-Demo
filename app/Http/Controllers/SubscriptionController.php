@@ -73,6 +73,8 @@ class SubscriptionController extends Controller
     public function getSubscriptionPlans()
     {
         $plans = SubscriptionPlan::all();
+        $plans->each->mapPrice();
+
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
         return response()->success(__('subscription.plans_retrieved.success'), ['subscription_plans' => $subscriptionPlans]);
 

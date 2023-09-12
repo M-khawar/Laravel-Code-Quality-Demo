@@ -18,6 +18,7 @@ class SubscriptionPlanResource extends JsonResource
             'uuid' => $this->uuid,
             'title' => $this->name,
             'amount' => (double)$this->amount,
+            'amount_text' => $this->amount_text,
             'interval' => $this->meta['interval'],
         ];
     }
