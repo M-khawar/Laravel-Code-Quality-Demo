@@ -22,9 +22,11 @@ class MemberResource extends JsonResource
             "phone" => $this->phone,
             "instagram" => $this->instagram,
             "funnel_type" => $this->funnel_type,
+            "achieved_badges" => @$this->achieved_badges,
             "join_date" => $this->created_at->toDateString(),
             "address" => new AddressResource($this->whenLoaded("address")),
             "affiliate" => new AffiliateResource($this->whenLoaded("affiliate")),
+            "notifications" => new NotificationSettingsResource($this->whenLoaded("notificationSettings"))
         ];
     }
 }

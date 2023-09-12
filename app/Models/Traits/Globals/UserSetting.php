@@ -12,6 +12,11 @@ trait UserSetting
         return $this->hasMany(Setting::class);
     }
 
+    public function notificationSettings()
+    {
+        return $this->settings()->where('group', NOTIFICATION_SETTING_GROUP);
+    }
+
     public function settingFilters(string|array $group = null, string $property = null)
     {
         $query = $this->settings();

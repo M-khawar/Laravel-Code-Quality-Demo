@@ -114,7 +114,19 @@ class LeadRepository implements LeadRepositoryInterface
 
         throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
 
+        $badgesAsString = $this->achievementBadgeOrder();
+
         $query = $this->userModel::query()->excludeAdmins();
+
+        $query->selectRaw("*, (
+        SELECT string_agg(roles.name, ',')
+        from roles inner join model_has_roles on model_has_roles.role_id = roles.id
+        where
+            model_has_roles.model_id = users.id and model_has_roles.model_type='User'
+            and roles.name in (" . $badgesAsString . ")
+        group by
+            model_has_roles.model_id
+        ) as achieved_badges");
 
         $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
             $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
@@ -124,15 +136,20 @@ class LeadRepository implements LeadRepositoryInterface
         });
 
         $query->whereBetween("created_at", array($startDate, $endDate));
-        $query->with('affiliate', 'address')->latest();
+        $query->with('affiliate', 'address', 'notificationSettings')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
-
     }
 
     public function deleteLead(string $uuid)
     {
         $lead = $this->leadModel::ByUUID($uuid)->firstOrFail();
         return $lead->delete();
+    }
+
+    private function achievementBadgeOrder()
+    {
+        $badges = [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE];
+        return sprintf("'%s'", implode("', '", $badges));
     }
 }
