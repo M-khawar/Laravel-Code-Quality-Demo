@@ -2,7 +2,7 @@
 
 namespace App\Packages\StripeWrapper\SubscriptionActions;
 
-use App\Models\{SubscriptionPlan, User};
+use App\Models\{Subscription, SubscriptionPlan, User};
 use Illuminate\Support\Facades\Validator;
 use Exception;
 
@@ -38,7 +38,8 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
 
         $subscription = null;
 
-        if ((!empty($data["on_trial"]) && $data["on_trial"] == 1)) {
+        //(!empty($data["on_trial"]) && $data["on_trial"] == 1)
+        if (@$plan->meta["interval"] && $plan->meta["interval"] == Subscription::PLAN_INTERVAL_MONTH) {
             //create subscription with trial
             $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
                 ->trialDays(7)

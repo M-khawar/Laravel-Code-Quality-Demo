@@ -23,7 +23,7 @@ class SubscriptionPlanSeeder extends Seeder
         $data = [
 //            ["name" => Subscription::TRAIL_PLAN, "amount" => 1, "meta" => ["stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::TRAIL_PLAN, "amount" => 1, "interval" => Subscription::PLAN_INTERVAL_DAY, "interval_count" => 7])->id, "interval" => Str::plural("7 " . Subscription::PLAN_INTERVAL_DAY)]],
             [
-                "name" => Subscription::MONTHLY_PLAN,
+                "name" => Subscription::MONTHLY_TRAIL_TEXT,
                 "amount" => 37,
                 "meta" =>
                     [
