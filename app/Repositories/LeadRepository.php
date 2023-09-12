@@ -31,7 +31,7 @@ class LeadRepository implements LeadRepositoryInterface
         $affiliate = $this->userModel::getAffiliateByCode($affiliateCode);
 
         $data = array_merge($data, [
-            'advisor_id' => $affiliate->is_advisor ? $affiliate->id : $affiliate->advisor_id,
+            'advisor_id' => $affiliate->hasRole(ADVISOR_ROLE) ? $affiliate->id : $affiliate->advisor_id,
             'affiliate_id' => $affiliate->id,
         ]);
 

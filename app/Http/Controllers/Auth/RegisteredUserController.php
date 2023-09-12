@@ -36,7 +36,7 @@ class RegisteredUserController extends Controller
 
             $this->registerValidation($request->input())->validate();
             $affiliate = $this->getReferral($request->affiliate_code);
-            $advisorId = $affiliate && $affiliate->is_advisor ? $affiliate->id : $affiliate->advisor_id;
+            $advisorId = $affiliate && $affiliate->hasRole(ADVISOR_ROLE) ? $affiliate->id : $affiliate->advisor_id;
             $affiliateId = $affiliate->id;
 
             $user = User::create([
