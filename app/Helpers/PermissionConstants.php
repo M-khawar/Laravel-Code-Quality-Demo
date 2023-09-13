@@ -34,6 +34,7 @@ define("PERMISSION_CALENDAR_EVENTS_DELETE", "calendar.events.delete");
 define("PERMISSION_BLOCKEDWORDS_OPERATIONS", "promote.blocked_words_operations");
 define("PERMISSION_LIVEAT_OPERATIONS", "promote.live_at_operations");
 define("PERMISSION_PROMOTE_DOWNLINES", "promote.downlines");
+define("PERMISSION_PROMOTE_DOWNLOAD_CSV", "promote.download_csv");
 
 define("PERMISSION_QUICKLINKS_PRO_FB_GROUP", "quick_links.pro_facebook_group");
 define("PERMISSION_QUICKLINKS_R2F_MEMBERS", "quick_links.r2f_members");

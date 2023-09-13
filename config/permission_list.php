@@ -44,6 +44,7 @@ return [
         ["name" => "promote.blocked_words_operations"], //admin
         ["name" => "promote.live_at_operations"], //admin
         ["name" => "promote.downlines"], //advisor
+        ["name" => "promote.download_csv"], //advisor
 
         ["name" => "quick_links.pro_facebook_group"], //enagic
         ["name" => "quick_links.r2f_members"], //enagic
@@ -97,6 +98,7 @@ return [
         PERMISSION_NOTES_CREATE,
         PERMISSION_NOTES_EDIT,
         PERMISSION_PROMOTE_DOWNLINES,
+        PERMISSION_PROMOTE_DOWNLOAD_CSV,
         PERMISSION_QUICKLINKS_ADVISOR_TELEGRAM,
     ),
 
