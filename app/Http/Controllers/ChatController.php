@@ -2,27 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ChatMessageSent;
-use App\Models\Chat;
+use App\Contracts\Repositories\ChatRepositoryInterface;
+use App\Http\Resources\ChatResource;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function fetchMessages()
+    public function __construct(public ChatRepositoryInterface $chatRepository)
     {
-        return Chat::with('user')->get();
     }
 
-    public function sendMessage(Request $request)
+    public function index()
     {
-        $user = currentUser();
+        try {
+            $messages = $this->chatRepository->fetchMessages();
+            $messages = (ChatResource::collection($messages))->response()->getData(true);
 
-        $message = $user->chat()->create([
-            'message' => $request->input('message')
-        ]);
+            return response()->success(__("messages.chat_message.fetched"), $messages);
 
-        broadcast(new ChatMessageSent($user, $message))->toOthers();
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
 
-        return ['status' => 'Message Sent!'];
+    public function store(Request $request)
+    {
+        try {
+            $data = $request->input();
+            $message = $this->chatRepository->sendChatMessage($data);
+            $message = new ChatResource($message);
+
+            return response()->success(__("messages.chat_message.sent"), $message);
+
+        } catch (\Exception $exception) {
+            return $this->handleException($exception);
+        }
     }
 }

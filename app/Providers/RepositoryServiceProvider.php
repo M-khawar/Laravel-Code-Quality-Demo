@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use App\Contracts\Repositories\{AdminCourseRepositoryInterface,
+use App\Contracts\Repositories\{
+    AdminCourseRepositoryInterface,
     CalendarRepositoryInterface,
+    ChatRepositoryInterface,
     CourseRepositoryInterface,
     LeadRepositoryInterface,
     OnboardingRepositoryInterface,
@@ -11,9 +13,11 @@ use App\Contracts\Repositories\{AdminCourseRepositoryInterface,
     PromoteRepositoryInterface,
     UserRepositoryInterface
 };
-use App\Models\{Calendar, Course, Lead, Question, User};
-use App\Repositories\{AdminCourseRepository,
+use App\Models\{Calendar, Chat, Course, Lead, Question, User};
+use App\Repositories\{
+    AdminCourseRepository,
     CalendarRepository,
+    ChatRepository,
     CourseRepository,
     LeadRepository,
     OnboardingRepository,
@@ -34,6 +38,7 @@ class RepositoryServiceProvider extends ServiceProvider
         CourseRepositoryInterface::class => ["class" => CourseRepository::class, "model" => Course::class],
         AdminCourseRepositoryInterface::class => ["class" => AdminCourseRepository::class, "model" => Course::class],
         ProfileRepositoryInterface::class => ["class" => ProfileRepository::class, "model" => User::class],
+        ChatRepositoryInterface::class => ["class" => ChatRepository::class, "model" => Chat::class]
     ];
 
 

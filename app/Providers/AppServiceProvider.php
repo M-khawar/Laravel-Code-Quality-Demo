@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\{Address, Subscription, User};
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Cashier::useSubscriptionModel(Subscription::class);
+        AnonymousResourceCollection::wrap("collection");
 
         Relation::enforceMorphMap([
             'User' => User::class,

@@ -9,6 +9,6 @@ Route::post('broadcasting/auth', [BroadcastController::class, 'authenticate'])->
 
 /*** Chat Routes ***/
 Route::group(['prefix' => 'chat', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/messages', [ChatController::class, 'sendMessage']);
-    Route::get('/messages', [ChatController::class, 'fetchMessages']);
+    Route::post('/messages', [ChatController::class, 'store']);
+    Route::get('/messages', [ChatController::class, 'index']);
 });

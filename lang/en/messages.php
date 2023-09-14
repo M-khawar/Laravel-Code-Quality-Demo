@@ -55,4 +55,6 @@ return [
     'password.updated' => 'Successfully, password updated.',
     'notification_setting.updated' => 'Successfully, notification setting updated.',
     'advisor_setting.updated' => 'Successfully, advisor setting updated.',
+    'chat_message.fetched' => 'Messages fetched',
+    'chat_message.sent' => 'Messages posted.',
 ];
