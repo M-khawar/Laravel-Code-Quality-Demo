@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits\Relations;
 
-use App\Models\{Address, Media, Profile, User};
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasOne, MorphOne};
+use App\Models\{Address, Chat, Media, Profile, User};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne, MorphOne};
 
 trait UserRelations
 {
@@ -30,5 +30,10 @@ trait UserRelations
     public function avatar(): BelongsTo
     {
         return $this->belongsTo(Media::class, "avatar_id")->withDefault(["path" => asset('assets/images/default_avatar.png')]);
+    }
+
+    public function chat(): HasMany
+    {
+        return $this->hasMany(Chat::class);
     }
 }

@@ -12,7 +12,8 @@ use App\Http\Controllers\{
     PromoteController,
     SupportController,
     UserController,
-    VideoController};
+    VideoController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,6 @@ use App\Http\Controllers\{
 */
 
 Route::get('/referral', [UserController::class, 'getReferral']);
-
 
 Route::post('/visits', [LeadController::class, 'storeVisits']);
 
@@ -122,3 +122,4 @@ Route::group(['prefix' => 'support', 'middleware' => 'auth:sanctum'], function (
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';
+require __DIR__ . '/chat.php';
