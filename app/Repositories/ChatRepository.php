@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\ChatRepositoryInterface;
 use App\Events\ChatMessageSent;
+use App\Http\Resources\ChatResource;
 use Illuminate\Database\Eloquent\Model;
 
 class ChatRepository implements ChatRepositoryInterface
@@ -29,8 +30,9 @@ class ChatRepository implements ChatRepositoryInterface
         ]);
 
         $message->setRelation('user', $user);
+        $message = new ChatResource($message);
 
-        broadcast(new ChatMessageSent($user, $message))->toOthers();
+        broadcast(new ChatMessageSent($message))->toOthers();
 
         return $message;
     }

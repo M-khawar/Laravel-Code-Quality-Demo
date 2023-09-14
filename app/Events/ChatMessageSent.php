@@ -14,7 +14,7 @@ class ChatMessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public User|Model $user, public Chat $message)
+    public function __construct(public $message)
     {
     }
 
