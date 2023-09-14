@@ -52,4 +52,9 @@ interface AdminCourseRepositoryInterface
 
     public function sortLessonsValidation(array $data);
 
+    public function periodConversion(string $period, ?array $data = []): object;
+
+    public function adminStats(string $startDate = null, string $endDate = null);
+
+    public function adminStatsValidation(array $data);
 }

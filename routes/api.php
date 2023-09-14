@@ -3,7 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AdminCourseController,
     CalendarController,
     CourseController,
     LeadController,
@@ -76,41 +75,12 @@ Route::group(['prefix' => 'calendar-notifications', 'middleware' => 'auth:sanctu
     Route::delete('/{uuid}', [CalendarController::class, 'destroyNotification']);
 });
 
-
 /*** Courses Routes ***/
 Route::group(['prefix' => 'courses', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/mark-lesson-status', [CourseController::class, 'markLessonStatus']);
     Route::get('/categories/{uuid}', [CourseController::class, 'coursesByCategory']);
     Route::get('/categories', [CourseController::class, 'categories']);
     Route::get('/{uuid}/lessons', [CourseController::class, 'courseLessons']);
-});
-
-
-/*** Admin-Courses Sections Routes ***/
-Route::group(['prefix' => 'admin-courses/sections', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/edit', [AdminCourseController::class, 'editSection']);
-    Route::post('/sort', [AdminCourseController::class, 'sortSection']);
-    Route::post('/', [AdminCourseController::class, 'createSection']);
-    Route::delete('/{uuid}', [AdminCourseController::class, 'destroySection']);
-});
-
-/*** Admin-Courses Lesson Routes ***/
-Route::group(['prefix' => 'admin-courses/lessons', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/edit', [AdminCourseController::class, 'editLesson']);
-    Route::post('/sort', [AdminCourseController::class, 'sortLesson']);
-    Route::post('/', [AdminCourseController::class, 'createLesson']);
-    Route::delete('/{uuid}', [AdminCourseController::class, 'destroyLesson']);
-});
-
-/*** Admin-Courses Routes ***/
-Route::group(['prefix' => 'admin-courses', 'middleware' => 'auth:sanctum'], function () {
-    Route::post('/', [AdminCourseController::class, 'createCourse']);
-    Route::post('/{uuid}/edit', [AdminCourseController::class, 'editCourse']);
-    Route::post('/update-permissions', [AdminCourseController::class, 'updatePermissions']);
-    Route::get('/roles', [AdminCourseController::class, 'coursesAudience']);
-    Route::get('/all', [AdminCourseController::class, 'adminCourses']);
-    Route::get('/{uuid}', [AdminCourseController::class, 'adminSingleCourse']);
-    Route::delete('/{uuid}', [AdminCourseController::class, 'destroyCourse']);
 });
 
 /*** Support Routes ***/
@@ -122,4 +92,5 @@ Route::group(['prefix' => 'support', 'middleware' => 'auth:sanctum'], function (
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/subscription.php';
+require __DIR__ . '/admin.php';
 require __DIR__ . '/chat.php';

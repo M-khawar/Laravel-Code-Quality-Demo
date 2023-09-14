@@ -3,7 +3,7 @@
 namespace App\Models\Traits\Relations;
 
 use App\Models\{Address, Chat, Media, Profile, User};
-use Illuminate\Database\Eloquent\Relations\{BelongsTo, HasMany, HasOne, MorphOne};
+use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne, MorphOne};
 
 trait UserRelations
 {
@@ -35,5 +35,13 @@ trait UserRelations
     public function chat(): HasMany
     {
         return $this->hasMany(Chat::class);
+    }
+
+    /**
+     * Overriding Spatie's roles relation
+     */
+    public function roles():BelongsToMany
+    {
+        return $this->spatieRoles()->withTimestamps();
     }
 }

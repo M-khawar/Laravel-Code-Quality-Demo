@@ -261,4 +261,27 @@ class AdminCourseController extends Controller
             return $this->handleException($exception);
         }
     }
+
+    public function adminStats(Request $request)
+    {
+        try {
+            $data= $request->input();
+            $this->adminCourseRepository->adminStatsValidation($data)->validate();
+            $period = $request->period ?? "all";
+
+            $filterRange = [
+                "start_date" => @$request->start_date,
+                "end_date" => @$request->end_date,
+            ];
+
+            $dateRange = $this->adminCourseRepository->periodConversion($period, $filterRange);
+            $stats = $this->adminCourseRepository->adminStats($dateRange->start_date, $dateRange->end_date);
+
+            return response()->success("Successfully Stats Fetched.", $stats);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
 }

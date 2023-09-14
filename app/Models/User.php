@@ -18,7 +18,12 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements DeleteOldCardOnUpdate
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting,
-        FunnelGenerator, Searchable, HasRoles;
+        FunnelGenerator, Searchable;
+
+    use HasRoles {
+        UserRelations::roles insteadof HasRoles;
+        HasRoles::roles as spatieRoles;
+    }
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar_id', 'affiliate_code', 'funnel_type',

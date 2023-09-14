@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\AdminCourseRepositoryInterface;
 use App\Http\Resources\RoleResource;
+use App\Traits\{CommonServices, StatsDelegates};
 use App\Models\{CourseLesson, CourseSection, Media, Video};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminCourseRepository implements AdminCourseRepositoryInterface
 {
+    use CommonServices, StatsDelegates;
+
     private Model $courseModel;
     private $roleModel;
     private $lessonModel;
@@ -366,6 +369,40 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
             "source_lesson" => ["required", "uuid", "exists:" . get_class($this->lessonModel) . ",uuid"],
             "destination_lesson" => ["required", "uuid", "exists:" . get_class($this->lessonModel) . ",uuid"],
             "action_type" => ["required", "string", Rule::in(self::SORT_ACTIONS_TYPE)],
+        ]);
+    }
+
+    public function adminStats(string $startDate = null, string $endDate = null)
+    {
+        $this->validatePermission();
+
+        $views = $this->pageViewsCount($startDate, $endDate);
+        $leads = $this->leadsCount($startDate, $endDate);
+        $members = $this->membersCount($startDate, $endDate);
+        $enagic = $this->enagicCount($startDate, $endDate);
+        $cores = $this->coreCount($startDate, $endDate);
+        $trifecta = $this->trifectaCount($startDate, $endDate);
+        $advisor = $this->advisorCount($startDate, $endDate);
+
+        return [
+            "views_count" => $views,
+            "leads_count" => $leads,
+            "member_count" => $members,
+            "enagic_count" => $enagic,
+            "core_count" => $cores,
+            "trifecta_count" => $trifecta,
+            "advisor_count" => $advisor,
+        ];
+    }
+
+    public function adminStatsValidation(array $data)
+    {
+        $periods = $this->availableFilterablePeriods();
+
+        return Validator::make($data, [
+            "period" => ["required", Rule::in($periods)],
+            "start_date" => ["required_if:period,custom"],
+            "end_date" => ["required_if:period,custom"],
         ]);
     }
 

@@ -4,13 +4,14 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\PromoteRepositoryInterface;
 use App\Traits\CommonServices;
-use App\Models\{Lead, PageView, Profile, User};
+use App\Traits\StatsDelegates;
+use App\Models\{Profile};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class PromoteRepository implements PromoteRepositoryInterface
 {
-    use CommonServices;
+    use CommonServices, StatsDelegates;
 
     private mixed $profile;
 
@@ -35,23 +36,11 @@ class PromoteRepository implements PromoteRepositoryInterface
         ]);
     }
 
-    public function promoteStats(int $userId, ?string $startDate = null, ?string $endDate = null, ?string $funnelType = null): array
+    public function promoteStats(int $userId, string $startDate = null, string $endDate = null, ?string $funnelType = null): array
     {
-        $views = PageView::distinct('ip')
-            ->where(["affiliate_id" => $userId, "funnel_step" => WELCOME_FUNNEL_STEP])
-            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
-            ->whereBetween("created_at", array($startDate, $endDate))
-            ->count();
-
-        $leads = Lead::where("affiliate_id", $userId)
-            ->whereBetween("created_at", array($startDate, $endDate))
-            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
-            ->count();
-
-        $members = User::where("affiliate_id", $userId)->excludeAdmins()
-            ->whereBetween("created_at", array($startDate, $endDate))
-            ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
-            ->count();
+        $views = $this->pageViewsCount($startDate, $endDate, $userId);
+        $leads = $this->leadsCount($startDate, $endDate, $userId);
+        $members = $this->membersCount($startDate, $endDate, $userId);
 
         return [
             "views_count" => $views,
@@ -72,13 +61,5 @@ class PromoteRepository implements PromoteRepositoryInterface
             "start_date" => ["required_if:period,custom"],
             "end_date" => ["required_if:period,custom"],
         ]);
-    }
-
-    private function availableFilterablePeriods(): array
-    {
-        return [
-            "today", "yesterday", "last_seven", "last_fourteen", "this_month", "last_month", "last_three_month",
-            "last_six_month", "last_twelve_month", "this_year", "last_year", "custom", "all",
-        ];
     }
 }
