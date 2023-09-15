@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
 use App\Traits\CommonServices;
+use Illuminate\Support\Str;
 use App\Models\{PageView, User};
 use App\Packages\SendGridWrapper\SendGridInitializer;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,7 @@ class LeadRepository implements LeadRepositoryInterface
 
     const FUNNEL_TYPES = [MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL];
     const FUNNEL_STEPS = [WELCOME_FUNNEL_STEP, WEBINAR_FUNNEL_STEP, CHECKOUT_FUNNEL_STEP, THANKYOU_FUNNEL_STEP];
+    const ACCEPTED_FILTERABLE_ROLES = [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE, CORE_ROLE];
 
     public function __construct(Model $leadModel)
     {
@@ -108,14 +110,27 @@ class LeadRepository implements LeadRepositoryInterface
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
     }
 
-    public function fetchMembers($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null)
+    public function fetchMembers($funnelType, string $startDate, string $endDate, string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null, ?string $filterableRole = null)
     {
-        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
+        $user = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid) : currentUser();
+        $hasAdminDashboardAccess = $user->hasPermissionTo(PERMISSION_ADMIN_DASHBOARD, "web");
+        $affiliateID = null;
 
-        throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
+        /**
+         * Bypassing filter for admin when get members for admin-dashboard
+         */
+        if (!$hasAdminDashboardAccess && !$affiliateUuid) {
+            $affiliateID = $user?->id;
+            throw_if(!$affiliateID, "Affiliate User not found.");
+        }
+
+        if (!empty($filterableRole)) {
+            $filterableRole = Str::title($filterableRole);
+            throw_if(!in_array($filterableRole, self::ACCEPTED_FILTERABLE_ROLES), "Role filter is invalid.");
+            $filterableRole = $filterableRole != ENAGIC_ROLE ? $filterableRole : implode(",", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE]);
+        }
 
         $badgesAsString = $this->achievementBadgeOrder();
-
         $query = $this->userModel::query()->excludeAdmins();
 
         $query->selectRaw("*, (
@@ -128,14 +143,30 @@ class LeadRepository implements LeadRepositoryInterface
             model_has_roles.model_id
         ) as achieved_badges");
 
-        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
-            $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+        $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString, $filterableRole) {
+            $query->when(!empty($affiliateID), fn($q) => $q->where('affiliate_id', $affiliateID));
             $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
             $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
         });
 
-        $query->whereBetween("created_at", array($startDate, $endDate));
+        /**
+         * Filtering members for admin-dashboard stats by roles
+         * and role assigned time
+         */
+        $query->when(!empty($filterableRole), fn($q) => $q->whereHas("roles", function ($roleQuery) use ($filterableRole, $startDate, $endDate) {
+
+            if (str_contains($filterableRole, ",")) {
+                $filterableRole = explode(',', $filterableRole);
+            } else {
+                $filterableRole = [$filterableRole];
+            }
+
+            $roleQuery->whereIn("roles.name", $filterableRole)
+                ->whereBetween(config('permission.table_names.model_has_roles') . ".created_at", array($startDate, $endDate));
+        }));
+
+        if (empty($filterableRole)) $query->whereBetween("created_at", array($startDate, $endDate));
         $query->with('affiliate', 'address', 'notificationSettings')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();

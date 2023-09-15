@@ -93,6 +93,7 @@ class LeadController extends Controller
             $period = $request->period ?? "all";
             $funnelType = @$request->funnel_type;
             $queryString = $request->input('query');
+            $filterableRole = $request->input('filterable_role');
 
             $filterRange = [
                 "start_date" => @$request->start_date,
@@ -100,7 +101,10 @@ class LeadController extends Controller
             ];
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
-            $members = $this->leadRepository->fetchMembers($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
+            $members = $this->leadRepository->fetchMembers(
+                $funnelType, $dateRange->start_date, $dateRange->end_date, $uuid,
+                $paginated, $downLines, $queryString, $filterableRole
+            );
             $members = (new MemberCollection($members))->response()->getData(true);
 
             return response()->success(__("messages.members.fetched"), $members);

@@ -25,10 +25,11 @@ interface LeadRepositoryInterface
         $funnelType,
         string $startDate,
         string $endDate,
-        ?string $affiliateUuid = null,
+        string $affiliateUuid=null,
         ?bool $paginated = true,
         ?bool $downLines = false,
-        ?string $queryString = null
+        ?string $queryString = null,
+        ?string $filterableRole = null
     );
 
     public function deleteLead(string $uuid);

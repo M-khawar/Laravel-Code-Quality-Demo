@@ -46,15 +46,19 @@ trait StatsDelegates
 
     protected function enagicCount($startDate, $endDate)
     {
-        $roleModel = app(config("permission.models.role"));
-        $rolePivotTable = config("permission.table_names.model_has_roles");
+        /*  $roleModel = app(config("permission.models.role"));
+         $rolePivotTable = config("permission.table_names.model_has_roles");
 
-        $roles = $roleModel::query()
-            ->whereIn("name", [ENAGIC_ROLE, CORE_ROLE, TRIFECTA_ROLE])
-            ->withCount(["users" => fn($q) => $q->whereBetween("$rolePivotTable.created_at", array($startDate, $endDate))])
-            ->get();
+      $roles = $roleModel::query()
+              ->whereIn("name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
+              ->withCount(["users" => fn($q) => $q->whereBetween("$rolePivotTable.created_at", array($startDate, $endDate))])
+              ->get();*/
+        $usersCount = User::whereHas("roles", function ($q) use ($startDate, $endDate) {
+            $q->whereIn("roles.name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
+                ->whereBetween(config('permission.table_names.model_has_roles') . ".created_at", array($startDate, $endDate));
+        })->count();
 
-        return $roles->sum->users_count;
+        return $usersCount;
     }
 
     protected function coreCount($startDate, $endDate)
