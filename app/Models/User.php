@@ -27,7 +27,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar_id', 'affiliate_code', 'funnel_type',
-        'advisor_id', 'affiliate_id', 'is_admin', 'is_advisor', 'is_active_recruiter', 'advisor_date',
+        'advisor_id', 'affiliate_id',
     ];
 
     protected $searchable_columns = [
@@ -42,10 +42,6 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
-
-    protected $dates = [
-        'advisor_date'
     ];
 
 //    protected $with = ["avatar"];

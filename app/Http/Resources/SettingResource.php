@@ -9,16 +9,17 @@ class SettingResource extends JsonResource
 
     public function toArray($request)
     {
-        return  $this->mapSettings();
+        return $this->mapSettings();
     }
 
     private function mapSettings(): array
     {
-        $settings=  $this->resource;
+        $settings = $this->resource;
 
-        $settingDictionary=[];
+        $settingDictionary = [];
         foreach ($settings as $setting) {
-            $settingDictionary = array_merge($settingDictionary, [$setting->name => $setting->value]);
+            $data = in_array($setting->value, ["0", "1"]) ? [$setting->name => (bool)$setting->value] : [$setting->name => $setting->value];
+            $settingDictionary = array_merge($settingDictionary, $data);
         }
 
         return $settingDictionary;

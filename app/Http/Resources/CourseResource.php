@@ -20,7 +20,7 @@ class CourseResource extends JsonResource
             "name" => $this->name,
             "thumbnail" => $this?->thumbnail?->media_path,
             "description" => $this->description,
-            "sort" => $this->sort,
+            "position" => $this->position,
             "last_updated" => $this->updated_at->format('M d, Y'),
             "allowed_audience_roles" => RoleResource::collection($this->whenLoaded("allowedAudienceRoles")),
             "sections"=> SectionResouce::collection($this->whenLoaded("sections")),

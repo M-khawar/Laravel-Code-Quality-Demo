@@ -36,7 +36,6 @@ class UserFactory extends Factory
             'affiliate_code' => null,
             'funnel_type' => $funnels[rand(0, 1)],
             'remember_token' => Str::random(10),
-            'advisor_date' => null,
             'email_verified_at' => now(),
         ];
     }
@@ -54,8 +53,6 @@ class UserFactory extends Factory
             $user->profile()->create([
                 'display_name' => $user->name,
                 'display_text' => __('messages.default_display_text', locale: 'en'),
-                'is_enagic' => true,
-                'enagic_date' => now(),
             ]);
 
             $user->address()->create([

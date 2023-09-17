@@ -45,7 +45,7 @@ class AdminCourseRepository implements AdminCourseRepositoryInterface
     {
         $this->validatePermission();
 
-        return $this->courseModel::with("allowedAudienceRoles", "thumbnail")->get();
+        return $this->courseModel::with("allowedAudienceRoles", "thumbnail")->sorted()->get();
     }
 
     public function fetchSingleCourse(string $uuid)

@@ -26,10 +26,6 @@ class AdminSeeder extends Seeder
             'affiliate_code' => 'colten95ohhin6',
             'advisor_id' => config('default_settings.default_advisor'),
             'affiliate_id' => config('default_settings.default_advisor'),
-            'is_admin' => true,
-            'is_advisor' => true,
-            'advisor_date' => '2023-06-08',
-            'is_active_recruiter' => true,
         ];
 
         $adminProfile = [
@@ -37,19 +33,6 @@ class AdminSeeder extends Seeder
             'display_text' => __('messages.default_display_text', locale: 'en'),
             'head_code' => null,
             'body_code' => null,
-            'is_enagic' => true,
-            'is_trifecta' => true,
-            'is_core' => true,
-            'enagic_date' => '2023-06-08',
-            'trifecta_date' => '2023-06-08',
-            'core_date' => '2023-06-08',
-            /*  'lead_email' => false,
-            'lead_sms' => true,
-            'mem_email' => false,
-            'mem_sms' => true,
-            'promote_watched' => true,
-            'welcome_video' => true,
-            'fb_group' => true,*/
         ];
 
         $user = User::create($admin);

@@ -59,7 +59,7 @@ class UserRepository implements UserRepositoryInterface
         $user->loadMissing([
             'advisor.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
             'affiliate.settings' => fn($q) => $q->settingFilters(group: ADVISOR_SETTING_GROUP),
-            'settings' => fn($q) => $q->settingFilters(group: [ACCOUNT_SETTING_GROUP, ADVISOR_SETTING_GROUP]),
+            'settings' => fn($q) => $q->settingFilters(group: [ACCOUNT_SETTING_GROUP, ADVISOR_SETTING_GROUP, PROMOTE_GROUP]),
         ]);
 
         $user->setRelation('onboardingStepsState', $this->onboardingRepository->onboardingStepsState($user));

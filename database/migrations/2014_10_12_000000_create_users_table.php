@@ -24,11 +24,6 @@ return new class extends Migration {
             $table->string('affiliate_code')->nullable()->index();
             $table->string('funnel_type')->nullable();
 
-            $table->boolean('is_admin')->default('false');
-            $table->boolean('is_advisor')->default('false');
-            $table->boolean('is_active_recruiter')->default('false');
-            $table->date('advisor_date')->nullable();
-
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

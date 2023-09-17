@@ -47,7 +47,6 @@ class RegisteredUserController extends Controller
                 'instagram' => $request->instagram,
                 'advisor_id' => $advisorId ?? config('default_settings.default_advisor'),
                 'affiliate_id' => $affiliateId ?? config('default_settings.default_advisor'),
-                'advisor_date' => now()->toDate(),
                 'funnel_type' => $request->funnel_type,
             ]);
             $user->profile()->create([

@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Rutorika\Sortable\SortableTrait;
 
 class Course extends Model
 {
-    use HasFactory, HasUUID, CourseRelation, SoftDeletes;
+    use HasFactory, HasUUID, CourseRelation, SoftDeletes, SortableTrait;
 
-    protected $fillable = ["name", "description", "thumbnail_id"];
+    protected $fillable = ["name", "description", "thumbnail_id", "position"];
 
 //    protected $appends = ["thumbnail_path"];
 

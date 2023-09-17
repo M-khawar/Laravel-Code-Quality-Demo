@@ -21,14 +21,11 @@ class UserSeeder extends Seeder
             'funnel_type' => MASTER_FUNNEL,
             'advisor_id' => config('default_settings.default_advisor'),
             'affiliate_id' => config('default_settings.default_advisor'),
-            'is_advisor' => true,
-            'advisor_date' => '2023-06-08',
         ];
 
         $advisorProfile = [
             'display_name' => 'Developer ilsa',
             'display_text' => __('messages.default_display_text', locale: 'en'),
-            'is_enagic' => true,
         ];
 
         $user = User::create($advisor);

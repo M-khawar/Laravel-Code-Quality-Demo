@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('name')->index();
             $table->foreignId('thumbnail_id')->nullable()->constrained('media')->nullOnDelete();
             $table->text('description')->nullable();
-            $table->bigInteger('sort')->nullable();
+            $table->bigInteger('position')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
