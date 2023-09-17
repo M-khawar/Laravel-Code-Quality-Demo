@@ -13,6 +13,13 @@ class StripeFactory
         $this->stripe = new StripeClient(config("cashier.secret"));
     }
 
+    public static function __callStatic($method, $parameters)
+    {
+        throw_if(!in_array($method, ['usdToCents', 'centToUsds']), "Method {$method} not found in " . static::class);
+
+        return self::$method(...$parameters);
+    }
+
     public function createPaymentMethod()
     {
         return $this->stripe->paymentMethods->create([

@@ -2,6 +2,8 @@
 
 namespace App\Packages\StripeWrapper\SubscriptionActions;
 
+use App\Packages\StripeWrapper\Contracts\HasPaidTrail;
+use App\Packages\StripeWrapper\StripeFactory;
 use App\Models\{Subscription, SubscriptionPlan, User};
 use Illuminate\Support\Facades\Validator;
 use Exception;
@@ -40,10 +42,15 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
 
         //(!empty($data["on_trial"]) && $data["on_trial"] == 1)
         if (@$plan->meta["interval"] && $plan->meta["interval"] == Subscription::PLAN_INTERVAL_MONTH) {
+
+            // deducting paid trail payment
+            if ($user instanceof HasPaidTrail) $this->applyPaidTrailCharges($user);
+
             //create subscription with trial
             $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
                 ->trialDays(7)
                 ->add();
+
         } else {
             //create subscription without trial
             $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
@@ -61,5 +68,11 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
             'plan_id' => ['required', 'uuid', 'exists:' . SubscriptionPlan::class . ',uuid'],
             'payment_method_id' => 'required'
         ]);
+    }
+
+    protected function applyPaidTrailCharges($user)
+    {
+        $trailPrice = StripeFactory::usdToCents(7);
+        $user->invoiceFor("Paid 7 days trail at $7 only", $trailPrice);
     }
 }
