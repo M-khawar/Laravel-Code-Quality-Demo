@@ -35,4 +35,6 @@ interface LeadRepositoryInterface
     public function deleteLead(string $uuid);
 
     public function periodConversion(string $period, ?array $data = []): object;
+
+    public function fetchLeaderboard(string $startDate, string $endDate, ?string $queryString = null, ?int $perPage = 20);
 }

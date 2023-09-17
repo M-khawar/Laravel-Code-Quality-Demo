@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\LeadRepositoryInterface;
-use App\Http\Resources\{LeadCollection, MemberCollection};
+use App\Http\Resources\{LeadCollection, LeaderBoardResource, MemberCollection};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -126,6 +126,32 @@ class LeadController extends Controller
         } catch (\Exception $exception) {
             DB::rollBack();
             return $this->handleException($exception);
+        }
+    }
+
+    public function leaderboard(Request $request)
+    {
+        try {
+            $period = $request->input('period') ?? "all";
+            $queryString = $request->input('query');
+            $perPage = $request->input('per_page');
+
+            $filterRange = [
+                "start_date" => @$request->start_date,
+                "end_date" => @$request->end_date,
+            ];
+
+            $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
+            $leaders = $this->leadRepository->fetchLeaderboard(
+                startDate: $dateRange->start_date, endDate: $dateRange->end_date,
+                queryString: $queryString, perPage: $perPage
+            );
+            $leaders = (LeaderBoardResource::collection($leaders))->response()->getData(true);
+
+            return response()->success(__("messages.leaderboard.fetched"), $leaders);
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
         }
     }
 

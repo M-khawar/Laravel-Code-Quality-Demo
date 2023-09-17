@@ -57,4 +57,5 @@ return [
     'advisor_setting.updated' => 'Successfully, advisor setting updated.',
     'chat_message.fetched' => 'Messages fetched',
     'chat_message.sent' => 'Messages posted.',
+    'leaderboard.fetched'=> 'Successfully, leaderboard data fetched.'
 ];
