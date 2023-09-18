@@ -68,6 +68,7 @@ class LeadController extends Controller
             $period = $request->period ?? "all";
             $funnelType = @$request->funnel_type;
             $queryString = $request->input('query');
+            $adminStatsFilter = $request->boolean('admin_stats_filter');
 
             $filterRange = [
                 "start_date" => @$request->start_date,
@@ -75,7 +76,11 @@ class LeadController extends Controller
             ];
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
-            $leads = $this->leadRepository->fetchLeads($funnelType, $dateRange->start_date, $dateRange->end_date, $uuid, $paginated, $downLines, $queryString);
+            $leads = $this->leadRepository->fetchLeads(
+                funnelType: $funnelType, startDate: $dateRange->start_date, endDate: $dateRange->end_date,
+                affiliateUuid: $uuid, paginated: $paginated, downLines: $downLines, queryString: $queryString,
+                adminStatsFilter: $adminStatsFilter
+            );
             $leads = (new LeadCollection($leads))->response()->getData(true);
 
             return response()->success(__("messages.lead.fetched"), $leads);
@@ -94,6 +99,7 @@ class LeadController extends Controller
             $funnelType = @$request->funnel_type;
             $queryString = $request->input('query');
             $filterableRole = $request->input('filterable_role');
+            $adminStatsFilter = $request->boolean('admin_stats_filter');
 
             $filterRange = [
                 "start_date" => @$request->start_date,
@@ -102,8 +108,9 @@ class LeadController extends Controller
 
             $dateRange = $this->leadRepository->periodConversion($period, $filterRange);
             $members = $this->leadRepository->fetchMembers(
-                $funnelType, $dateRange->start_date, $dateRange->end_date, $uuid,
-                $paginated, $downLines, $queryString, $filterableRole
+                funnelType: $funnelType, startDate: $dateRange->start_date, endDate: $dateRange->end_date,
+                affiliateUuid: $uuid, paginated: $paginated, downLines: $downLines, queryString: $queryString,
+                filterableRole: $filterableRole, adminStatsFilter: $adminStatsFilter
             );
             $members = (new MemberCollection($members))->response()->getData(true);
 

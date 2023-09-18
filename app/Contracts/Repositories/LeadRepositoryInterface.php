@@ -18,18 +18,20 @@ interface LeadRepositoryInterface
         ?string $affiliateUuid = null,
         ?bool $paginated = true,
         ?bool $downLines = false,
-        ?string $queryString = null
+        ?string $queryString = null,
+        ?bool $adminStatsFilter = false
     );
 
     public function fetchMembers(
         $funnelType,
         string $startDate,
         string $endDate,
-        string $affiliateUuid=null,
+        string $affiliateUuid = null,
         ?bool $paginated = true,
         ?bool $downLines = false,
         ?string $queryString = null,
-        ?string $filterableRole = null
+        ?string $filterableRole = null,
+        ?bool $adminStatsFilter = false
     );
 
     public function deleteLead(string $uuid);

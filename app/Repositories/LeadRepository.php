@@ -90,16 +90,23 @@ class LeadRepository implements LeadRepositoryInterface
         ]);
     }
 
-    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null)
+    public function fetchLeads($funnelType, string $startDate, string $endDate, ?string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null, ?bool $adminStatsFilter = false)
     {
-        $affiliateID = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid)?->id : null;
+        $user = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid) : currentUser();
+        $affiliateID = null;
 
-        throw_if($affiliateUuid && !$affiliateID, "Affiliate User not found.");
+        /**
+         * Bypassing filter for admin when get leads for admin-dashboard
+         */
+        if (!$adminStatsFilter) {
+            $affiliateID = $user?->id;
+            throw_if(!$affiliateID, "Affiliate User not found.");
+        }
 
         $query = $this->leadModel::query();
 
         $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
-            $query->when($affiliateID, fn($q) => $q->where('affiliate_id', $affiliateID));
+            $query->when(!empty($affiliateID), fn($q) => $q->where('affiliate_id', $affiliateID));
             $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
             $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
@@ -111,16 +118,15 @@ class LeadRepository implements LeadRepositoryInterface
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
     }
 
-    public function fetchMembers($funnelType, string $startDate, string $endDate, string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null, ?string $filterableRole = null)
+    public function fetchMembers($funnelType, string $startDate, string $endDate, string $affiliateUuid = null, ?bool $paginated = true, ?bool $downLines = false, ?string $queryString = null, ?string $filterableRole = null, ?bool $adminStatsFilter = false)
     {
         $user = $affiliateUuid ? $this->userModel::findByUuid($affiliateUuid) : currentUser();
-        $hasAdminDashboardAccess = $user->hasPermissionTo(PERMISSION_ADMIN_DASHBOARD, "web");
         $affiliateID = null;
 
         /**
          * Bypassing filter for admin when get members for admin-dashboard
          */
-        if (!$hasAdminDashboardAccess && !$affiliateUuid) {
+        if (!$adminStatsFilter) {
             $affiliateID = $user?->id;
             throw_if(!$affiliateID, "Affiliate User not found.");
         }
