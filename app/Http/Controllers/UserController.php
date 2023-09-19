@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         try {
             $query = request()->input('query');
-            $filterAdvisors = request()->input('filter_advisors');
+            $filterAdvisors = request()->boolean('filter_advisors');
             $users = $this->userRepository->fetchUsersIncludingAdmin($query, $filterAdvisors);
             $users = (UserListResource::collection($users))->response()->getData(true);
 
