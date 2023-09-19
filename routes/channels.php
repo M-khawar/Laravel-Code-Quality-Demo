@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ChatUserResource;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -16,5 +16,11 @@ use Illuminate\Support\Facades\Broadcast;
 
 
 Broadcast::channel('global-chat', function ($user) {
-    return Auth::check();
+    $user = currentUser();
+
+    if ($user){
+        return (new ChatUserResource($user));
+    }
+
+    return false;
 });

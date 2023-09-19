@@ -20,7 +20,7 @@ class ChatMessageSent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PrivateChannel('global-chat');
+        return new PresenceChannel('global-chat');
     }
 
     public function broadcastAs()
