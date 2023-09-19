@@ -38,9 +38,9 @@ class PromoteRepository implements PromoteRepositoryInterface
 
     public function promoteStats(int $userId, string $startDate = null, string $endDate = null, ?string $funnelType = null): array
     {
-        $views = $this->pageViewsCount($startDate, $endDate, $userId);
-        $leads = $this->leadsCount($startDate, $endDate, $userId);
-        $members = $this->membersCount($startDate, $endDate, $userId);
+        $views = $this->pageViewsCount($startDate, $endDate, affiliateId: $userId, funnelType: $funnelType);
+        $leads = $this->leadsCount($startDate, $endDate, affiliateId: $userId, funnelType: $funnelType);
+        $members = $this->membersCount($startDate, $endDate, affiliateId: $userId, funnelType: $funnelType);
 
         return [
             "views_count" => $views,

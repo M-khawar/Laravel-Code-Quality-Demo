@@ -15,30 +15,30 @@ trait StatsDelegates
         ];
     }
 
-    protected function pageViewsCount($startDate, $endDate, ?int $userId = null): int
+    protected function pageViewsCount($startDate, $endDate, ?int $affiliateId = null, ?string $funnelType = null): int
     {
         return PageView::distinct('ip')
             ->where("funnel_step", WELCOME_FUNNEL_STEP)
-            ->when(!empty($userId), fn($q) => $q->where("affiliate_id", $userId))
+            ->when(!empty($affiliateId), fn($q) => $q->where("affiliate_id", $affiliateId))
             ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->whereBetween("created_at", array($startDate, $endDate))
             ->count();
     }
 
-    protected function leadsCount($startDate, $endDate, ?int $userId = null): int
+    protected function leadsCount($startDate, $endDate, ?int $affiliateId = null, ?string $funnelType = null): int
     {
         return Lead::query()
-            ->when(!empty($userId), fn($q) => $q->where("affiliate_id", $userId))
+            ->when(!empty($affiliateId), fn($q) => $q->where("affiliate_id", $affiliateId))
             ->whereBetween("created_at", array($startDate, $endDate))
             ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->count();
     }
 
-    protected function membersCount($startDate, $endDate, ?int $userId = null): int
+    protected function membersCount($startDate, $endDate, ?int $affiliateId = null, ?string $funnelType = null): int
     {
         return User::query()
             ->excludeAdmins()
-            ->when(!empty($userId), fn($q) => $q->where("affiliate_id", $userId))
+            ->when(!empty($affiliateId), fn($q) => $q->where("affiliate_id", $affiliateId))
             ->whereBetween("created_at", array($startDate, $endDate))
             ->when(!empty($funnelType) && $funnelType !== "all", fn($q) => $q->where('funnel_type', $funnelType))
             ->count();
@@ -46,13 +46,6 @@ trait StatsDelegates
 
     protected function enagicCount($startDate, $endDate)
     {
-        /*  $roleModel = app(config("permission.models.role"));
-         $rolePivotTable = config("permission.table_names.model_has_roles");
-
-      $roles = $roleModel::query()
-              ->whereIn("name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
-              ->withCount(["users" => fn($q) => $q->whereBetween("$rolePivotTable.created_at", array($startDate, $endDate))])
-              ->get();*/
         $usersCount = User::whereHas("roles", function ($q) use ($startDate, $endDate) {
             $q->whereIn("roles.name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
                 ->whereBetween(config('permission.table_names.model_has_roles') . ".created_at", array($startDate, $endDate));
