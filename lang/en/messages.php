@@ -61,4 +61,5 @@ return [
     'notes.stored' => 'Successfully, Note created.',
     'notes.edited' => 'Successfully, Note edited.',
     'notes.deleted' => 'Successfully, Note deleted.',
+    'notes.fetched' => 'Successfully, Notes fetched.',
 ];

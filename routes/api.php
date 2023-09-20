@@ -94,8 +94,8 @@ Route::group(['prefix' => 'support', 'middleware' => 'auth:sanctum'], function (
 Route::group(['prefix' => 'notes', 'middleware' => 'auth:sanctum'], function () {
     Route::post('/edit', [OnboardingController::class, 'editNote']);
     Route::post('/', [OnboardingController::class, 'storeNote']);
-    Route::get('/', [OnboardingController::class, 'notes']);
     Route::delete('/{uuid}', [OnboardingController::class, 'destroyNote']);
+    Route::get('/{uuid}', [OnboardingController::class, 'notes']);
 });
 
 require __DIR__ . '/auth.php';

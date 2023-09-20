@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Http\Resources\{NoteResourc, QuestionResource};
+use App\Http\Resources\{NoteResource, QuestionResource};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -93,9 +93,13 @@ class OnboardingController extends Controller
         }
     }
 
-    public function notes()
+    public function notes(string $uuid)
     {
         try {
+            $notes = $this->onboardingRepository->fetchNotes($uuid);
+            $notes= NoteResource::collection($notes);
+
+            return response()->success(__('messages.notes.fetched'), $notes);
 
         } catch (\Exception $e) {
             return $this->handleException($e);

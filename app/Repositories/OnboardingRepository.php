@@ -121,4 +121,10 @@ class OnboardingRepository implements OnboardingRepositoryInterface
         $note= $this->noteModel::findOrFailNoteByUuid($uuid);
         return $note->delete();
     }
+
+    public function fetchNotes(string $uuid)
+    {
+        $user= $this->userModel::findOrFailUserByUuid($uuid);
+        return $user->notes()->get();
+    }
 }
