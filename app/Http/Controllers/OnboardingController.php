@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Http\Resources\QuestionResource;
+use App\Http\Resources\{NoteResourc, QuestionResource};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,7 +18,7 @@ class OnboardingController extends Controller
     public function getQuestion()
     {
         try {
-            $userUuid= request()->input('user');
+            $userUuid = request()->input('user');
             $questions = $this->onboardingRepository->all($userUuid);
             $questions = QuestionResource::collection($questions);
 
@@ -89,6 +89,69 @@ class OnboardingController extends Controller
             return response()->success(__('messages.onboarding.steps_fetched'), $onboardingStepsState);
 
         } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function notes()
+    {
+        try {
+
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function storeNote(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $validated = $this->onboardingRepository->storeNoteValidation($data)->validate();
+            $note = $this->onboardingRepository->storeNote($validated);
+            DB::commit();
+
+
+            $note = new NoteResource($note);
+            return response()->success(__('messages.notes.stored'), $note);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->handleException($e);
+        }
+    }
+
+    public function editNote(Request $request)
+    {
+        try {
+            $data = $request->input();
+
+            DB::beginTransaction();
+            $validated = $this->onboardingRepository->editNoteValidation($data)->validate();
+            $note = $this->onboardingRepository->editNote($validated);
+            DB::commit();
+
+            $note = new NoteResource($note);
+            return response()->success(__('messages.notes.edited'), $note);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->handleException($e);
+        }
+    }
+
+    public function destroyNote(string $uuid)
+    {
+        try {
+            DB::beginTransaction();
+            $this->onboardingRepository->deleteNote($uuid);
+            DB::commit();
+
+            return response()->message(__("messages.notes.deleted"));
+
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->handleException($e);
         }
     }

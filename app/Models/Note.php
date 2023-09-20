@@ -9,4 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Note extends Model
 {
     use HasFactory, HasUUID;
+
+    protected $fillable=["note"];
+
+    public static function findOrFailNoteByUuid(string $uuid)
+    {
+        return static::byUUID($uuid)->firstOrFail();
+    }
 }

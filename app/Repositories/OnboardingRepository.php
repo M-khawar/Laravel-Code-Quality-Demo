@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\OnboardingRepositoryInterface;
-use App\Models\User;
+use App\Models\{Note, User};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -12,10 +12,14 @@ class OnboardingRepository implements OnboardingRepositoryInterface
 {
 
     private Model $model;
+    private $noteModel;
+    private $userModel;
 
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->noteModel = app(Note::class);
+        $this->userModel = app(User::class);
     }
 
     public function getQuestionByUuid($uuid)
@@ -47,7 +51,7 @@ class OnboardingRepository implements OnboardingRepositoryInterface
     public function storeAnswerValidation($data)
     {
         return Validator::make($data, [
-            'question_uid' => ['required', 'exists:questions,uuid'],
+            'question_uid' => ['required', 'uuid', 'exists:questions,uuid'],
             'answer' => [Rule::requiredIf($this->getQuestionByUuid($data['question_uid'])?->is_answerable), 'string', 'nullable'],
             'video_watched' => ['required', 'boolean'],
         ]);
@@ -79,5 +83,42 @@ class OnboardingRepository implements OnboardingRepositoryInterface
         }
 
         return $stepsData;
+    }
+
+    public function storeNote(array $data)
+    {
+        $user= $this->userModel::findOrFailUserByUuid($data["questionnaire_user_uuid"]);
+        $note= $user->notes()->create($data);
+        return $note;
+    }
+
+    public function storeNoteValidation($data)
+    {
+        return Validator::make($data, [
+            'questionnaire_user_uuid' => ['required', 'uuid', 'exists:' . get_class($this->userModel) . ',uuid'],
+            'note' => ['required'],
+        ]);
+    }
+
+    public function editNote(array $data)
+    {
+        $note= $this->noteModel::findOrFailNoteByUuid($data["note_uuid"]);
+        $note->fill($data)->save();
+
+        return $note;
+    }
+
+    public function editNoteValidation($data)
+    {
+        return Validator::make($data, [
+            'note_uuid' => ['required', 'uuid', 'exists:' . get_class($this->noteModel) . ',uuid'],
+            'note' => ['required'],
+        ]);
+    }
+
+    public function deleteNote(string $uuid)
+    {
+        $note= $this->noteModel::findOrFailNoteByUuid($uuid);
+        return $note->delete();
     }
 }

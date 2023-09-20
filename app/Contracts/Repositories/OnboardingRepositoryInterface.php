@@ -18,4 +18,13 @@ interface OnboardingRepositoryInterface
 
     public function onboardingStepsState(?User $user = null): array;
 
+    public function storeNote(array $data);
+
+    public function storeNoteValidation($data);
+
+    public function editNote(array $data);
+
+    public function editNoteValidation($data);
+
+    public function deleteNote(string $uuid);
 }

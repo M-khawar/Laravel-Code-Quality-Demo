@@ -2,7 +2,7 @@
 
 namespace App\Models\Traits\Relations;
 
-use App\Models\{Address, Chat, Lead, Media, PageView, Profile, User};
+use App\Models\{Address, Chat, Lead, Media, Note, PageView, Profile, User};
 use Illuminate\Database\Eloquent\Relations\{BelongsTo, BelongsToMany, HasMany, HasOne, MorphOne};
 
 trait UserRelations
@@ -58,6 +58,11 @@ trait UserRelations
     public function members(): HasMany
     {
         return $this->hasMany(User::class, "affiliate_id", "id");
+    }
+
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 
 }
