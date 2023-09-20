@@ -33,6 +33,9 @@ class SubscriptionResource extends JsonResource
         if ($this->ends_at && $this->stripe_status == 'active') {
             return 'GRACE_PERIOD';
 
+        } elseif ($this->ends_at && $this->stripe_status == 'trialing') {
+            return 'GRACE_PERIOD';
+
         } elseif (!$this->ends_at && $this->stripe_status == 'active') {
             return 'ACTIVE';
 
