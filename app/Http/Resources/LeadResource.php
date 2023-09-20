@@ -24,6 +24,7 @@ class LeadResource extends JsonResource
             "status" => $this->status,
             "join_date" => $this->created_at->toDateString(),
             "affiliate" => new AffiliateResource($this->whenLoaded("affiliate")),
+            "advisor" => new AffiliateResource($this->whenLoaded("advisor")),
         ];
     }
 }

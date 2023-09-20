@@ -113,7 +113,7 @@ class LeadRepository implements LeadRepositoryInterface
         });
 
         $query->whereBetween("created_at", array($startDate, $endDate));
-        $query->with('affiliate')->latest();
+        $query->with('affiliate', 'advisor')->latest();
 
         return $paginated ? $query->paginate()->withQueryString() : $query->get();
     }
