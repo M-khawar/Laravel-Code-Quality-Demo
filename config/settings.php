@@ -28,4 +28,14 @@ return [
         'notifications.event_sms' => true,
 
     ],
+
+    'admin' => [
+        'admin_settings.youtube_live' => '',
+        'admin_settings.chatroll' => '',
+        'admin_settings.blocked_words' => '',
+        'admin_settings.is_live' => false,
+        'admin_settings.hide_live_content' => false,
+        'admin_settings.live_at' => '',
+        'admin_settings.live_timezone' => '',
+    ]
 ];

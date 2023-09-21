@@ -5,7 +5,7 @@ namespace App\Repositories;
 use Illuminate\Support\Facades\Validator;
 use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
 use App\Http\Resources\{RoleResource, UserPublicInfoResource, UserResource};
-use App\Models\{User};
+use App\Models\{Setting, User};
 use Illuminate\Database\Eloquent\Model;
 
 class UserRepository implements UserRepositoryInterface
@@ -14,6 +14,7 @@ class UserRepository implements UserRepositoryInterface
     protected Model $user;
     private $roleModel;
     private $permissionModel;
+    private mixed $settingsModel;
 
     public function __construct(Model $user)
     {
@@ -21,6 +22,7 @@ class UserRepository implements UserRepositoryInterface
         $this->user = $user;
         $this->roleModel = app(config('permission.models.role'));
         $this->permissionModel = app(config('permission.models.permission'));
+        $this->settingsModel = app(Setting::class);
     }
 
     public function __call($method, $parameters)
@@ -70,6 +72,11 @@ class UserRepository implements UserRepositoryInterface
 
         $user->setRelation('permissions', $this->getPermissions($user));
         $user->setRelation('notifications', $this->getNotifications());
+
+        if ($user->hasRole(ADMIN_ROLE)){
+            $adminSettings= $this->settingsModel::settingFilters(group: ADMIN_SETTINGS_GROUP)->get();
+            $user->profile->setRelation("adminSettings", $adminSettings);
+        }
 
         return new UserResource($user);
     }

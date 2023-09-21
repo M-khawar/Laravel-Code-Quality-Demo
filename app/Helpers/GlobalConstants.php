@@ -5,12 +5,21 @@ define('ADVISOR_SETTING_GROUP', 'adviser_settings');
 define('ACCOUNT_SETTING_GROUP', 'account_settings');
 define('NOTIFICATION_SETTING_GROUP', 'notifications');
 define('PROMOTE_GROUP', 'promote');
+define('ADMIN_SETTINGS_GROUP', 'admin_settings');
 
 define('SCHEDULING_LINK_ATTR', 'scheduling_link');
 define('FB_GROUP_JOINED', 'joined_facebook_group');
 define('PAYPAL_ACCOUNT_SETTING', 'paypal_account');
 define('FB_ACCOUNT', 'facebook_link');
 define('ADVISOR_MESSAGE', 'advisor_message');
+
+define('YOUTUBE_LIVE_SETTING', 'youtube_live');
+define('CHATROLL_SETTING', 'chatroll');
+define('BLOCKED_WORDS_SETTING', 'blocked_words');
+define('IS_LIVE_SETTING', 'is_live');
+define('HIDE_LIVE_CONTENT_SETTING', 'hide_live_content');
+define('LIVE_AT_SETTING', 'live_at');
+define('LIVE_TIMEZONE_SETTING', 'live_timezone');
 
 define('WISTIA', 'wistia');
 define('VIMEO', 'vimeo');

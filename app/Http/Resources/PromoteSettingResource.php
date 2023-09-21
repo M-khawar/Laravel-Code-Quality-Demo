@@ -6,12 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PromoteSettingResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
+
     public function toArray($request)
     {
         return [
@@ -19,6 +14,7 @@ class PromoteSettingResource extends JsonResource
             'display_text' => $this->display_text,
             'head_code' => $this->head_code,
             'body_code' => $this->body_code,
+            'admin_settings' => new SettingResource($this->whenLoaded("adminSettings"))
         ];
     }
 }

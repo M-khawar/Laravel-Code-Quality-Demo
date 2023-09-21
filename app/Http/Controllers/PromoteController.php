@@ -18,15 +18,14 @@ class PromoteController extends Controller
         try {
             DB::beginTransaction();
 
-            $userId = currentUserId();
             $data = $request->input();
 
             $this->promoteRepository->storeSettingValidation($data)->validate();
-            $userProfile = $this->promoteRepository->updatePromoteSettings($userId, $data);
+            $promotSettings = $this->promoteRepository->updatePromoteSettings($data);
 
             DB::commit();
 
-            $data = new PromoteSettingResource($userProfile);
+            $data = new PromoteSettingResource($promotSettings);
             return response()->success("Successfully, Promote settings updated.", $data);
 
         } catch (\Exception $e) {
