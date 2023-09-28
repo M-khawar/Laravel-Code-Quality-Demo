@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -28,11 +29,16 @@ class PermissionController extends Controller
     {
         try {
             $data = $request->input();
-            $roles = $this->userRepository->assignRole($data);
+
+            DB::beginTransaction();
+            $validated= $this->userRepository->assignRoleValidation($data)->validate();
+            $roles = $this->userRepository->assignRole($validated);
+            DB::commit();
 
             return response()->success(__('auth.roles.updated'), ["roles" => $roles]);
 
         } catch (\Exception $e) {
+            DB::rollBack();
             return $this->handleException($e);
         }
     }

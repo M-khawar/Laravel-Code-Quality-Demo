@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sanctum:prune-expired --hours=24')->daily();
-        $schedule->command('configure:activeRecruiterRole')->everyFifteenMinutes()->withoutOverlapping(30);
+        $schedule->command('configure:activeRecruiterRole')->hourly()->withoutOverlapping(30);
     }
 
     /**

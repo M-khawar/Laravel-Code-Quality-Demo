@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Jobs\{UpdateAffiliatesAdvisorJob};
 use Illuminate\Support\Facades\Validator;
 use App\Contracts\Repositories\{OnboardingRepositoryInterface, UserRepositoryInterface};
 use App\Http\Resources\{RoleResource, UserPublicInfoResource, UserResource};
@@ -73,8 +74,8 @@ class UserRepository implements UserRepositoryInterface
         $user->setRelation('permissions', $this->getPermissions($user));
         $user->setRelation('notifications', $this->getNotifications());
 
-        if ($user->hasRole(ADMIN_ROLE)){
-            $adminSettings= $this->settingsModel::settingFilters(group: ADMIN_SETTINGS_GROUP)->get();
+        if ($user->hasRole(ADMIN_ROLE)) {
+            $adminSettings = $this->settingsModel::settingFilters(group: ADMIN_SETTINGS_GROUP)->get();
             $user->profile->setRelation("adminSettings", $adminSettings);
         }
 
@@ -118,7 +119,7 @@ class UserRepository implements UserRepositoryInterface
         return $this->user::query()
             ->select('id', 'uuid', 'name', 'email')
             ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
-            ->when($filterAdvisor, function($q){
+            ->when($filterAdvisor, function ($q) {
                 $q->whereDefaultAdvisor()->orWhereHas("roles", fn($q) => $q->where("name", ADVISOR_ROLE));
             })
             ->paginate(20)->withQueryString();
@@ -151,11 +152,25 @@ class UserRepository implements UserRepositoryInterface
     public function assignRole(array $data)
     {
         $user = $this->user::findOrFailUserByUuid($data["user_uuid"]);
-        $roleIds = $this->roleModel::byUUID($data["role_uuid"])->pluck("id")->toArray();
+        $role = $this->roleModel::byUUID($data["role_uuid"])->firstOrFail();
+        $roleIds = (array)$role->id;
 
-        $user->roles()->toggle($roleIds);
+        $toggledResultant = $user->roles()->toggle($roleIds);
+
+        //making this user an advisor of their affiliates because he got `advisor` role
+        if ($role->name == ADVISOR_ROLE && in_array($role->id, $toggledResultant["attached"])) {
+            UpdateAffiliatesAdvisorJob::dispatch($user);
+        }
 
         $query = $user->roles()->whereNotIn("name", [ADMIN_ROLE, ALL_MEMBER_ROLE]);
         return $query->pluck("uuid")->toArray();
+    }
+
+    public function assignRoleValidation(array $data)
+    {
+        return Validator::make($data, [
+            "user_uuid" => ["required", "uuid", 'exists:' . get_class($this->user) . ',uuid'],
+            "role_uuid" => ["required", "uuid", 'exists:' . get_class($this->roleModel) . ',uuid'],
+        ]);
     }
 }

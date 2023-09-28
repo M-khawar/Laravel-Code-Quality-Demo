@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Traits\Globals\{AffiliateCodeGenerator, FunnelGenerator, Searchable, UserSetting};
 use App\Models\Traits\Relations\UserRelations;
+use Closure;
 use App\Packages\StripeWrapper\Contracts\{DeleteOldCardOnUpdate, HasPaidTrail};
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -72,6 +73,19 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
             ->when(!empty($affiliateCode), fn($q) => $q->whereAffiliate($affiliateCode))
             ->when(empty($affiliateCode), fn($q) => $q->whereDefaultAdvisor())
             ->first();
+    }
+
+    public static function getAffiliatedMembers($advisorID, Closure $closureQuery = null)
+    {
+        $query = self::query()
+            ->where("affiliate_id", $advisorID)
+            ->where("id", "!=", $advisorID);
+
+        if ($closureQuery instanceof Closure) {
+            $closureQuery($query);
+        }
+
+        return $query->get();
     }
 
     protected function hasActiveSubscription(): Attribute

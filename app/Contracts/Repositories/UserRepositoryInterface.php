@@ -21,4 +21,8 @@ interface UserRepositoryInterface
 
     public function updateAdministratorValidation(array $data);
 
+    public function assignRole(array $data);
+
+    public function assignRoleValidation(array $data);
+
 }
