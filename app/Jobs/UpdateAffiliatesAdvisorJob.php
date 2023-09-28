@@ -22,6 +22,7 @@ class UpdateAffiliatesAdvisorJob implements ShouldQueue
     {
         $this->advisor = $advisor;
         $this->parentAdvisorId = $advisor->advisor_id;
+        $this->onQueue('assignNewAdvisor');
     }
 
 

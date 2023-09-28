@@ -29,4 +29,8 @@ php artisan cashier:webhook
 php artisan cashier:webhook --disabled
 php artisan cashier:webhook --url=<custom_url>
 php artisan cashier:webhook --api-version=<version>
+```
+---
+##### Queue Types
 
+1. [command] ***php artisan queue:listen --queue=assignNewAdvisor***  `// assignNewAdvisor` 
