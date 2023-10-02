@@ -107,10 +107,11 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString) {
             $query->when(!empty($affiliateID), fn($q) => $q->where('affiliate_id', $affiliateID));
-            $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
-            $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
         });
+
+        $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
+        $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
 
         $query->whereBetween("created_at", array($startDate, $endDate));
         $query->with('affiliate', 'advisor')->latest();
@@ -152,10 +153,11 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query->where(function ($query) use ($affiliateID, $funnelType, $downLines, $queryString, $filterableRole) {
             $query->when(!empty($affiliateID), fn($q) => $q->where('affiliate_id', $affiliateID));
-            $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
             $query->when($downLines, fn($q) => $q->orWhere('advisor_id', $affiliateID));
-            $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
         });
+
+        $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
+        $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
 
         /**
          * Filtering members for admin-dashboard stats by roles
