@@ -113,6 +113,12 @@ class LeadRepository implements LeadRepositoryInterface
         $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
         $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
 
+        /**
+         * filtering records on `downlines` in case of admin-stats
+         */
+        $query->when(($adminStatsFilter && $downLines), fn($q) => $q->where('affiliate_id', $user->id)->orWhere('advisor_id', $user->id));
+
+
         $query->whereBetween("created_at", array($startDate, $endDate));
         $query->with('affiliate', 'advisor')->latest();
 
@@ -158,6 +164,11 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query->when(!empty($funnelType), fn($q) => $q->where('funnel_type', $funnelType));
         $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
+
+        /**
+         * filtering records on `downlines` in case of admin-stats
+         */
+        $query->when(($adminStatsFilter && $downLines), fn($q) => $q->where('affiliate_id', $user->id)->orWhere('advisor_id', $user->id));
 
         /**
          * Filtering members for admin-dashboard stats by roles
