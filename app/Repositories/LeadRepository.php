@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Contracts\Repositories\LeadRepositoryInterface;
+use App\Contracts\Repositories\{LeadRepositoryInterface, UserRepositoryInterface};
+use App\Notifications\{NewLeadNotification};
 use App\Traits\CommonServices;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ class LeadRepository implements LeadRepositoryInterface
 
     private Model $leadModel;
     private User $userModel;
+    private $userRepository;
 
     const FUNNEL_TYPES = [MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL];
     const FUNNEL_STEPS = [WELCOME_FUNNEL_STEP, WEBINAR_FUNNEL_STEP, CHECKOUT_FUNNEL_STEP, THANKYOU_FUNNEL_STEP];
@@ -27,6 +29,7 @@ class LeadRepository implements LeadRepositoryInterface
     {
         $this->leadModel = $leadModel;
         $this->userModel = app(User::class);
+        $this->userRepository = app(UserRepositoryInterface::class);
     }
 
     public function storeLead(string $affiliateCode, array $data)
@@ -56,6 +59,9 @@ class LeadRepository implements LeadRepositoryInterface
             ];
 
             $this->sendgridContactManager()->addContact($listID, $data);
+
+            $affiliate->setRelation('notifications', $this->userRepository->getNotifications($affiliate));
+            $affiliate->notify((new NewLeadNotification($lead))->afterCommit());
         }
 
         return $lead;

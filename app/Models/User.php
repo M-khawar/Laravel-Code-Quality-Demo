@@ -96,4 +96,9 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
             }
         );
     }
+
+    public function routeNotificationForTwilio()
+    {
+        return $this->phone;
+    }
 }
