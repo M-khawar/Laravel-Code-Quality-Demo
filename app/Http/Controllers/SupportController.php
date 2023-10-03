@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\SupportedRequestNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class SupportController extends Controller
 {
@@ -24,6 +26,13 @@ class SupportController extends Controller
                 "subject" => ['required', "string"],
                 "message" => ['required', "string"],
             ]);
+
+            $user = currentUser();
+
+            $request->merge(["email" => $user->email]);
+            $data = $request->input();
+
+            Notification::route('mail', env("SUPPORT_EMAIL"))->notify(new SupportedRequestNotification($data));
 
             return response()->message(__('messages.support.ticket_submit'));
 
