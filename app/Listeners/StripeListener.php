@@ -2,15 +2,16 @@
 
 namespace App\Listeners;
 
-use Closure;
-use App\Models\User;
 use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Models\User;
 use App\Notifications\{
+    NotifyRebillFailureToAdministrator,
+    NotifyRebillFailureToMember,
+    NotifyRebillFailureToSupport,
     SendSupportAboutGracePeriodNotification,
-    SubscriptionConfirmedNotification,
+    SubscriptionConfirmedNotification
 };
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use Closure;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Cashier\Events\WebhookReceived;
 
@@ -63,7 +64,16 @@ class StripeListener
 
         if ($event->payload['type'] === "customer.subscription.deleted") {
             $data = $this->buildPaymentPayload($event->payload);
-            info("cacelled subscription", $data);
+            $member = $this->getStripeUser($data["customer"], fn($q) => $q->with(['affiliate', 'advisor']));
+
+            if ($member) {
+                $member->notify(new NotifyRebillFailureToMember($data));
+                $member->affiliate->notify(new NotifyRebillFailureToAdministrator($member, $data));
+                $member->advisor->notify(new NotifyRebillFailureToAdministrator($member, $data));
+
+                Notification::route('mail', env("SUPPORT_EMAIL"))
+                    ->notify(new NotifyRebillFailureToSupport($member, $data));
+            }
         }
     }
 
@@ -83,9 +93,10 @@ class StripeListener
             "subscription" => @$data["subscription"],
             "subtotal" => @$data["subtotal"],
             "total" => @$data["total"],
-            "plan" => @$data["lines"]["data"][0]["plan"],
+            "plan" => @$data["lines"]["data"][0]["plan"] ?? @$data["plan"],
             "cancel_at" => @$data["cancel_at"],
             "canceled_at" => @$data["canceled_at"],
+            "cancellation_details" => @$data["cancellation_details"]["reason"],
         ];
     }
 
