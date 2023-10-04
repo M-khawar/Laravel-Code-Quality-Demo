@@ -2,11 +2,16 @@
 
 namespace App\Listeners;
 
+use Closure;
 use App\Models\User;
 use App\Contracts\Repositories\UserRepositoryInterface;
-use App\Notifications\SubscriptionConfirmedNotification;
+use App\Notifications\{
+    SendSupportAboutGracePeriodNotification,
+    SubscriptionConfirmedNotification,
+};
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Cashier\Events\WebhookReceived;
 
 class StripeListener
@@ -19,12 +24,7 @@ class StripeListener
         $this->userRepository = app(UserRepositoryInterface::class);
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param object $event
-     * @return void
-     */
+
     public function handle(WebhookReceived $event)
     {
         if ($event->payload['type'] === 'invoice.payment_succeeded' && $event->payload["data"]["object"]["billing_reason"] == "manual") {
@@ -49,8 +49,17 @@ class StripeListener
             && $event->payload["data"]["object"]['cancel_at_period_end']
         ) {
             $data = $this->buildPaymentPayload($event->payload);
-            info("grace period", $data);
+            $member = $this->getStripeUser($data["customer"], function ($q) {
+                $q->with([
+                    'affiliate', 'advisor',
+                    'roles' => fn($q) => $q->whereNotIn("name", [ADMIN_ROLE, ALL_MEMBER_ROLE])
+                ]);
+            });
+
+            if ($member) Notification::route('mail', env("SUPPORT_EMAIL"))
+                ->notify(new SendSupportAboutGracePeriodNotification($member, $data));
         }
+
 
         if ($event->payload['type'] === "customer.subscription.deleted") {
             $data = $this->buildPaymentPayload($event->payload);
@@ -75,12 +84,20 @@ class StripeListener
             "subtotal" => @$data["subtotal"],
             "total" => @$data["total"],
             "plan" => @$data["lines"]["data"][0]["plan"],
+            "cancel_at" => @$data["cancel_at"],
+            "canceled_at" => @$data["canceled_at"],
         ];
     }
 
-    private function getStripeUser(string $stripeId)
+    private function getStripeUser(string $stripeId, Closure $closureQuery = null)
     {
-        $user = User::where('stripe_id', $stripeId)->first();
+        $query = User::where('stripe_id', $stripeId);
+
+        if ($closureQuery instanceof Closure) {
+            $closureQuery($query);
+        }
+
+        $user = $query->first();
 
         if ($user) {
             $user->setRelation('notifications', $this->userRepository->getNotifications($user));
