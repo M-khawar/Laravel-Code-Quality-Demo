@@ -13,7 +13,7 @@ class ResubscribeSubscriptionAction extends StripeSubscriptionAbstract
     {
         $this->resubscribeValidation($data)->validate();
 
-        if ($user->subscribed($this->subscription_name)) {
+        if ($user->subscribed($this->subscription_name) && !$user->subscription(config('cashier.subscription_name'))->ended()) {
             throw new Exception("User is already subscribed. To change the plan, please call the appropriate API");
         }
 

@@ -2,11 +2,17 @@
 
 namespace App\Providers;
 
-use App\Listeners\{InactivateLeadListener, UserSettingConfigurationListener};
+use App\Listeners\{
+    InactivateLeadListener,
+    NewMemberListener,
+    StripeListener,
+    UserSettingConfigurationListener
+};
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use Laravel\Cashier\Events\{WebhookHandled, WebhookReceived};
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -20,7 +26,14 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
             InactivateLeadListener::class,
             UserSettingConfigurationListener::class,
+//            NewMemberListener::class,
         ],
+        WebhookReceived::class => [
+            StripeListener::class
+        ],
+
+        WebhookHandled::class => [
+        ]
     ];
 
     /**

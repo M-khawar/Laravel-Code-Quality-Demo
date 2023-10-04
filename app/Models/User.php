@@ -92,7 +92,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
     {
         return Attribute::make(
             get: function ($value, $attributes) {
-                return $this->subscribed(config('cashier.subscription_name'));
+                return ($this->subscribed(config('cashier.subscription_name')) && !$this->subscription(config('cashier.subscription_name'))->ended());
             }
         );
     }
