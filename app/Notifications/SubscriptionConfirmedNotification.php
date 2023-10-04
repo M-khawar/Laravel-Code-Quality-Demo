@@ -31,6 +31,7 @@ class SubscriptionConfirmedNotification extends Notification implements ShouldQu
         $price = StripeFactory::centToUsds($this->stripeData['total']);
 
         return (new MailMessage)
+            ->subject("Welcome To RaceToFreedom")
             ->line("Welcome to the Race To Freedom community.")
             ->line("You have successfully joined and created an account. Here are your order details:")
             ->line("Race To Freedom Membership - $" . $price)
