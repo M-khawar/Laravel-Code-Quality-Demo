@@ -57,11 +57,4 @@ class NewLeadNotification extends Notification implements ShouldQueue
 
         return (new TwilioSmsMessage())->content($content);
     }
-
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
 }

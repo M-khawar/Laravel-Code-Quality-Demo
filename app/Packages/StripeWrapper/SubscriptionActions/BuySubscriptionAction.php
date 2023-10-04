@@ -72,7 +72,7 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
 
     protected function applyPaidTrailCharges($user)
     {
-        $trailPrice = StripeFactory::usdToCents(1);
+        $trailPrice = StripeFactory::usdToCents(100);
         $user->invoiceFor("Paid 7 days trail at $1 only", $trailPrice);
     }
 }
