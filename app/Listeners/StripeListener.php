@@ -2,20 +2,21 @@
 
 namespace App\Listeners;
 
+use App\Models\User;
+use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Notifications\SubscriptionConfirmedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Cashier\Events\WebhookReceived;
 
 class StripeListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
+
+    private mixed $userRepository;
+
     public function __construct()
     {
-        //
+        $this->userRepository = app(UserRepositoryInterface::class);
     }
 
     /**
@@ -28,16 +29,20 @@ class StripeListener
     {
         if ($event->payload['type'] === 'invoice.payment_succeeded' && $event->payload["data"]["object"]["billing_reason"] == "manual") {
             $data = $this->buildPaymentPayload($event->payload);
-            info("trail payment", $data);
+            $user = $this->getStripeUser($data["customer"]);
+            if ($user) $user->notify(new SubscriptionConfirmedNotification($data));
         }
+
 
         if ($event->payload['type'] === 'invoice.payment_succeeded' &&
             $event->payload["data"]["object"]["billing_reason"] == "subscription_create" &&
             isset($event->payload["data"]["object"]["subscription"])
         ) {
             $data = $this->buildPaymentPayload($event->payload);
-            info("Subscribed", $data);
+            $user = $this->getStripeUser($data["customer"]);
+            if ($user) $user->notify(new SubscriptionConfirmedNotification($data));
         }
+
 
         if ($event->payload['type'] === "customer.subscription.updated"
             && isset($event->payload["data"]["object"]['cancel_at_period_end'])
@@ -47,7 +52,7 @@ class StripeListener
             info("grace period", $data);
         }
 
-        if ($event->payload['type'] === "customer.subscription.deleted"){
+        if ($event->payload['type'] === "customer.subscription.deleted") {
             $data = $this->buildPaymentPayload($event->payload);
             info("cacelled subscription", $data);
         }
@@ -71,5 +76,16 @@ class StripeListener
             "total" => @$data["total"],
             "plan" => @$data["lines"]["data"][0]["plan"],
         ];
+    }
+
+    private function getStripeUser(string $stripeId)
+    {
+        $user = User::where('stripe_id', $stripeId)->first();
+
+        if ($user) {
+            $user->setRelation('notifications', $this->userRepository->getNotifications($user));
+        }
+
+        return $user;
     }
 }
