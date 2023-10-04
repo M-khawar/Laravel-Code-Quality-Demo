@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 
-class SendSupportAboutGracePeriodNotification extends Notification
+class SendSupportAboutGracePeriodNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,8 +20,6 @@ class SendSupportAboutGracePeriodNotification extends Notification
     {
         $this->member = $member;
         $this->stripeData = $stripeData;
-
-        info("Asdfasd", [$member]);
     }
 
 
