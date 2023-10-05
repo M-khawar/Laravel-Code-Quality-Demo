@@ -6,6 +6,7 @@ use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Http\Controllers\Controller;
 use App\Models\SubscriptionPlan;
 use App\Models\User;
+use App\Notifications\NewMemberNotification;
 use App\Packages\StripeWrapper\StripeFactoryTrait;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -69,6 +70,7 @@ class RegisteredUserController extends Controller
             DB::commit();
 
             event(new Registered($user));
+            $this->sendNewMemberNotification($user);
             Auth::login($user);
 
             $token = $request->user()->createToken(config('sanctum.token_name'));
@@ -177,4 +179,17 @@ class RegisteredUserController extends Controller
         ]);
     }
 
+    private function sendNewMemberNotification($user)
+    {
+        $member = [
+            "name" => $user->name,
+            "email" => $user->email,
+            "phone" => $user->phone,
+            "instagram" => $user->instagram,
+        ];
+        $member = (object)$member;
+
+        $user->affiliate->setRelation('notifications', $this->userRepository->getNotifications($user->affiliate));
+        $user->affiliate->notify(new NewMemberNotification($member));
+    }
 }
