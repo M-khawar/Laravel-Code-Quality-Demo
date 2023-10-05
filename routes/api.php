@@ -29,6 +29,7 @@ Route::get('/referral', [UserController::class, 'getReferral']);
 
 Route::post('/visits', [LeadController::class, 'storeVisits']);
 
+Route::get('/videos/live-call', [VideoController::class, 'getLiveCall']);
 Route::get('/videos/{slug}', [VideoController::class, 'getVideoBySlug']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
