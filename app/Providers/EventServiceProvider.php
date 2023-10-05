@@ -26,14 +26,10 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
             InactivateLeadListener::class,
             UserSettingConfigurationListener::class,
-//            NewMemberListener::class,
         ],
         WebhookReceived::class => [
             StripeListener::class
         ],
-
-        WebhookHandled::class => [
-        ]
     ];
 
     /**
