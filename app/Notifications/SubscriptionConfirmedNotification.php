@@ -38,7 +38,7 @@ class SubscriptionConfirmedNotification extends Notification implements ShouldQu
             ->line("You have successfully joined and created an account. Here are your order details:")
             ->line("Race To Freedom Membership - $" . $price)
             ->action('Log into the platform', config('app.frontend_url') . "/login")
-            ->line((new HtmlString("<a href='$invoiceLink' style='text-align:center; display: block'>Download Invoice</a>")))
+//            ->line((new HtmlString("<a href='$invoiceLink' style='text-align:center; display: block'>Download Invoice</a>")))
             ->line("Watch the welcome video and start the onboarding process")
             ->line("Check to make sure the emails we are sending are not in your spam folder")
             ->line("If you have any questions at all, please send an email to " . env("SUPPORT_EMAIL"))
