@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
@@ -28,7 +29,8 @@ class SubscriptionConfirmedNotification extends Notification implements ShouldQu
 
     public function toMail($notifiable)
     {
-        $price = StripeFactory::centToUsds($this->stripeData['total']);
+        $price = StripeFactory::centToUsds($this->stripeData['plan']['amount']);
+        $invoiceLink = $this->stripeData['invoice_pdf'];
 
         return (new MailMessage)
             ->subject("Welcome To RaceToFreedom")
@@ -36,6 +38,7 @@ class SubscriptionConfirmedNotification extends Notification implements ShouldQu
             ->line("You have successfully joined and created an account. Here are your order details:")
             ->line("Race To Freedom Membership - $" . $price)
             ->action('Log into the platform', config('app.frontend_url') . "/login")
+            ->line((new HtmlString("<a href='$invoiceLink' style='text-align:center; display: block'>Download Invoice</a>")))
             ->line("Watch the welcome video and start the onboarding process")
             ->line("Check to make sure the emails we are sending are not in your spam folder")
             ->line("If you have any questions at all, please send an email to " . env("SUPPORT_EMAIL"))
