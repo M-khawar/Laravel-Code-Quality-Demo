@@ -28,7 +28,7 @@ class SubscriptionConfirmedNotification extends Notification implements ShouldQu
 
     public function toMail($notifiable)
     {
-        $price = StripeFactory::centToUsds($this->stripeData['total']);
+        $price = StripeFactory::centToUsds($this->stripeData['plan']['amount']);
 
         return (new MailMessage)
             ->subject("Welcome To RaceToFreedom")
