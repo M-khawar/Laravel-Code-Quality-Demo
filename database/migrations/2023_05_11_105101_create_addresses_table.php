@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->morphs('addressable');
-            $table->string('city');
-            $table->string('state');
-            $table->string('zipcode');
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('zipcode')->nullable();
             $table->text('address');
             $table->timestamps();
         });

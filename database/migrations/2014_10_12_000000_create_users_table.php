@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->uuid()->unique();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('instagram')->nullable();
             $table->string('phone')->nullable();
             $table->foreignId('avatar_id')->nullable()->constrained('media')->nullOnDelete();

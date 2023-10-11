@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users');
             $table->string('display_name')->nullable();
             $table->text('display_text')->nullable();
-            $table->string('head_code')->nullable();
-            $table->string('body_code')->nullable();
+            $table->longText('head_code')->nullable();
+            $table->longText('body_code')->nullable();
             $table->timestamps();
         });
     }

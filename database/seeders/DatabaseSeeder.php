@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(AdminSeeder::class);
 
-        if (app()->environment('local', 'staging')) {
+        /*if (app()->environment('local', 'staging')) {
             $this->call(DummyDatabaseSeeder::class);
-        }
+        }*/
     }
 }

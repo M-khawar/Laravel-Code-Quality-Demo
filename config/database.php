@@ -78,6 +78,21 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'importable_pgsql' => [
+            'driver' => 'pgsql',
+            'url' => env('IMPORTABLE_DATABASE_URL'),
+            'host' => env('IMPORTABLE_DB_HOST', '127.0.0.1'),
+            'port' => env('IMPORTABLE_DB_PORT', '5432'),
+            'database' => env('IMPORTABLE_DB_DATABASE', 'forge'),
+            'username' => env('IMPORTABLE_DB_USERNAME', 'forge'),
+            'password' => env('IMPORTABLE_DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
