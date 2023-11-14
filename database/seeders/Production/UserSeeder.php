@@ -21,8 +21,13 @@ class UserSeeder extends ConfigureDatabase
         $users = $this->getConnection()
             ->table("users")
             ->distinct("email")
-            ->selectRaw("*, (select count(*) from user_forms where user_forms.user_id = users.id and user_forms.form_id = 1 limit 1) as meeting_scheduled")
-            ->get();
+            ->selectRaw("*,
+                (select count(*) from user_forms where user_forms.user_id = users.id and user_forms.form_id = 1 limit 1) as meeting_scheduled,
+                (select aff.email from users aff where aff.id = users.affiliate_id limit 1) as affiliate_email,
+                (select adv.email from users adv where adv.id = users.advisor_id limit 1) as advisor_email
+            ")->get();
+
+//        $users = $users->take(10);
 
         $rawUsers = $users->map(function ($user) {
             return $this->buildUser($user);
@@ -32,7 +37,28 @@ class UserSeeder extends ConfigureDatabase
             $this->storeUser($user);
         });
 
+        collect($rawUsers)->each(function ($user) {
+            $this->assignAdministration($user);
+        });
+
         $this->enableForeignKeys();
+    }
+
+    private function assignAdministration(array $user)
+    {
+        $affiliate = $user["affiliate_email"];
+        $advisor = $user["advisor_email"];
+        $user = $user["email"];
+
+        $users = User::whereIn("email", [$affiliate, $advisor, $user])->get();
+
+        $user = $users->where("email", $user)->first();
+        $affiliate = $users->where("email", $affiliate)->first();
+        $advisor = $users->where("email", $advisor)->first();
+
+        if (!$user || !$affiliate || !$advisor) return;
+
+        $user->update(["affiliate_id" => $affiliate->id, "advisor_id" => $advisor->id]);
     }
 
     private function storeUser(array $userData)
@@ -43,7 +69,10 @@ class UserSeeder extends ConfigureDatabase
         $roles = $userData["roles"];
         $onboarding = $userData["onboarding"];
 
-        unset($userData["profile"], $userData["address"], $userData["roles"], $userData["onboarding"]);
+        unset(
+            $userData["profile"], $userData["address"], $userData["roles"], $userData["onboarding"],
+            $userData["affiliate_email"], $userData["advisor_email"]
+        );
 
         $this->storeAvatar($userData);
         $email = $userData["email"];
@@ -55,6 +84,8 @@ class UserSeeder extends ConfigureDatabase
         $user->assignRole($roles);
 
         event(new Registered($user));
+
+        $user->updateMultipleProperties(ONBOARDING_GROUP_ALIAS, $onboarding);
     }
 
     private function storeAvatar(array &$user)
@@ -71,8 +102,7 @@ class UserSeeder extends ConfigureDatabase
     {
         $timestamp = (int)$user->created_at;
         $timestamp = intval($timestamp / 1000);
-        $created_at = Carbon::createFromTimestamp($timestamp)->toDateTimeString();
-//        $created_at = substr(Carbon::createFromTimestamp($timestamp), 0, -3);
+        $created_at = $this->timeStampConversion($timestamp);
 
         return [
             'name' => $user->name,
@@ -83,8 +113,8 @@ class UserSeeder extends ConfigureDatabase
             'affiliate_code' => $user->affiliate_code,
             'avatar' => $user->avatar,  //logic
             'funnel_type' => $user->funnel_id == 1 ? MASTER_FUNNEL : LIVE_OPPORTUNITY_CALL_FUNNEL,
-//            'advisor_id' => $user->advisor_id,
-//            'affiliate_id' => $user->affiliate_id,
+            'affiliate_email' => $user->affiliate_email,
+            'advisor_email' => $user->advisor_email,
             'created_at' => $created_at,
             'updated_at' => $created_at,
             'profile' => [           //logic
