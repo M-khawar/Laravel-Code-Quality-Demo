@@ -26,17 +26,18 @@ class UserSeeder extends ConfigureDatabase
                 (select aff.email from users aff where aff.id = users.affiliate_id limit 1) as affiliate_email,
                 (select adv.email from users adv where adv.id = users.advisor_id limit 1) as advisor_email
             ")->get();
+             
 
 //        $users = $users->take(10);
-
+// dump($userData);
         $rawUsers = $users->map(function ($user) {
             return $this->buildUser($user);
         });
-
+        // dd($rawUsers);
         collect($rawUsers)->each(function ($user) {
             $this->storeUser($user);
         });
-
+// dd()
         collect($rawUsers)->each(function ($user) {
             $this->assignAdministration($user);
         });
@@ -63,10 +64,11 @@ class UserSeeder extends ConfigureDatabase
 
     private function storeUser(array $userData)
     {
-//        dump($userData);
+    //    dump($userData);
         $profile = $userData["profile"];
         $address = $userData["address"];
         $roles = $userData["roles"];
+
         $onboarding = $userData["onboarding"];
 
         unset(
