@@ -9,9 +9,9 @@ class DummyDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        $this->call(CourseSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(LeadSeeder::class);
-        $this->call(CalendarSeeder::class);
+        // $this->call(CourseSeeder::class);
+        // $this->call(UserSeeder::class);
+        // $this->call(LeadSeeder::class);
+        // $this->call(CalendarSeeder::class);
     }
 }

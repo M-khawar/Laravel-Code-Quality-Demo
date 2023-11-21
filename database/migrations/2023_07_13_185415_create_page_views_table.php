@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('page_views', function (Blueprint $table) {
             $table->id();
             $table->string("ip")->nullable();
-            $table->string("user_agent", 500)->nullable();
+            $table->string("user_agent", 300)->nullable();
             $table->foreignId('affiliate_id')->constrained('users');
             $table->enum("funnel_type", [MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL]);
             $table->enum("funnel_step", [WELCOME_FUNNEL_STEP, WEBINAR_FUNNEL_STEP, CHECKOUT_FUNNEL_STEP, THANKYOU_FUNNEL_STEP]);

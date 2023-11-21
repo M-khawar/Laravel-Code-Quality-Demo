@@ -15,27 +15,62 @@ class PageViewsSeeder extends ConfigureDatabase
 {
     use DisableForeignKeys, TruncateTable;
 
+    // public function run()
+    // {
+    //     $this->disableForeignKeys();
+    //     $this->truncateMultiple(["page_views"]);
+    //     $pageViews = $this->getConnection()
+    //     ->table("page_views")
+    //     ->selectRaw("page_views.*")
+    //     ->get();
+        
+    //         $pageViews = $pageViews->take(2000);
+    //         // dump($pageViews);exit;
+
+    //         $rawpageViews = $pageViews->map(function ($pageView) {
+    //             return $this->buildFunnel($pageView);
+    //         });
+
+    //         $rawpageViews=$rawpageViews->toArray();
+
+    //         PageView::insert($rawpageViews);
+
+    //         // $chunkSize = 1000;
+    //         // $chunks = $rawpageViews->chunk($chunkSize);
+
+    //         // $chunks->each(function ($chunk) {
+    //         //     PageView::insert(collect($chunk)->toArray());
+    //         // });
+    //         // collect($rawpageViews)->each(function ($rawpageView) {
+    //         //     $this->storepageView($rawpageView);
+    //         // });
+    //         $this->enableForeignKeys();
+    //         // dump($rawFunnels);exit;
+    // }
     public function run()
     {
         $this->disableForeignKeys();
         $this->truncateMultiple(["page_views"]);
-        $pageViews = $this->getConnection()
-        ->table("page_views")
-        ->selectRaw("page_views.*")
-        ->get();
-        
-            // $pageViews = $pageViews->take(10);
-            // dump($pageViews);exit;
 
-            $rawpageViews = $pageViews->map(function ($pageView) {
-                return $this->buildFunnel($pageView);
+        $chunkSize = 1000;
+
+        $this->getConnection()
+            ->table("page_views")
+            ->selectRaw("page_views.*")
+            ->take(2000)  
+            ->orderBy('id')
+            ->chunk($chunkSize, function ($pageViews) {
+                $rawpageViews = $pageViews->map(function ($pageView) {
+                    return $this->buildFunnel($pageView);
+                });
+
+                PageView::insert($rawpageViews->toArray());
             });
-            collect($rawpageViews)->each(function ($rawpageView) {
-                $this->storepageView($rawpageView);
-            });
-            $this->enableForeignKeys();
-            // dump($rawFunnels);exit;
-    }
+
+        $this->enableForeignKeys();
+}
+
+
     private function buildFunnel($pageView)
     {
         $timestamp = (int)$pageView->created_at;

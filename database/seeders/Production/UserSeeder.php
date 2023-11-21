@@ -21,14 +21,16 @@ class UserSeeder extends ConfigureDatabase
         $users = $this->getConnection()
             ->table("users")
             ->distinct("email")
-            ->selectRaw("*,
+            ->selectRaw(" *,
                 (select count(*) from user_forms where user_forms.user_id = users.id and user_forms.form_id = 1 limit 1) as meeting_scheduled,
                 (select aff.email from users aff where aff.id = users.affiliate_id limit 1) as affiliate_email,
                 (select adv.email from users adv where adv.id = users.advisor_id limit 1) as advisor_email
-            ")->get();
-             
+            ")
+            ->orderBy('email')
+            ->get();
+             //sort by php function
 
-//        $users = $users->take(10);
+    //    $users = $users->take(10);
 // dump($userData);
         $rawUsers = $users->map(function ($user) {
             return $this->buildUser($user);
@@ -113,25 +115,25 @@ class UserSeeder extends ConfigureDatabase
             'instagram' => $user->instagram,
             'phone' => $user->phone,
             'affiliate_code' => $user->affiliate_code,
-            'avatar' => $user->avatar,  //logic
+            'avatar' => $user->avatar,
             'funnel_type' => $user->funnel_id == 1 ? MASTER_FUNNEL : LIVE_OPPORTUNITY_CALL_FUNNEL,
             'affiliate_email' => $user->affiliate_email,
             'advisor_email' => $user->advisor_email,
             'created_at' => $created_at,
             'updated_at' => $created_at,
-            'profile' => [           //logic
+            'profile' => [         
                 'display_name' => @$user->display_name,
                 'display_text' => @$user->display_text,
                 'head_code' => @$user->head_code,
                 'body_code' => @$user->body_code,
             ],
-            'address' => [                   //logic
+            'address' => [                 
                 'city' => $user->city,
                 'state' => $user->state,
                 'zipcode' => $user->zip,
                 'address' => $user->address,
             ],
-            'roles' => $this->buildRoles($user),  //logic
+            'roles' => $this->buildRoles($user),  
             'onboarding' => [
                 "welcome_video_watched" => @$user->welcome_video ?? false,
                 "questionnaire_completed" => @$user->questionnaire_complete ?? false,

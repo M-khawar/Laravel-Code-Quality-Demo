@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId("user_id");
             $table->string('group')->nullable()->index();
             $table->string('name');
-            $table->string('value');
+            $table->text('value')->nullable();
         });
     }
 

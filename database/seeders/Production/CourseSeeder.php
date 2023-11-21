@@ -21,8 +21,7 @@ class CourseSeeder extends ConfigureDatabase
     public function run()
     {
         $this->disableForeignKeys();
-        $this->truncateMultiple(["courses","has_course_permissions","course_sections","videos"]);
-
+        $this->truncateMultiple(["courses","has_course_permissions","course_sections"]);
         $courses = $this->getConnection()
                         ->table("courses")
                         ->selectRaw("*")
@@ -39,6 +38,25 @@ class CourseSeeder extends ConfigureDatabase
         });
 
         $this->enableForeignKeys();
+    }
+    private function buildCourse($course)
+    {
+
+        $timestamp = (int)$course->created_at;
+        $timestamp = intval($timestamp / 1000);
+        $created_at = $this->timeStampConversion($timestamp);
+
+        return [
+            'id'=> $course->id,
+            'name' => $course->name,
+            'description' => $course->description,
+            'thumbnail' => $course->thumbnail,
+            'position' => $course->position,
+            'created_at' => $created_at,
+            'updated_at' => $created_at,
+            'roles' => $this->buildRoles($course)  //logic
+           
+        ];
     }
 
     private function storeCourse(array $courseData)
@@ -69,8 +87,8 @@ class CourseSeeder extends ConfigureDatabase
             return $this->buildCourseSection($section, $course->id);
         });
         // dump($rawCourseSections);exit;
-        
-        collect($rawCourseSections)->each(function ($courseSection) use ($course) {
+        $i = 1; 
+        collect($rawCourseSections)->each(function ($courseSection) use ($course,&$i) {
             unset($courseSection['lesson_count']);
             // CourseSection::create($courseSection);
             $lessons = $this->getConnection()
@@ -81,7 +99,7 @@ class CourseSeeder extends ConfigureDatabase
             unset($courseSection['id']);
             // dump($lessons);exit;
             $section = $course->sections()->create($courseSection);
-            $this->storeCourseLessons($lessons, $section);
+            $i = $this->storeCourseLessons($lessons, $section,$i);
             
             });
        
@@ -89,21 +107,23 @@ class CourseSeeder extends ConfigureDatabase
 
     }
 
-    private function storeCourseLessons($lessons,$section)
+    private function storeCourseLessons($lessons,$section,$i)
     {
-        $rawCourselessons = $lessons->map(function ($lesson) use ($section) {
-            return $this->buildCourseLessons($lesson, $section->id);
+        
+        $rawCourselessons = $lessons->map(function ($lesson) use ($section, &$i) {
+            $courseLesson = $this->buildCourseLessons($lesson, $section->id,$i);
+            $i++; 
+            return $courseLesson;
         });
-        // dump($rawCourselessons);
         collect($rawCourselessons)->each(function ($lesson) use ($section) {
             $video = $lesson['video'];
             unset($lesson['video']);
-
-            $video = Video::create([...$video, 'slug' => rand(11111111, 99999999)]);
+            $video = Video::create([...$video]);
             $section->lessons()->create([...$lesson, "video_id" => $video->id]);
         });
+        return $i;
     }
-    private function buildCourseLessons($lesson, $section_Id)
+    private function buildCourseLessons($lesson, $section_Id,$i)
     {
         $timestamp = (int)$lesson->created_at;
         $timestamp = intval($timestamp / 1000);
@@ -121,6 +141,7 @@ class CourseSeeder extends ConfigureDatabase
             "video" => [
                         "link" => $lesson->vimeo_link,
                         "source" => $lesson->is_wistia == 1 ? WISTIA : VIMEO,
+                        "slug" => "course_" . $i . "_section_" . $section_Id,
                         'created_at' => $created_at,
                         'updated_at' => $created_at,
                     ],
@@ -159,26 +180,7 @@ class CourseSeeder extends ConfigureDatabase
     }
 
 
-    private function buildCourse($course)
-    {
-
-        $timestamp = (int)$course->created_at;
-        $timestamp = intval($timestamp / 1000);
-        $created_at = $this->timeStampConversion($timestamp);
-
-        return [
-            'id'=> $course->id,
-            'name' => $course->name,
-            'description' => $course->description,
-            'thumbnail' => $course->thumbnail,
-            'position' => $course->position,
-            'created_at' => $created_at,
-            'updated_at' => $created_at,
-            'roles' => $this->buildRoles($course)  //logic
-           
-        ];
-    }
-
+   
     private function buildRoles($course)
     {
         $roles = [ALL_MEMBER_ROLE];

@@ -35,6 +35,7 @@ class VideoSeeder extends Seeder
                 "link" => "562275356",
                 "source" => VIMEO,
             ],
+            /*
             [
                 "slug" => "questionnaire_1",
                 "link" => "545694152",
@@ -100,6 +101,7 @@ class VideoSeeder extends Seeder
                 "link" => "540274130",
                 "source" => VIMEO,
             ]
+            */
         );
 
         foreach ($videos as &$video) {
