@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Database\Seeders\Traits\DisableForeignKeys;
 use Database\Seeders\Traits\TruncateTable;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 
 class LeadsSeeder extends ConfigureDatabase
@@ -21,6 +22,7 @@ class LeadsSeeder extends ConfigureDatabase
         $this->truncateMultiple(["leads"]);
         $leads = $this->getConnection()
         ->table("leads")
+        ->distinct("email")
         ->selectRaw("*")
         ->get();
         
@@ -83,14 +85,32 @@ class LeadsSeeder extends ConfigureDatabase
         ];
     }
 
-    private function storeLead(array $leadData)
-    {
-        $email = $leadData["email"];
-        unset($leadData["email"]);
+    // private function storeLead(array $leadData)
+    // {
+    //     $email = $leadData["email"];
+    //     unset($leadData["email"]);
 
-        Lead::updateOrCreate(
-            ['email' => $email],
-            $leadData
-        );
-    }
+    //     Lead::updateOrCreate(
+    //         ['email' => $email],
+    //         $leadData
+    //     );
+    // }
+    
+        private function storeLead(array $leadData)
+        {
+            $validator = Validator::make(['email' => $leadData['email']], ['email' => 'email']);
+
+            if ($validator->fails()) {
+                
+                return;
+            }
+
+            $email = $leadData["email"];
+            unset($leadData["email"]);
+
+            Lead::updateOrCreate(
+                ['email' => $email],
+                $leadData
+            );
+        }
 }
