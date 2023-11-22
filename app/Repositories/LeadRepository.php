@@ -208,7 +208,7 @@ class LeadRepository implements LeadRepositoryInterface
     {
         $query = $this->userModel::query()->whereHas("roles", function ($q) {
             $q->whereIn("roles.name", [ENAGIC_ROLE]);
-        });
+        })->with("avatar");
 
         $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
 
