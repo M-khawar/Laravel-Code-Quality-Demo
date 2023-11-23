@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('subscription_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('subscription_id');
-            $table->string('stripe_id')->unique();
-            $table->string('stripe_product');
-            $table->string('stripe_price');
+            $table->string('stripe_id')->nullable()->unique();
+            $table->string('stripe_product')->nullable();
+            $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();
             $table->timestamps();
 

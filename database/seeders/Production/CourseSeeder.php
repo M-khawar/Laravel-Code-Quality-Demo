@@ -32,7 +32,7 @@ class CourseSeeder extends ConfigureDatabase
         $rawcourses = $courses->map(function ($course) {
             return $this->buildCourse($course);
         });
-        // dd($rawUsers);
+        // dd($rawcourses);
         collect($rawcourses)->each(function ($course) {
             $this->storeCourse($course);
         });
@@ -70,6 +70,9 @@ class CourseSeeder extends ConfigureDatabase
         $courseData["thumbnail_id"] = $this->storethumbnail($courseData);
         $courseData["position"] = $courseData["position"] ?? null;
         $course = Course::firstOrCreate([...$courseData]);
+        if(count($roles) > 1 ){
+            unset($roles[0]);
+        }
         foreach ($roles as $role) {
             $roleId = Role::where('name', $role)->value('id');
             // dump($roleId);exit;

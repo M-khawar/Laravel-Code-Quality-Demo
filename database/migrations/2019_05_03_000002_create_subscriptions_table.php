@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('subscription_plan_id')->nullable();
             $table->string('name');
-            $table->string('stripe_id')->unique();
+            $table->string('stripe_id')->nullable()->unique();
             $table->string('stripe_status');
             $table->string('stripe_price')->nullable();
             $table->integer('quantity')->nullable();

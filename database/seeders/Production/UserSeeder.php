@@ -28,18 +28,24 @@ class UserSeeder extends ConfigureDatabase
             ")
             ->orderBy('email')
             ->get();
-             //sort by php function
+            // $users = $users->take(10);
+            // dump($users);die;
+        $usersArray = json_decode(json_encode($users), true);
+        // $usersArray = $users
+        $idColumn = array_column($usersArray, 'id');
 
-    //    $users = $users->take(10);
-// dump($userData);
+        array_multisort($idColumn, SORT_ASC, $usersArray);
+        $users = collect($usersArray);
+        // $users = $usersArray;
+       
         $rawUsers = $users->map(function ($user) {
+            $user= (object) $user;
             return $this->buildUser($user);
         });
         // dd($rawUsers);
         collect($rawUsers)->each(function ($user) {
             $this->storeUser($user);
         });
-// dd()
         collect($rawUsers)->each(function ($user) {
             $this->assignAdministration($user);
         });
@@ -104,7 +110,9 @@ class UserSeeder extends ConfigureDatabase
 
     private function buildUser($user)
     {
+        // dd($user);
         $timestamp = (int)$user->created_at;
+        // dd($timestamp);
         $timestamp = intval($timestamp / 1000);
         $created_at = $this->timeStampConversion($timestamp);
 

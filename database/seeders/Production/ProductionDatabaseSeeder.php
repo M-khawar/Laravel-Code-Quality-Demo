@@ -18,7 +18,8 @@ class ProductionDatabaseSeeder extends Seeder
         $this->call(NotesSeeder::class);
         $this->call(LeadsSeeder::class);
         $this->call(AdvisorSettingsSeeder::class);
-        $this->call(PageViewsSeeder::class);
+        $this->call(SubscriptionSeeder::class);
+        // $this->call(PageViewsSeeder::class);
         
     }
 }
