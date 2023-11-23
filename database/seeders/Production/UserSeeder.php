@@ -42,7 +42,6 @@ class UserSeeder extends ConfigureDatabase
             $user= (object) $user;
             return $this->buildUser($user);
         });
-        // dd($rawUsers);
         collect($rawUsers)->each(function ($user) {
             $this->storeUser($user);
         });
