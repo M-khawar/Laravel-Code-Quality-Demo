@@ -45,6 +45,7 @@ class CalendarSeeder extends ConfigureDatabase
     private function storeCalendar(array $calendarData)
     {
         $roles = $calendarData["roles"];
+        
         $colors = $calendarData["color"];
         $calendarId = $calendarData["id"];
         unset($calendarData["color"]);
@@ -52,6 +53,10 @@ class CalendarSeeder extends ConfigureDatabase
         $calendarData["color"] = $this->mapColor($colors);
         unset($calendarData["roles"]);
         $calendar = Calendar::firstOrCreate([...$calendarData]);
+        if(count($roles) > 1 ){
+            unset($roles[0]);
+        }
+        // dd($roles);
         foreach ($roles as $role) {
             $roleId = Role::where('name', $role)->value('id');
             // dump($roleId);exit;

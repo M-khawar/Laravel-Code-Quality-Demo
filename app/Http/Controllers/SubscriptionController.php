@@ -8,6 +8,8 @@ use App\Models\SubscriptionPlan;
 use App\Packages\StripeWrapper\StripeFactory;
 use App\Packages\StripeWrapper\StripeFactoryTrait;
 use Illuminate\Http\Request;
+use Stripe\Stripe;
+use Stripe\Exception\AuthenticationException;
 
 class SubscriptionController extends Controller
 {
@@ -33,7 +35,28 @@ class SubscriptionController extends Controller
         $paymentMethod = $stripeFactory->createPaymentMethod()->id;
         return response()->success(__('subscription.test.payment_method.success'), ['payment_method' => $paymentMethod]);
     }
-
+    public function getSubscriptionsForUser(Request $request)
+    {
+        try {
+            Stripe::setApiKey(config('services.stripe.secret'));
+    
+            $userId = $request->input('user_id'); 
+    
+            
+            $customer = \App\Models\User::find($userId)->stripe_id;
+    
+            
+            $subscriptions = \Stripe\Subscription::all(['customer' => $customer]);
+    
+            return response()->json(['subscriptions' => $subscriptions]);
+        } catch (AuthenticationException $e) {
+           
+            return response()->json(['error' => 'Authentication error. Check your API key.']);
+        } catch (\Exception $e) {
+            
+            return response()->json(['error' => 'An error occurred while processing the request.']);
+        }
+    }
     public function cancelSubscription(Request $request)
     {
         try {

@@ -46,6 +46,7 @@ trait StatsDelegates
 
     protected function enagicCount($startDate, $endDate)
     {
+        // echo ENAGIC_ROLE, "  ", TRIFECTA_ROLE, "  ",  ADVISOR_ROLE , "  ", $startDate,"  ", $endDate;die;
         $usersCount = User::whereHas("roles", function ($q) use ($startDate, $endDate) {
             $q->whereIn("roles.name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
                 ->whereBetween(config('permission.table_names.model_has_roles') . ".created_at", array($startDate, $endDate));
@@ -53,6 +54,20 @@ trait StatsDelegates
 
         return $usersCount;
     }
+    // protected function enagicCount($startDate, $endDate)
+    // {
+    //     echo ENAGIC_ROLE, "  ", TRIFECTA_ROLE, "  ",  ADVISOR_ROLE , "  ", $startDate,"  ", $endDate;die;
+    //     $query = User::whereHas("roles", function ($q) use ($startDate, $endDate) {
+    //         $q->whereIn("roles.name", [ENAGIC_ROLE, TRIFECTA_ROLE, ADVISOR_ROLE])
+    //             ->whereBetween(config('permission.table_names.model_has_roles') . ".created_at", array($startDate, $endDate));
+    //     });
+    
+    //     $usersCount = $query->count();
+    //     $rawSql = $query->toSql();
+    //     print_r($rawSql);die;
+    //     return $usersCount;
+    // }
+
 
     protected function coreCount($startDate, $endDate)
     {

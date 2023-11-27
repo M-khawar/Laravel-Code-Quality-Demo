@@ -70,7 +70,8 @@ class SubscriptionSeeder extends ConfigureDatabase
         $userData =  $this->getUsersData($subscription); 
         $subscriptionPlanId = $subscription->plan_id;
 
-        $namePlan = ($subscriptionPlanId == 1) ? 'R2F Monthly Membership' : (($subscriptionPlanId == 2) ? 'R2F Annual Membership' : null);
+        $namePlan = ($subscriptionPlanId == 1) ? 'Race To Freedom Monthly Membership' : (($subscriptionPlanId == 2) ? 'Race To Freedom Annual Membership' : null);
+        $stripe_product = ($subscriptionPlanId == 1) ? 'prod_IWrRgYYddI753r' : (($subscriptionPlanId == 2) ? 'prod_IWrRc2ndsVOdwg' : null);
         if($namePlan != null){
             $planprice = DB::select('SELECT * FROM subscription_plans WHERE name = :name', ['name' => $namePlan]);            
             $meta = json_decode($planprice[0]->meta);
@@ -96,6 +97,7 @@ class SubscriptionSeeder extends ConfigureDatabase
             'transactionStripe'  => [
                 'quantity' => 1,
                 'stripe_price' => $stripePriceID ?? null,
+                'stripe_product' => $stripe_product,
                 'created_at' => $created_at,
                 'updated_at' => $created_at,
                 ]

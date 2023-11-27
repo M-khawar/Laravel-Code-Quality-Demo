@@ -118,13 +118,27 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user::query()
             ->select('id', 'uuid', 'name', 'email')
-            ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->when($filterAdvisor, function ($q) {
                 $q->whereDefaultAdvisor()->orWhereHas("roles", fn($q) => $q->where("name", ADVISOR_ROLE));
             })
+            ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->paginate(20)->withQueryString();
     }
-
+    // public function fetchUsersIncludingAdmin(?string $queryString = null, ?bool $filterAdvisor = false)
+    // {
+    //     return $this->user::query()
+    //         ->select('id', 'uuid', 'name', 'email')
+    //         ->when(!empty($queryString), function ($q) use ($queryString) {
+    //             $q->searchByName($queryString)
+    //               ->orWhere(function ($q) use ($queryString) {
+    //                   $q->whereAnyColumnLike($queryString); // customize this method for your needs
+    //               });
+    //         })
+    //         ->when($filterAdvisor, function ($q) {
+    //             $q->whereDefaultAdvisor()->orWhereHas("roles", fn($q) => $q->where("name", ADVISOR_ROLE));
+    //         })
+    //         ->paginate(20)->withQueryString();
+    // }
     public function updateAdministrator(array $data)
     {
         $userUuid = $data["user_uuid"];

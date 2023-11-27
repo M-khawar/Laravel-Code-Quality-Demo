@@ -28,6 +28,7 @@ class UserController extends Controller
 
     public function getUsers()
     {
+       
         try {
             $query = request()->input('query');
             $filterAdvisors = request()->boolean('filter_advisors');

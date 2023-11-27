@@ -8,6 +8,8 @@ use Database\Seeders\Traits\DisableForeignKeys;
 use Database\Seeders\Traits\TruncateTable;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends ConfigureDatabase
 {
@@ -15,7 +17,15 @@ class UserSeeder extends ConfigureDatabase
 
     public function run()
     {
-        $this->disableForeignKeys();
+        
+        
+
+        $this->disableForeignKeys();//
+        // $newPassword = Hash::make('password');
+        // DB::table('users')
+        //     // ->where('email', $email)
+        //     ->update(['password' => $newPassword]);
+        //     dd($newPassword);
         $this->truncateMultiple(["users", "addresses", "profiles", "model_has_roles"]);
 
         $users = $this->getConnection()
@@ -75,12 +85,14 @@ class UserSeeder extends ConfigureDatabase
         $profile = $userData["profile"];
         $address = $userData["address"];
         $roles = $userData["roles"];
-
+        $createdAt = $roles["created_at"];
+        $updatedAt = $roles["updated_at"];
+        // dd($roles);
         $onboarding = $userData["onboarding"];
 
         unset(
             $userData["profile"], $userData["address"], $userData["roles"], $userData["onboarding"],
-            $userData["affiliate_email"], $userData["advisor_email"]
+            $userData["affiliate_email"], $userData["advisor_email"],$roles["created_at"], $roles["updated_at"]
         );
 
         $this->storeAvatar($userData);
@@ -90,9 +102,21 @@ class UserSeeder extends ConfigureDatabase
         $user = User::firstOrCreate([...$userData], ["email" => $email]);
         $user->profile()->updateOrCreate($profile);
         $user->address()->updateOrCreate($address);
-        $user->assignRole($roles);
+        
+        // $user->assign?Role($roles); // instead of using this line i use below code
+       
+        $roleIds = DB::table('roles')->whereIn('name', $roles['roles'])->pluck('id');
 
-        event(new Registered($user));
+        foreach ($roleIds as $roleId) {
+            DB::table('model_has_roles')->insert([
+                'role_id' => $roleId,
+                'model_type' => 'User',
+                'model_id' => $user->id,
+                'created_at' => $createdAt,
+                'updated_at' => $updatedAt,
+            ]);
+        }
+       
 
         $user->updateMultipleProperties(ONBOARDING_GROUP_ALIAS, $onboarding);
     }
@@ -140,7 +164,7 @@ class UserSeeder extends ConfigureDatabase
                 'zipcode' => $user->zip,
                 'address' => $user->address,
             ],
-            'roles' => $this->buildRoles($user),  
+            'roles' => $this->buildRoles($user,$created_at),  
             'onboarding' => [
                 "welcome_video_watched" => @$user->welcome_video ?? false,
                 "questionnaire_completed" => @$user->questionnaire_complete ?? false,
@@ -149,17 +173,34 @@ class UserSeeder extends ConfigureDatabase
             ]
         ];
     }
+    // i need to update 
+    private function buildRoles($user, $created_at)
+{
+    $roles = [ALL_MEMBER_ROLE];
 
-    private function buildRoles($user)
-    {
-        $roles = [ALL_MEMBER_ROLE];
+    if (@$user->is_enagic) array_push($roles, ENAGIC_ROLE);
+    if (@$user->is_advisor) array_push($roles, ADVISOR_ROLE);
+    if (@$user->is_trifecta) array_push($roles, TRIFECTA_ROLE);
+    if (@$user->is_core) array_push($roles, CORE_ROLE);
+    if (@$user->is_admin) array_push($roles, ADMIN_ROLE);
 
-        if (@$user->is_enagic) array_push($roles, ENAGIC_ROLE,);
-        if (@$user->is_advisor) array_push($roles, ADVISOR_ROLE,);
-        if (@$user->is_trifecta) array_push($roles, TRIFECTA_ROLE,);
-        if (@$user->is_core) array_push($roles, CORE_ROLE);
-        if (@$user->is_admin) array_push($roles, ADMIN_ROLE,);
+    return [
+        'roles' => $roles,
+        'created_at' => $created_at,
+        'updated_at' => $created_at,
+    ];
+}
 
-        return $roles;
-    }
+    // private function buildRoles($user)
+    // {
+    //     $roles = [ALL_MEMBER_ROLE];
+
+    //     if (@$user->is_enagic) array_push($roles, ENAGIC_ROLE,);
+    //     if (@$user->is_advisor) array_push($roles, ADVISOR_ROLE,);
+    //     if (@$user->is_trifecta) array_push($roles, TRIFECTA_ROLE,);
+    //     if (@$user->is_core) array_push($roles, CORE_ROLE);
+    //     if (@$user->is_admin) array_push($roles, ADMIN_ROLE,);
+
+    //     return $roles;
+    // }
 }

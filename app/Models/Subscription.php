@@ -11,8 +11,8 @@ class Subscription extends CashierSubscription
 {
     use HasFactory, HasUUID;
 
-    const MONTHLY_PLAN = "R2F Monthly Membership";
-    const ANNUAL_PLAN = "R2F Annual Membership";
+    const MONTHLY_PLAN = "Race To Freedom Monthly Membership";
+    const ANNUAL_PLAN = "Race To Freedom Annual Membership";
     const MONTHLY_TRAIL_TEXT = "$1 Trial for 7 days then $37/Month";
 
     const PLAN_INTERVAL_MONTH = "month";

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
 use App\Packages\StripeWrapper\StripeFactory;
@@ -19,27 +20,51 @@ class SubscriptionPlanSeeder extends Seeder
     public function run()
     {
         $strip = new StripeFactory;
-
+        if (env('APP_ENV') === 'production') {
+            $data = [
+                //            ["name" => Subscription::TRAIL_PLAN, "amount" => 1, "meta" => ["stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::TRAIL_PLAN, "amount" => 1, "interval" => Subscription::PLAN_INTERVAL_DAY, "interval_count" => 7])->id, "interval" => Str::plural("7 " . Subscription::PLAN_INTERVAL_DAY)]],
+                            [
+                                "name" => Subscription::MONTHLY_PLAN,
+                                "amount" => 37,
+                                "meta" =>
+                                    [
+                                        "stripe_price_id" => "price_1HvniPJUDiGY9EXncayUwxJ8",
+                                        "interval" => Subscription::PLAN_INTERVAL_MONTH
+                                    ]
+                            ],
+                            [
+                                "name" => Subscription::ANNUAL_PLAN,
+                                "amount" => 297,
+                                "meta" => [
+                                    "stripe_price_id" => "price_1HvniHJUDiGY9EXnbxDmPn3g",
+                                    "interval" => Subscription::PLAN_INTERVAL_YEAR
+                                ]
+                            ],
+                        ];
+        
+    }else{
         $data = [
-//            ["name" => Subscription::TRAIL_PLAN, "amount" => 1, "meta" => ["stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::TRAIL_PLAN, "amount" => 1, "interval" => Subscription::PLAN_INTERVAL_DAY, "interval_count" => 7])->id, "interval" => Str::plural("7 " . Subscription::PLAN_INTERVAL_DAY)]],
-            [
-                "name" => Subscription::MONTHLY_PLAN,
-                "amount" => 37,
-                "meta" =>
-                    [
-                        "stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::MONTHLY_PLAN, "amount" => 37, "interval" => Subscription::PLAN_INTERVAL_MONTH])->id,
-                        "interval" => Subscription::PLAN_INTERVAL_MONTH
-                    ]
-            ],
-            [
-                "name" => Subscription::ANNUAL_PLAN,
-                "amount" => 297,
-                "meta" => [
-                    "stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::ANNUAL_PLAN, "amount" => 297, "interval" => Subscription::PLAN_INTERVAL_YEAR])->id,
-                    "interval" => Subscription::PLAN_INTERVAL_YEAR
-                ]
-            ],
-        ];
+            //            ["name" => Subscription::TRAIL_PLAN, "amount" => 1, "meta" => ["stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::TRAIL_PLAN, "amount" => 1, "interval" => Subscription::PLAN_INTERVAL_DAY, "interval_count" => 7])->id, "interval" => Str::plural("7 " . Subscription::PLAN_INTERVAL_DAY)]],
+                        [
+                            "name" => Subscription::MONTHLY_PLAN,
+                            "amount" => 37,
+                            "meta" =>
+                                [
+                                    "stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::MONTHLY_PLAN, "amount" => 37, "interval" => Subscription::PLAN_INTERVAL_MONTH])->id,
+                                    "interval" => Subscription::PLAN_INTERVAL_MONTH
+                                ]
+                        ],
+                        [
+                            "name" => Subscription::ANNUAL_PLAN,
+                            "amount" => 297,
+                            "meta" => [
+                                "stripe_price_id" => $strip->createStripeProductPrice(["product_name" => Subscription::ANNUAL_PLAN, "amount" => 297, "interval" => Subscription::PLAN_INTERVAL_YEAR])->id,
+                                "interval" => Subscription::PLAN_INTERVAL_YEAR
+                            ]
+                        ],
+                    ];
+    }
+       
 
         foreach ($data as $d) {
             $this->createPlan($d);

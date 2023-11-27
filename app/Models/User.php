@@ -32,7 +32,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
     ];
 
     protected $searchable_columns = [
-        'name', 'email', 'instagram', 'phone', 'affiliate_code',
+        'name', 'email', 'instagram',
     ];
 
     protected $hidden = [
@@ -100,6 +100,10 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
 {
     return $this->hasMany(Subscription::class);
 }
+public function scopeSearchByName($query, $queryString)
+    {
+        return $query->where('name', 'LIKE', $queryString.'%');
+    }
     public function routeNotificationForTwilio()
     {
         return $this->phone;

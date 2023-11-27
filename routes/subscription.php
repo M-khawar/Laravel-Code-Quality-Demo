@@ -17,6 +17,9 @@ Route::post('/update-payment-card', [SubscriptionController::class, 'updatePayme
 Route::post('/subscription/cancel', [SubscriptionController::class, 'cancelSubscription'])
     ->middleware('auth:sanctum');
 
+Route::post('/subscription/getSubscription', [SubscriptionController::class, 'getSubscriptionsForUser'])
+    ->middleware('auth:sanctum');
+
 Route::post('/subscription/resume', [SubscriptionController::class, 'resumeSubscription'])
     ->middleware('auth:sanctum');
 
