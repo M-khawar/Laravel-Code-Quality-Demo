@@ -209,107 +209,51 @@ class LeadRepository implements LeadRepositoryInterface
         $query = $this->userModel::query()->whereHas("roles", function ($q) {
             $q->whereIn("roles.name", [ENAGIC_ROLE]);
         });
-    
+
         $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
-    
+
         $leaderboardLevelOrder = $this->leaderboardLevelOrder();
-    
+
         $query->selectRaw("*, (
-            SELECT roles.name
-            from roles inner join model_has_roles on model_has_roles.role_id = roles.id
-            where
-                model_has_roles.model_id = users.id and model_has_roles.model_type='User'
-                and roles.name in (" . $leaderboardLevelOrder . ")
-            ORDER BY CASE roles.name
-               WHEN 'Trifecta' THEN 1
-               WHEN 'Enagic' THEN 2
-               ELSE 3
-             END
-    
-             Limit 1
+        SELECT roles.name
+        from roles inner join model_has_roles on model_has_roles.role_id = roles.id
+        where
+            model_has_roles.model_id = users.id and model_has_roles.model_type='User'
+            and roles.name in (" . $leaderboardLevelOrder . ")
+        ORDER BY CASE roles.name
+           WHEN 'Trifecta' THEN 1
+           WHEN 'Enagic' THEN 2
+           ELSE 3
+         END
+
+         Limit 1
         ) as achieved_level");
-    
-        $query->with([
-            'pageViews' => function ($q) use ($startDate, $endDate) {
+
+        $query->withCount([
+            "pageViews as visits_count" => function ($q) use ($startDate, $endDate) {
                 $q->select(DB::raw('count(distinct(ip))'))
                     ->where("funnel_step", WELCOME_FUNNEL_STEP)
                     ->where('funnel_type', MASTER_FUNNEL)
                     ->whereBetween("created_at", array($startDate, $endDate));
             },
-            'leads' => function ($q) use ($startDate, $endDate) {
+
+            "leads" => function ($q) use ($startDate, $endDate) {
                 $q->whereBetween("created_at", array($startDate, $endDate));
             },
-            'members' => function ($q) use ($startDate, $endDate) {
+
+            "members" => function ($q) use ($startDate, $endDate) {
                 $q->excludeAdmins()->whereBetween("created_at", array($startDate, $endDate));
             },
+
         ]);
-    
-        $query->withCount([
-            "pageViews as visits_count" => function ($q) use ($startDate, $endDate) {
-            },
-            "leads" => function ($q) use ($startDate, $endDate) {
-            },
-            "members" => function ($q) use ($startDate, $endDate) {
-            },
-        ]);
-    
+
         $query
             ->orderBy("members_count", "desc")
             ->orderBy("leads_count", "desc")
             ->orderBy("visits_count", "desc");
-    
+
         return $query->paginate($perPage)->withQueryString();
     }
-    // public function fetchLeaderboard(string $startDate, string $endDate, ?string $queryString = null, ?int $perPage = 20)
-    // {
-    //     $query = $this->userModel::query()->whereHas("roles", function ($q) {
-    //         $q->whereIn("roles.name", [ENAGIC_ROLE]);
-    //     });
-
-    //     $query->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString));
-
-    //     $leaderboardLevelOrder = $this->leaderboardLevelOrder();
-
-    //     $query->selectRaw("*, (
-    //     SELECT roles.name
-    //     from roles inner join model_has_roles on model_has_roles.role_id = roles.id
-    //     where
-    //         model_has_roles.model_id = users.id and model_has_roles.model_type='User'
-    //         and roles.name in (" . $leaderboardLevelOrder . ")
-    //     ORDER BY CASE roles.name
-    //        WHEN 'Trifecta' THEN 1
-    //        WHEN 'Enagic' THEN 2
-    //        ELSE 3
-    //      END
-
-    //      Limit 1
-    //     ) as achieved_level");
-
-    //     $query->withCount([
-    //         "pageViews as visits_count" => function ($q) use ($startDate, $endDate) {
-    //             $q->select(DB::raw('count(distinct(ip))'))
-    //                 ->where("funnel_step", WELCOME_FUNNEL_STEP)
-    //                 ->where('funnel_type', MASTER_FUNNEL)
-    //                 ->whereBetween("created_at", array($startDate, $endDate));
-    //         },
-
-    //         "leads" => function ($q) use ($startDate, $endDate) {
-    //             $q->whereBetween("created_at", array($startDate, $endDate));
-    //         },
-
-    //         "members" => function ($q) use ($startDate, $endDate) {
-    //             $q->excludeAdmins()->whereBetween("created_at", array($startDate, $endDate));
-    //         },
-
-    //     ]);
-
-    //     $query
-    //         ->orderBy("members_count", "desc")
-    //         ->orderBy("leads_count", "desc")
-    //         ->orderBy("visits_count", "desc");
-
-    //     return $query->paginate($perPage)->withQueryString();
-    // }
 
     private function achievementBadgeOrder()
     {
