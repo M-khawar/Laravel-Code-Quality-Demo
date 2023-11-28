@@ -37,24 +37,20 @@ class SubscriptionController extends Controller
     }
     public function getSubscriptionsForUser(Request $request)
     {
+    
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
     
             $userId = $request->input('user_id'); 
-    
+            
             
             $customer = \App\Models\User::find($userId)->stripe_id;
-    
-            
+            // print_r($customer);die;
             $subscriptions = \Stripe\Subscription::all(['customer' => $customer]);
     
             return response()->json(['subscriptions' => $subscriptions]);
-        } catch (AuthenticationException $e) {
-           
-            return response()->json(['error' => 'Authentication error. Check your API key.']);
         } catch (\Exception $e) {
-            
-            return response()->json(['error' => 'An error occurred while processing the request.']);
+            return $this->handleException($e);
         }
     }
     public function cancelSubscription(Request $request)
