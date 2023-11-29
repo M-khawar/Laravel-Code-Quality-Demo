@@ -33,7 +33,7 @@ class UpdateSubscriptions extends Command
         $activeUsers = User::whereHas('subscriptions', function ($query) {
             $query->where('stripe_status', 'active');
             $query->where('stripe_update', null);
-        })->where('card_brand','!=', null)->get();
+        })->where('pm_type','!=', null)->get();
         
         // $activeUsers = $activeUsers->take(2);
         // dd($activeUsers);
