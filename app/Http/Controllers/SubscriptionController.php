@@ -37,15 +37,14 @@ class SubscriptionController extends Controller
     }
     public function getSubscriptionsForUser(Request $request)
     {
-    
         try {
             Stripe::setApiKey(config('services.stripe.secret'));
     
             $userId = $request->input('user_id'); 
-            
+        //    die($userId);
             
             $customer = \App\Models\User::find($userId)->stripe_id;
-            // print_r($customer);die;
+           
             $subscriptions = \Stripe\Subscription::all(['customer' => $customer]);
     
             return response()->json(['subscriptions' => $subscriptions]);
@@ -91,7 +90,9 @@ class SubscriptionController extends Controller
 
     public function getSubscriptionPlans()
     {
-        $plans = SubscriptionPlan::all();
+        // $plans = SubscriptionPlan::all();
+        $plans = SubscriptionPlan::where('amount','>', 0.00)->get();
+        // dd($plans->toArray());
         $plans->each->mapPrice();
 
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
