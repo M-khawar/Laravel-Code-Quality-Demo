@@ -18,7 +18,7 @@ class UpdateSubscriptions extends Command
     public function handle()
     {
         // DB::table('subscriptions')
-        //     ->where('user_id', 2015)
+        //     ->where('user_id', 2018)
         //     ->update([
         //         'stripe_id' => null,
         //         'trial_ends_at' => null,
@@ -32,9 +32,9 @@ class UpdateSubscriptions extends Command
 
         $activeUsers = User::whereHas('subscriptions', function ($query) {
             $query->where('stripe_status', 'active');
-            // $query->where('user_id', '2015');
             $query->where('stripe_update', null);
-        })->get();
+        })->where('card_brand','!=', null)->get();
+        
         // $activeUsers = $activeUsers->take(2);
         // dd($activeUsers);
         foreach ($activeUsers as $user) {
