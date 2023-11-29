@@ -54,6 +54,7 @@ class UpdateSubscriptions extends Command
                     ->where('id', $subscription_id)
                     ->update([
                         'stripe_update' => '1',
+                        'stripe_status' => 'stale'
                         
             ]);
                 $this->info("Updated subscription for user: {$subscription}");
@@ -65,6 +66,7 @@ class UpdateSubscriptions extends Command
                     ->where('id', $subscription_id)
                     ->update([
                         'stripe_update' => '1',
+                        'stripe_status' => 'stale'
                         
             ]);
                 $this->info("Updated subscription for user: {$subscription}");
