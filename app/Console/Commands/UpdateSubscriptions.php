@@ -18,7 +18,7 @@ class UpdateSubscriptions extends Command
     public function handle()
     {
         // DB::table('subscriptions')
-        //     ->where('user_id', 2018)
+        //     ->where('user_id', 2019)
         //     ->update([
         //         'stripe_id' => null,
         //         'trial_ends_at' => null,
@@ -32,6 +32,7 @@ class UpdateSubscriptions extends Command
 
         $activeUsers = User::whereHas('subscriptions', function ($query) {
             $query->where('stripe_status', 'active');
+            $query->where('user_id', '2019');
             $query->where('stripe_update', null);
         })->where('pm_type','!=', null)->get();
         
@@ -43,21 +44,23 @@ class UpdateSubscriptions extends Command
             // dd($subscription_id);
 
             
-            if ($subscription && $subscription->active() &&  $subscription->interval != "lifetime") {
+            if ($subscription && isset($subscription) && $subscription->active() &&  $subscription->interval != "lifetime") {
                 $remainingDays = null;
                 $endDate = Carbon::parse($subscription->ends_at);
                 $remainingDays = now()->diffInDays($endDate);
-                $subscription = $user->newSubscription('Membership_Subscription', $subscription->subscriptionPlan->meta['stripe_price_id'])
-                ->trialDays($remainingDays)
-                ->add();
-                DB::table('subscriptions')
-                    ->where('id', $subscription_id)
-                    ->update([
-                        'stripe_update' => '1',
-                        'stripe_status' => 'stale'
-                        
-            ]);
-                $this->info("Updated subscription for user: {$subscription}");
+                if(isset($subscription->subscriptionPlan->meta['stripe_price_id']) && $remainingDays > 0){
+                    $subscription = $user->newSubscription('Membership_Subscription', $subscription->subscriptionPlan->meta['stripe_price_id'])
+                    ->trialDays($remainingDays)
+                    ->add();
+                    DB::table('subscriptions')
+                        ->where('id', $subscription_id)
+                        ->update([
+                            'stripe_update' => '1',
+                            'stripe_status' => 'stale'
+                ]);
+                    $this->info("Updated subscription for user: {$subscription}");
+                }
+                
             }elseif($subscription->interval == "lifetime"){
                 $freeplan = SubscriptionPlan::where('amount', 0.00)->first();
                 // dd($freeplan->meta['stripe_price_id']);
