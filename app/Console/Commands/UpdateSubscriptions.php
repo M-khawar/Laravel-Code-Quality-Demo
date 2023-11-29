@@ -61,6 +61,12 @@ class UpdateSubscriptions extends Command
                 $freeplan = SubscriptionPlan::where('amount', 0.00)->first();
                 // dd($freeplan->meta['stripe_price_id']);
                 $subscription = $user->newSubscription('Membership_Subscription', $freeplan->meta['stripe_price_id'])->add();
+                DB::table('subscriptions')
+                    ->where('id', $subscription_id)
+                    ->update([
+                        'stripe_update' => '1',
+                        
+            ]);
                 $this->info("Updated subscription for user: {$subscription}");
             }
         }
