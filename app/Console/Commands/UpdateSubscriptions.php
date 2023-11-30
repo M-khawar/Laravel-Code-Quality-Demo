@@ -32,12 +32,12 @@ class UpdateSubscriptions extends Command
 
         $activeUsers = User::whereHas('subscriptions', function ($query) {
             $query->where('stripe_status', 'active');
-            $query->where('user_id', '2020');
+            // $query->where('user_id', '2020');
             $query->where('stripe_update', null);
-        })->where('paypal_id', null)->get();
+        })->where('paypal_id', null)->where('stripe_id','!=', null)->get();
         
         // $activeUsers = $activeUsers->take(2);
-        dd($activeUsers);
+        // dd(count($activeUsers));
         foreach ($activeUsers as $user) {
             $subscription = $user->subscription('Membership_Subscription');
             $subscription_id = $subscription->id;
