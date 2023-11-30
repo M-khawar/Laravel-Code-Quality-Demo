@@ -19,7 +19,8 @@ class UpdatePaypalUsers extends ConfigureDatabase
     Schema::table('users', function (Blueprint $table) {
         $table->string('paypal_id')->nullable()->after('stripe_id');
     });
-
+//git push origin feature/subscription-db-migration
+//  
     $this->disableForeignKeys();
 
     // Update the 'paypal_id' column based on the 'stripe_id' column
