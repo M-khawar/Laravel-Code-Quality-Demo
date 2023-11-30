@@ -90,9 +90,7 @@ class SubscriptionController extends Controller
 
     public function getSubscriptionPlans()
     {
-        // $plans = SubscriptionPlan::all();
         $plans = SubscriptionPlan::where('amount','>', 0.00)->get();
-        // dd($plans->toArray());
         $plans->each->mapPrice();
 
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
