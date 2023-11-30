@@ -39,12 +39,7 @@ class SubscriptionPlanSeeder extends Seeder
                     "name" => Subscription::FREE_PLAN,
                     "amount" => 0,
                     "meta" => [
-                        "stripe_price_id" => $strip->createStripeProductPrice([
-                            "product_name" => Subscription::FREE_PLAN,
-                            "amount" => 0,
-                            "interval" => Subscription::PLAN_INTERVAL_MONTH,
-                            "interval_count" => 12 * 12 // Lifetime free plan
-                        ])->id,
+                        "stripe_price_id" => "price_1OHpVkJUDiGY9EXno2ILFOT2",
                         "interval" => Str::singular(Str::plural("12 " . Subscription::PLAN_INTERVAL_MONTH)) // Lifetime free plan
                     ]
                 ],
