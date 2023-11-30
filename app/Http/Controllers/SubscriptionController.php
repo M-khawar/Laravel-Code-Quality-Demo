@@ -72,7 +72,8 @@ class SubscriptionController extends Controller
 
     public function getSubscriptionPlans()
     {
-        $plans = SubscriptionPlan::all();
+        // $plans = SubscriptionPlan::all();
+        $plans = SubscriptionPlan::where('amount','>','0.00')->get();
         $plans->each->mapPrice();
 
         $subscriptionPlans = SubscriptionPlanResource::collection($plans);
