@@ -18,12 +18,12 @@ class UpdateSubscriptions extends Command
     public function handle()
     {
         // DB::table('subscriptions')
-        //     ->where('user_id', 2019)
+        //     ->where('user_id', 2020)
         //     ->update([
         //         'stripe_id' => null,
         //         'trial_ends_at' => null,
         //         'stripe_status' => 'active',
-        //         'interval' => 'monthly',
+        //         'interval' => 'annual',
         //         'ends_at' => '2024-12-05 01:05:07',
         //         'created_at' => '2023-03-05 01:05:07'
         //     ]);
@@ -32,9 +32,9 @@ class UpdateSubscriptions extends Command
 
         $activeUsers = User::whereHas('subscriptions', function ($query) {
             $query->where('stripe_status', 'active');
-            $query->where('user_id', '2019');
+            $query->where('user_id', '2020');
             $query->where('stripe_update', null);
-        })->where('pm_type','!=', null)->get();
+        })->where('paypal_id', null)->get();
         
         // $activeUsers = $activeUsers->take(2);
         // dd($activeUsers);
@@ -48,10 +48,20 @@ class UpdateSubscriptions extends Command
                 $remainingDays = null;
                 $endDate = Carbon::parse($subscription->ends_at);
                 $remainingDays = now()->diffInDays($endDate);
+                $annualPriceId = 'price_1HvniHJUDiGY9EXnbxDmPn3g';
+                $monthPriceId = 'price_1HvniPJUDiGY9EXncayUwxJ8';
                 if(isset($subscription->subscriptionPlan->meta['stripe_price_id']) && $remainingDays > 0){
-                    $subscription = $user->newSubscription('Membership_Subscription', $subscription->subscriptionPlan->meta['stripe_price_id'])
-                    ->trialDays($remainingDays)
-                    ->add();
+                    if($subscription->interval == "monthly"){
+                        // dd($subscription->subscriptionPlan->meta['stripe_price_id']);
+                        $subscription = $user->newSubscription('Membership_Subscription', $monthPriceId)
+                                                ->trialDays($remainingDays)
+                                                ->add();
+                    }elseif(($subscription->interval == "annual")){
+                        $subscription = $user->newSubscription('Membership_Subscription', $annualPriceId)
+                                                ->trialDays($remainingDays)
+                                                ->add();
+                    }
+                    
                     DB::table('subscriptions')
                         ->where('id', $subscription_id)
                         ->update([

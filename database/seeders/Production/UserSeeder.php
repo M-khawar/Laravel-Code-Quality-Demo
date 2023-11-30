@@ -21,11 +21,11 @@ class UserSeeder extends ConfigureDatabase
         
 
         $this->disableForeignKeys();//
-        $newPassword = Hash::make('password');
-        DB::table('users')
-            // ->where('email', $email)
-            ->update(['password' => $newPassword]);
-            dd($newPassword);
+        // $newPassword = Hash::make('password');
+        // DB::table('users')
+        //     ->where('id', 751)
+        //     ->update(['stripe_id' => 'cus..']);
+        //     dd('done');
         $this->truncateMultiple(["users", "addresses", "profiles", "model_has_roles"]);
 
         $users = $this->getConnection()
