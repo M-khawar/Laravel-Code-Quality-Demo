@@ -47,7 +47,7 @@ class LeadRepository implements LeadRepositoryInterface
         );
 
         if ($lead->wasRecentlyCreated) {
-            $listID = config('default_settings.sendgrid_masterclass_list');
+            $listID = $data["funnel_type"] == "master" ? config('default_settings.sendgrid_masterclass_list') : config('default_settings.sendgrid_live_call_list');
             $nameArr = explode(" ", $lead->name);
             $data = [
                 "first_name" => @$nameArr[0],
