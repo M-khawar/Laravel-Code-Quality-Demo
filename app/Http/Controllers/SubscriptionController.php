@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SubscriptionPlanResource;
 use App\Http\Resources\SubscriptionResource;
 use App\Models\SubscriptionPlan;
+use App\Models\User;
 use App\Packages\StripeWrapper\StripeFactory;
 use App\Packages\StripeWrapper\StripeFactoryTrait;
 use Illuminate\Http\Request;
@@ -35,23 +36,35 @@ class SubscriptionController extends Controller
         $paymentMethod = $stripeFactory->createPaymentMethod()->id;
         return response()->success(__('subscription.test.payment_method.success'), ['payment_method' => $paymentMethod]);
     }
-    public function getSubscriptionsForUser(Request $request)
+    public function cancelSubscriptionsForUsers(Request $request)
     {
+        // dd('yes');
         try {
+            $activeUsers = User::whereHas('subscriptions', function ($query) {
+                $query->where('stripe_status', 'active');
+                $query->where('stripe_update', null);
+                $query->whereNotNull('stripe_id');
+            })->where('paypal_id', null)->whereNotNull('stripe_id')->get();
+            // dd(count($activeUsers));
             Stripe::setApiKey(config('services.stripe.secret'));
     
-            $userId = $request->input('user_id'); 
-        //    die($userId);
-            
-            $customer = \App\Models\User::find($userId)->stripe_id;
-           
-            $subscriptions = \Stripe\Subscription::all(['customer' => $customer]);
+            foreach ($activeUsers as $user) {
+                $userId = $user->id;
+                $customer = \App\Models\User::find($userId)->stripe_id;
+                $subscriptions = \Stripe\Subscription::all(['customer' => $customer]);
     
-            return response()->json(['subscriptions' => $subscriptions]);
+                foreach ($subscriptions as $subscription) {
+                    // Cancel subscription immediately without sending email
+                    $subscription->cancel();
+                }
+            }
+    
+            return response()->json(['message' => 'Subscriptions canceled successfully']);
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
     }
+    
     public function cancelSubscription(Request $request)
     {
         try {

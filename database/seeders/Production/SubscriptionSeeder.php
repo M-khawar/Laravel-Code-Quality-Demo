@@ -115,7 +115,7 @@ class SubscriptionSeeder extends ConfigureDatabase
             'stripe_status' => $subscription->status,
             'created_at' => $last_payment_date,
             'updated_at' => $last_payment_date,
-            'interval'   =>  ($newDate === '9999-12-31 00:00:00' || $newDate === '2772-12-31 14:23:20') ? 'lifetime' : strtolower($subscription->frequency),
+            'interval'   =>  ($newDate === '9999-12-31 00:00:00' || $newDate === '2772-12-31 14:23:20' || $newDate === '2286-11-20 17:46:39') ? 'lifetime' : strtolower($subscription->frequency),
             'ends_at' => $newDate,
             'userStripeData'  => [
                 'stripe_id' => $userData['data']->stripe_id ?? null,
