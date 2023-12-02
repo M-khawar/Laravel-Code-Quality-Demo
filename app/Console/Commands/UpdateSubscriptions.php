@@ -31,7 +31,7 @@ class UpdateSubscriptions extends Command
             $query->where('stripe_id', null);
         })->where('paypal_id', null)->where('stripe_id','!=', null)->get();
         
-        $activeUsers = $activeUsers->take(10);
+        // $activeUsers = $activeUsers->take(10);
         // dd(count($activeUsers));
         foreach ($activeUsers as $user) {
             $subscription = $user->subscription('Membership_Subscription');
