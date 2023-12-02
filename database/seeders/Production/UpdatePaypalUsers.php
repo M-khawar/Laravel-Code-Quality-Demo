@@ -19,13 +19,8 @@ class UpdatePaypalUsers extends ConfigureDatabase
     // Schema::table('users', function (Blueprint $table) {
     //     $table->string('paypal_id')->nullable()->after('stripe_id');
     // });
-//  
         $this->disableForeignKeys();
-        // DB::table('users')
-        // ->update([
-        //     'paypal_id' => DB::raw("CASE WHEN stripe_id LIKE 'Paypal:%' THEN stripe_id ELSE NULL END"),
-        //     'stripe_id' => DB::raw("CASE WHEN stripe_id LIKE 'Paypal:%' THEN NULL ELSE stripe_id END"),
-        // ]);
+       
     
         // dd('yes');
         $subscriptions = DB::table('users')
@@ -41,7 +36,12 @@ class UpdatePaypalUsers extends ConfigureDatabase
         collect($rawsubscriptions)->each(function ($subscription) {
             $this->storePaypalSubscription($subscription);
         });
-    
+        
+        DB::table('users')
+        ->update([
+            'paypal_id' => DB::raw("CASE WHEN stripe_id LIKE 'Paypal:%' THEN stripe_id ELSE NULL END"),
+            'stripe_id' => DB::raw("CASE WHEN stripe_id LIKE 'Paypal:%' THEN NULL ELSE stripe_id END"),
+        ]);
 
 
     $this->enableForeignKeys();
@@ -50,8 +50,8 @@ private function storePaypalSubscription($subscription)
 {   
     $paypalSubscriptionId = DB::table('paypalsubscriptions')->insertGetId([
         'user_id' => $subscription['user_id'],
-        'subscription_plan_id' => $subscription['subscription_plan_id'] ?? null,
-        'stripe_status' => $subscription['stripe_status'],
+        'subscription_plan_id' => $subscription['subscription_plan_id'] ?? 1,
+        'paypal_status' => $subscription['paypal_status'],
         'created_at' => $subscription['created_at'],
         'updated_at' => $subscription['updated_at'],
         'interval' => $subscription['interval'],
@@ -67,7 +67,7 @@ private function buildPaypalsubscription($subscription)
         'id'  => $subscription->id,
         'user_id' => $subscription->user_id ?? null,
         'subscription_plan_id' => $subscription->subscription_plan_id,
-        'stripe_status' => $subscription->stripe_status,
+        'paypal_status' => $subscription->stripe_status ?? 'lifetime',
         'created_at' => $subscription->created_at,
         'updated_at' => $subscription->updated_at,
         'interval'   =>  $subscription->interval,

@@ -18,7 +18,7 @@ class CreatePaypalSubscriptionsTable extends Migration
             $table->string('name')->default('Membership_Subscription');
             $table->integer('quantity')->default(1);
             $table->unsignedBigInteger('subscription_plan_id');
-            $table->string('stripe_status');
+            $table->string('paypal_status');
             $table->string('interval');
             $table->timestamp('ends_at')->nullable();
             $table->timestamps();
