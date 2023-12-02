@@ -21,7 +21,7 @@ class CourseSeeder extends ConfigureDatabase
     public function run()
     {
         $this->disableForeignKeys();
-        $this->truncateMultiple(["courses","has_course_permissions","course_sections"]);
+        $this->truncateMultiple(["courses","videos","has_course_permissions","course_sections"]);
         $courses = $this->getConnection()
                         ->table("courses")
                         ->selectRaw("*")

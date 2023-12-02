@@ -117,7 +117,7 @@ class UserSeeder extends ConfigureDatabase
             ]);
         }
        
-
+        event(new Registered($user));
         $user->updateMultipleProperties(ONBOARDING_GROUP_ALIAS, $onboarding);
     }
 
@@ -153,8 +153,8 @@ class UserSeeder extends ConfigureDatabase
             'created_at' => $created_at,
             'updated_at' => $created_at,
             'profile' => [         
-                'display_name' => @$user->display_name ?? $user->name,
-                'display_text' => @$user->display_text ?? __('messages.default_display_text', locale: 'en'),
+                'display_name' => $user->display_name !== null && $user->display_name !== '' ? $user->display_name : $user->name,
+                'display_text' => $user->display_text !== null && $user->display_text !== '' ? $user->display_text : __('messages.default_display_text', ['locale' => 'en']),
                 'head_code' => @$user->head_code,
                 'body_code' => @$user->body_code,
             ],
