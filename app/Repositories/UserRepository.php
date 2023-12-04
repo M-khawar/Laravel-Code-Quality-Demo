@@ -118,12 +118,12 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user::query()
             ->select('id', 'uuid', 'name', 'email')
-            ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->when($filterAdvisor, function ($q) {
                 $q->whereDefaultAdvisor()->orWhereHas("roles", fn($q) => $q->where("name", ADVISOR_ROLE));
             })
+            ->when(!empty($queryString), fn($q) => $q->whereAnyColumnLike($queryString))
             ->paginate(20)->withQueryString();
-    }
+    }        
 
     public function updateAdministrator(array $data)
     {
