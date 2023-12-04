@@ -70,9 +70,9 @@ class CalendarRepository implements CalendarRepositoryInterface
             $startDate = Carbon::create($date)->startOfDay();
             $endDate = Carbon::create($date)->endOfDay();
         }
-
+       
         $calendarEvents = $this->calenderModel::query()
-            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs)->whereNotIn('roles.id', [2]))
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs)->whereNotIn('roles.name', [ALL_MEMBER_ROLE]))
             ->with(["allowedAudienceRoles", "calendarNotifications" => fn($q) => $q->where('user_id', $user->id)])
             ->when(!empty($startDate), fn($q) => $q->whereBetween('calendar_timestamp', [$startDate, $endDate]))
             ->get();
