@@ -249,8 +249,8 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query
             ->orderBy("members_count", "desc")
-            ->orderBy("leads_count", "desc")
-            ->orderBy("visits_count", "desc");
+            ->orderBy("leads_count", "desc");
+            // ->orderBy("visits_count", "desc"); // comment line due to optimization
 
         return $query->paginate($perPage)->withQueryString();
     }
