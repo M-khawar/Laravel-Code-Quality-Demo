@@ -33,7 +33,7 @@ class UserResource extends JsonResource
         $relations = array(
             'address' => new AddressResource($this->whenLoaded('address')),
             'card' => [
-                'type' => @$this->pm_type,
+                'type' => strtolower(@$this->pm_type),
                 'last_four' => $this->pm_last_four ? Str::of($this->pm_last_four)->padLeft(19, '**** ') : null,
             ],
             'is_onboarding_completed' => $this->isOnboardingCompleted(),
