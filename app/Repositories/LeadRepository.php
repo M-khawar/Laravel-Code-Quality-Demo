@@ -42,7 +42,7 @@ class LeadRepository implements LeadRepositoryInterface
         ]);
 
         $lead = $this->leadModel::firstOrCreate(
-            ['email' => $data['email'], 'advisor_id' => $data['advisor_id']],
+            ['email' => $data['email']],
             $data
         );
 
