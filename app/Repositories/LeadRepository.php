@@ -42,7 +42,7 @@ class LeadRepository implements LeadRepositoryInterface
         ]);
 
         $lead = $this->leadModel::firstOrCreate(
-            ['email' => $data['email'], 'advisor_id' => $data['advisor_id']],
+            ['email' => $data['email']],
             $data
         );
 
@@ -249,8 +249,8 @@ class LeadRepository implements LeadRepositoryInterface
 
         $query
             ->orderBy("members_count", "desc")
-            ->orderBy("leads_count", "desc")
-            ->orderBy("visits_count", "desc");
+            ->orderBy("leads_count", "desc");
+            // ->orderBy("visits_count", "desc"); // comment line due to optimization
 
         return $query->paginate($perPage)->withQueryString();
     }
