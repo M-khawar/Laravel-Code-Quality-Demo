@@ -14,7 +14,7 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
     {
 
         $this->buySubscriptionValidation($data)->validate();
-        $payment_source = $data["payment_source"];
+        $payment_source = $data["payment_source"] ?? 'card';
         $user->update(['payment_source' => $payment_source]);
 //        $user = currentUser();
 
