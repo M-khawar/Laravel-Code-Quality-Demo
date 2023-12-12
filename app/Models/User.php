@@ -20,11 +20,11 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting,
         FunnelGenerator, Searchable;
-   
+
     use Billable {
-            UserRelations::subscription insteadof Billable;
+        UserRelations::subscription insteadof Billable;
     }
-    
+
     use HasRoles {
         UserRelations::roles insteadof HasRoles;
         HasRoles::roles as spatieRoles;
@@ -32,7 +32,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar_id', 'affiliate_code', 'funnel_type',
-        'advisor_id', 'affiliate_id','payment_source',
+        'advisor_id', 'affiliate_id', 'payment_source',
     ];
 
     protected $searchable_columns = [
