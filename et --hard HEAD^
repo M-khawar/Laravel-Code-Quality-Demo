@@ -1,0 +1,1483 @@
+[33mcommit 58057f2b762a70cc4d1ade673c8f4b4389f1ac42[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 376bafd 08419b8
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 13 20:34:24 2023 +0500
+
+    Merge remote-tracking branch 'origin/staging'
+
+[33mcommit 08419b8bf7c1f80d300bfd52842a9912391daed4[m[33m ([m[1;31morigin/staging[m[33m, [m[1;32mstaging[m[33m)[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 13 20:27:50 2023 +0500
+
+    stripe status stale should not come in user subscription
+
+[33mcommit 25e2655be5f9fa8c235f9aa20e4a18d156d36540[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Tue Dec 12 19:52:54 2023 +0500
+
+    make nullable payment_source
+
+[33mcommit df111d2540d2b4f21e9ee6a18a5cb1bf8a9c8c2d[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Tue Dec 12 19:49:22 2023 +0500
+
+    added a colum in card array in user registration
+
+[33mcommit 5a16b0d5b8fa07d64c539fae36c905664526eaac[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Tue Dec 12 19:37:29 2023 +0500
+
+    added a migration for payment_source and and update this value for apple_pay
+
+[33mcommit 376bafdf6dadaf4a5e58b3cc29c455263eed5b00[m
+Merge: d105bb5 41f1aab
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 16:14:44 2023 +0500
+
+    Merge remote-tracking branch 'origin/resolve/lead-bug'
+
+[33mcommit 269f320dac5e75ecc73db26ef14bd9fdc5ca592b[m
+Merge: f7b3858 41f1aab
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 16:11:45 2023 +0500
+
+    Merge remote-tracking branch 'origin/resolve/lead-bug' into staging
+
+[33mcommit 41f1aab8e68d317b0770db823a91b53bc698ebcf[m[33m ([m[1;31morigin/resolve/lead-bug[m[33m, [m[1;32mresolve/lead-bug[m[33m)[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 16:09:40 2023 +0500
+
+    make card names lower
+
+[33mcommit d105bb567b4bbdd51e602a505bd517454bc4663b[m
+Merge: c39577f 3c9f6d3
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 15:16:45 2023 +0500
+
+    Merge remote-tracking branch 'origin/resolve/lead-bug'
+
+[33mcommit f7b3858f3c39caf1a3a4b2af3f01faa27019379c[m
+Merge: 2de9b37 3c9f6d3
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 15:16:06 2023 +0500
+
+    Merge remote-tracking branch 'origin/resolve/lead-bug' into staging
+
+[33mcommit 3c9f6d3ba3dbf71cf4ae5b84b752c8f818182a05[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 14:40:41 2023 +0500
+
+    for optimization of leaderbord
+
+[33mcommit b6af67b14e2dedfb7721bb3bb1170ca316c8c28d[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Wed Dec 6 13:22:48 2023 +0500
+
+    resolve a bug from leads
+
+[33mcommit 2de9b370375e6691eed44c10100f98ad41ca5052[m
+Merge: b2b3881 c39577f
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Dec 5 17:58:07 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit c39577ff5b3a58c8a931349a8e0a91809c00f842[m[33m ([m[1;31morigin/develop[m[33m)[m
+Merge: 19d2231 805dfd5
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Tue Dec 5 17:57:32 2023 +0500
+
+    Merge pull request #12 from Race-To-Freedom-Inc/feature/event-update
+    
+    bug solve on events date function
+
+[33mcommit 805dfd5be8f42bcae64ac1fa874a263dd2fd165d[m[33m ([m[1;31morigin/feature/event-update[m[33m, [m[1;32mfeature/event-update[m[33m)[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Tue Dec 5 16:35:45 2023 +0500
+
+    bug solve on events date function
+
+[33mcommit b2b3881940d562337e7dba896e9567c63da86cf5[m
+Merge: eee29d7 19d2231
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Dec 4 18:52:42 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit 19d2231b0f31901bb02b33c25257f9518314231c[m
+Merge: d86db52 e6eee4b
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Mon Dec 4 18:51:53 2023 +0500
+
+    Merge pull request #11 from Race-To-Freedom-Inc/feature/advisor-update
+    
+    Feature/advisor update
+
+[33mcommit e6eee4b0c30daba473b4c850acc6686a4e6c0046[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Mon Dec 4 18:35:09 2023 +0500
+
+    bug solve on advisor and caledar
+
+[33mcommit 9f8f88b9f7937586f0b3b06ea70451e4af0c547d[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Mon Dec 4 13:39:10 2023 +0500
+
+    bug on caledar events solved
+
+[33mcommit eee29d710cf5834bd8b04ff8d2dea23f06db20c8[m
+Merge: d9bd76a d86db52
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Dec 1 16:41:45 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit d86db525d2b9bfde3a56d0a3d7a7886178a8c30a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Dec 1 16:41:00 2023 +0500
+
+    minor changes in sendgrid contact list
+
+[33mcommit d9bd76a7a92f936206de2bd8ccea7307f7a753be[m
+Merge: fc10dbd 149711a
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Nov 30 16:46:00 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit 149711a3dbe53e778ef8f351ee5a8f2b76a48523[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Thu Nov 30 16:44:24 2023 +0500
+
+    filter plan 0 in api
+
+[33mcommit 523a6f81c7684a28e8cd656a3b730f6176f3de48[m
+Author: Ahtisham ulhaq <ahtisham.ullhaq@ilsainteractive.com>
+Date:   Thu Nov 30 16:41:43 2023 +0500
+
+    filter plan 0 in api
+
+[33mcommit fc10dbd0eed0886a53928eed15ee8c913d66c668[m
+Merge: 6205aa7 5bab499
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Nov 22 18:18:55 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit 5bab4996c8cc282a699b8fe025e9f3d69e5f9e54[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Nov 22 18:18:33 2023 +0500
+
+    N+1 query problem fixed for media on leaderboard
+
+[33mcommit 6205aa7265d7d56eacd7d2fa074326e4ea9ba28c[m
+Merge: 433979a ff5e6b4
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 18:34:39 2023 +0500
+
+    Merge branch 'develop' into staging
+
+[33mcommit ff5e6b4fb391209a27d91b1e3ecad2f959da7d47[m[33m ([m[1;31morigin/feature/scheduled-tasks[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 18:33:58 2023 +0500
+
+    [feature/scheduled-tasks] live_call video fetched
+
+[33mcommit 433979a8354f51dc5c88502a0300105b34407bd3[m
+Merge: 4d13461 2037af9
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 17:35:59 2023 +0500
+
+    Merge branch 'develop' into staging
+
+[33mcommit 2037af9b020d436d6cff84cd1dc71ecde4861a7e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 17:34:26 2023 +0500
+
+    [feature/scheduled-tasks] hotfix
+
+[33mcommit 4d1346142c88590addd40ab51e04e988c2c9f4e9[m
+Merge: f93a1ce 201a89a
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 16:54:17 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit 201a89a130e4f513c1e07d2a74ebb81e8c4f5a42[m
+Merge: edf2d79 ef3587c
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 16:53:32 2023 +0500
+
+    Merge branch 'develop' of ilsa-github:Race-To-Freedom-Inc/RaceToFreedom-Apis into feature/scheduled-tasks
+
+[33mcommit edf2d79a7120af76a46e02d8691ce15b6c90530f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 16:53:12 2023 +0500
+
+    [feature/scheduled-tasks] new member notification completed
+
+[33mcommit f93a1ce64f2085504615c954a9c3a00e127f431b[m
+Merge: 4d7ed52 ef3587c
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 13:21:09 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit ef3587c102c6c3dc20ecb1598cd477db74b49a03[m
+Merge: 49b7e6f 48ff095
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 13:20:47 2023 +0500
+
+    Merge branch 'feature/scheduled-tasks' into develop
+
+[33mcommit 48ff095d50bc0c4f36c5f81b05a0e9c9473735f1[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 13:19:41 2023 +0500
+
+    [feature/scheduled-tasks] hotfix in SubscriptionConfirmedNotification
+
+[33mcommit 567e0be12630a807b0a476fe15a1215f0f976d2d[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Oct 5 12:42:54 2023 +0500
+
+    [feature/scheduled-tasks][hotfix] -- price bug fix in SubscriptionConfirmedNotification
+
+[33mcommit 4d7ed52374b8a023acdf3095af943dd94bcecc7c[m
+Merge: e83f242 49b7e6f
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 19:35:58 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit 49b7e6fc27f805dd6d4c2eff89da33b9d291593f[m
+Merge: f4351a5 796a8d5
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 19:35:23 2023 +0500
+
+    Merge branch 'feature/scheduled-tasks' into develop
+
+[33mcommit 796a8d58601fcc958462952e2a36e0d2baafa86e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 19:34:32 2023 +0500
+
+    [feature/scheduled-tasks] member subscription cancelled notify different role within the system
+
+[33mcommit e83f2423c154f3ccd485cd078fb61687d2847e64[m
+Merge: 7387c29 f4351a5
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 18:07:02 2023 +0500
+
+    Merge remote-tracking branch 'origin/develop' into staging
+
+[33mcommit f4351a5ba71e34e320c979f226124d9e2f30b7d5[m
+Merge: 5708d83 921876f
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 18:05:47 2023 +0500
+
+    gMerge branch 'feature/scheduled-tasks' into develop
+
+[33mcommit 921876f4c00051861a0056cff67af01a6de4516c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 18:05:02 2023 +0500
+
+    [feature/scheduled-tasks] notify support about member subscripton cancellation
+
+[33mcommit 7387c29a3d4f528a43fae53259ec3cb361e65cf6[m
+Merge: 2c9f1b9 5708d83
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Wed Oct 4 16:41:55 2023 +0500
+
+    Merge pull request #9 from Race-To-Freedom-Inc/develop
+    
+    Develop
+
+[33mcommit 5708d83a34df8f5a556c6a38fb6aa3b630664b8d[m
+Merge: 2c9f1b9 103d485
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Wed Oct 4 16:41:30 2023 +0500
+
+    Merge pull request #8 from Race-To-Freedom-Inc/feature/scheduled-tasks
+    
+    [feature/scheduled-tasks] subscription confirmed notification completed
+
+[33mcommit 103d485c9ce732a9cb6b7664a5f8fb031f36d081[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 16:11:53 2023 +0500
+
+    [feature/scheduled-tasks] subscription confirmed notification completed
+
+[33mcommit 2c9f1b9ba016cd23896c5d6fe676f67f69acad23[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 11:03:06 2023 +0500
+
+    [feature/scheduled-tasks] worker for production & staging updated
+
+[33mcommit 5c22ae2235466270c2484558056320283840b77e[m
+Merge: 6329153 41bb3b9
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 10:57:32 2023 +0500
+
+    Merge branch 'develop' of ilsa-github:Race-To-Freedom-Inc/RaceToFreedom-Apis into feature/scheduled-tasks
+
+[33mcommit 63291537b1e93e8d23aa1d95d45c5f795760335f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 09:07:58 2023 +0500
+
+    [feature/scheduled-tasks] keys added in .env.example
+
+[33mcommit 0e19338de2f1ec5b286072b5d6d26e12928461a9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Oct 4 09:07:33 2023 +0500
+
+    [feature/scheduled-tasks] stripe subscription webhooks code configured
+
+[33mcommit 725111b34a284c32037ff99b988c53741dba1f1f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Oct 3 16:48:09 2023 +0500
+
+    [feature/scheduled-tasks] support email notification completed
+
+[33mcommit bfb6cc85d04515a999e0fe23713aa762a01b3693[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Oct 3 15:31:47 2023 +0500
+
+    [feature/scheduled-tasks] new lead notification completed
+
+[33mcommit 41bb3b962c05b81629671ea972c59a969f662bbe[m
+Merge: f52a598 dfe12dc
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Oct 2 14:14:13 2023 +0500
+
+    Merge branch 'feature/scheduled-tasks' into develop
+
+[33mcommit dfe12dce2cffa110427f2cc7e0906063a29f1087[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Oct 2 14:12:41 2023 +0500
+
+    [feature/scheduled-tasks][hotfix] admin-stats promote downlines filter fix
+
+[33mcommit e570d93883f30bd182ff05b1e0452800935ef0d7[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Oct 2 13:15:10 2023 +0500
+
+    [feature/scheduled-tasks][hotfix] member & lead listing downlines bug fixed
+
+[33mcommit f52a598ec65b23f9d37846e37dd7718e03ddcb49[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 28 18:57:41 2023 +0500
+
+    [devops] hotfix in worker
+
+[33mcommit 8dc40857741ce8fd973a93e9c23ad4132df26603[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 28 18:35:19 2023 +0500
+
+    [devops] supervisor worker created for newAdvisorAssignment
+
+[33mcommit 2a1bf38a3da83e4432c5a97d7333f4233ab82c14[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 28 18:08:23 2023 +0500
+
+    [feature/scheduled-tasks] queue priority created for assignNewAdvisor Queue
+
+[33mcommit 1ccce4f24ef8429450c60e98591884bd6993c35d[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 28 17:38:59 2023 +0500
+
+    [feature/scheduled-tasks] assignNewAdvisor to affiliates when their affiliate got `advisor` permission.
+
+[33mcommit 18c5127fa50f6c143b2624120af2a35e3f0735ca[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 26 12:27:49 2023 +0500
+
+    [feature/scheduled-tasks] active recruiter cron job script created
+
+[33mcommit 729ec579ae474311d644401bfb42213337acbe52[m[33m ([m[1;31morigin/feature/notes[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 21 19:19:52 2023 +0500
+
+    [feature/notes] update admin_setting in promote part API completed
+
+[33mcommit 1ad59d26af46b88134992eaafd7712ae018b4291[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 20 19:28:50 2023 +0500
+
+    [feature/notes] note listing API completed
+
+[33mcommit 1e968b7e1171045734e1c33fc37aa26b749a9ac7[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 20 18:45:04 2023 +0500
+
+    [feature/notes] stripe grace_period on trailing when subscription is cancelled
+
+[33mcommit 71af9f51dc9dc0a3695f18bc4f9c82b46d92b035[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 20 18:43:56 2023 +0500
+
+    [feature/notes][RTF-657]
+    
+    * Create Note Api
+    * Edit note Api
+    * Delete Note APi
+
+[33mcommit 6a2e8d7a12fcbd092b4413a5ed9486f95bb6200e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 20 14:53:53 2023 +0500
+
+    [hotfix] advisor append in leads listing APi
+
+[33mcommit 7f29fb1ff8b2981cb0675fb353411932f9561509[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 19 18:45:12 2023 +0500
+
+    [feature/online-users] In order to show online user chat channel upgraded to presence channel
+
+[33mcommit 6ac10338e761390ede14f44a1066a3e0b81ae6ab[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 19 14:30:45 2023 +0500
+
+    [hotfix] append Admin user also in advisors list for userInfo card
+
+[33mcommit 2dda670055b9964846e93f380bab0fddc82533a4[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 19 13:55:27 2023 +0500
+
+    [feature/promote] promote stats count and funnel stats fixed
+
+[33mcommit 26b741b17e2bb129a682e36b6b026f599ecf4f50[m[33m ([m[1;31morigin/feature/leaderboard[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 18 13:33:48 2023 +0500
+
+    [feature/leaderboard] filter updated on leads & members listing api for admin-stats
+
+[33mcommit 9b09b5aa5fc5549e669b1e425b09ac7128009440[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 18 03:34:58 2023 +0500
+
+    [feature/leaderboard][stripe] $7 dollar trail payment deducting on monthly plan
+
+[33mcommit eae31bbfb32110de3c67462db5d775ceb13f9963[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 18 03:00:21 2023 +0500
+
+    [feature/leaderboard] junk keys cleared & course table position key handled
+
+[33mcommit 9b5b45ce840c84e449952815fab6e2f03006f21b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 18 02:13:18 2023 +0500
+
+    [feature/leaderboard] leader API created
+
+[33mcommit 4147c85d68c6f4f6ec25a322d7604187eb5bc6b6[m[33m ([m[1;31morigin/feature/chat[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 15 20:30:50 2023 +0500
+
+    [feature/chat][admin-stats] fetch members api updated from admin-stats
+
+[33mcommit 8afd09a02dea607d0bc75cdfe00aa5dcd42438cd[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 14 20:44:51 2023 +0500
+
+    [feature/chat][admin-stats] admin stats api created
+
+[33mcommit 46f70fd6f886a728bf6aa8a71d8d310fcbca1c41[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 14 15:31:23 2023 +0500
+
+    [feature/chat] socket broading casting event payload updated
+
+[33mcommit d72f2fd618c6aff2964ee1a97a917c807b1929a7[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 14 13:10:49 2023 +0500
+
+    [feature/chat] chat Apis completed
+
+[33mcommit 67777619f1cad3e5d77d7a61bec27804413ddf8f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 14 11:35:32 2023 +0500
+
+    [feature/chat] basic chat implemented
+
+[33mcommit e6a2d8ae2da5f91313e770ac3fcef5525f48b6f8[m[33m ([m[1;31morigin/feature/account-setting[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 13 12:33:48 2023 +0500
+
+    [feature/account-setting][permission] download csv permissions added
+
+[33mcommit 77589a0167c97780d305b2310594ece17a5f324f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 20:04:25 2023 +0500
+
+    [feature/account-setting][Member] eta badge and notification appended in members list
+
+[33mcommit 389540b195ff5e93b0fd9b8a07f9253bf9133d35[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 14:41:06 2023 +0500
+
+    [feature/account-setting] dollar sign added with plan amount
+
+[33mcommit 93674cab536d94ce673659836e783f171a283419[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 14:35:13 2023 +0500
+
+    [feature/account-setting] hotfix in plans listing
+
+[33mcommit fdbb41637ae7e5d1960e457db2463d6eceb433c5[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 14:17:33 2023 +0500
+
+    [feature/account-setting] hotfix
+
+[33mcommit f7fc138abb4013ecc4b46277269e3cbe82a59664[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 14:09:08 2023 +0500
+
+    [feature/account-setting][hotfix] 1$ trail text on package name
+
+[33mcommit f8656fafaa879fc0355c1ae227a09b56466f11a7[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 13:01:50 2023 +0500
+
+    [feature/account-setting][hotfix] bug fix on assign advisor on registration & lead generation
+
+[33mcommit 5728d892058567e6a6b8bcd4e2fc2e5f74d3ed46[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 12 12:57:19 2023 +0500
+
+    [feature/account-setting][stripe] `has_active_subscription` param appeded in subscription api response
+
+[33mcommit 7fd9e2c9a81613a9f19052b2a3f357e82ff4e263[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 18:57:35 2023 +0500
+
+    [feature/account-setting][stripe] can_now interface added for testing purpose
+
+[33mcommit 57ccf2febcb92e2e9b70f06475c4ec79bee6af58[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 18:40:10 2023 +0500
+
+    [feature/account-setting][stripe] resubscribe plan API created
+
+[33mcommit 9652f6cf0a6f9cf53d5809da91b408c7b0beff4a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 17:42:55 2023 +0500
+
+    [feature/account-setting][stripe] hotfix in update card
+
+[33mcommit adc7164697ea572f7f51f4b9450a00aca22e4582[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 17:07:09 2023 +0500
+
+    [feature/account-setting][hotfix] max media image size increased
+
+[33mcommit e822d470e5272843a3a5d53f1be2ed41f728bdd4[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 16:53:43 2023 +0500
+
+    [feature/account-setting][hotfix] validation rule added for password validation on password update Api
+
+[33mcommit ab9972727ec5ef5dcaa8ab147565653d55831d7e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 16:38:24 2023 +0500
+
+    [feature/account-setting][hotfix] set facebook_link & advisor_message
+
+[33mcommit f84ea8121cf537038f9ac222bdbefad2c77d8ece[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 16:34:26 2023 +0500
+
+    [feature/account-setting][stripe] delete previous payment methods on Update
+
+[33mcommit f6b2d51ed2999a1340f6c9bb5288a288d4d1f0fa[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 15:26:47 2023 +0500
+
+    [feature/account-setting][Stripe] update user default payment card
+
+[33mcommit 43a64946644b891fcdcd8e33cdd0ad408f9a71b1[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 11 12:38:48 2023 +0500
+
+    [feature/account-setting][Stripe] udpate subscription Api completed
+
+[33mcommit 535f5d8f85308f9fdf7f92a323f2c9d74e2b3851[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 8 19:03:32 2023 +0500
+
+    [feature/account-setting] section & lesson sorting bug resolved
+
+[33mcommit db6337fbb1e6b2bd1f73d44d89d0ff480d7e1211[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 8 12:16:21 2023 +0500
+
+    [feature/account-setting] admin permissions sorting
+
+[33mcommit 55b998f8d8036e75874d25b47f16eca74cf0ff45[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 8 12:13:31 2023 +0500
+
+    [feature/account-setting] adminSeeder & permission corrected
+
+[33mcommit 3ec1c4cbea9fbf006ec5d89cebe69fcff472fd4e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 8 11:43:57 2023 +0500
+
+    [feature/account-setting] role level permission added
+
+[33mcommit 6f27662682d4c6d55db457b3dde8d0d4c89aebb5[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Sep 8 11:19:07 2023 +0500
+
+    [feature/account-setting] advisor filter added in users listing
+
+[33mcommit 66f3b4598da4707aa789ec1dc70e0fd8374b65cc[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 7 18:02:07 2023 +0500
+
+    [feature/account-setting] logout current device only
+
+[33mcommit 9b0f44a61e97f30b4b7e673855e5bc7d6a959f2c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 7 17:36:56 2023 +0500
+
+    [feature/account-setting] funnel stats bug fixed
+
+[33mcommit 17be520d964921ced80a8cbcea804296afcad97c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 7 13:21:58 2023 +0500
+
+    [feature/account-setting] made roles & thumbnail optional in create Course API
+
+[33mcommit 6de6a58eb894a8a0885228a3dafe20349e311ec2[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 7 13:08:40 2023 +0500
+
+    [feature/account-setting] update notification api completed
+
+[33mcommit 607cbdc67f2771ccba2c61ec1d750728a26fc0ed[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Sep 7 10:51:26 2023 +0500
+
+    [feature/account-setting] massUpdate setting properties
+
+[33mcommit 2f77561981c45c6ad11d7c04da5cf5b6d4bb23d3[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 6 19:09:45 2023 +0500
+
+    [feature/account-setting] update setting group multiple properties in single query
+
+[33mcommit 301fce018780b1aa092d46705344712e6b6af939[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 6 17:24:11 2023 +0500
+
+    [feature/account-setting] working on update advisor setting api
+
+[33mcommit cc2305ebdbe25d4738ddc5d7dd750eef6fd2135b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 6 15:47:52 2023 +0500
+
+    [feature/account-setting] update avatar feature added in updateProfile API
+
+[33mcommit 298f5a8c219d574c6288f8e4570a3c4aac087559[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Sep 6 13:03:56 2023 +0500
+
+    [feature/account-setting] added more permissions
+
+[33mcommit 0c8199357a5437f86a64aebe584b883a8f5b3d77[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 5 16:23:38 2023 +0500
+
+    [feature/account-setting] update password API compeleted
+
+[33mcommit 5f581175dbb2fdb5cad59feb2ef2d0160ad845dc[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 5 13:37:36 2023 +0500
+
+    [feature/account-setting] text updated on pagination left & right arrow
+
+[33mcommit 769f396bb2f1174104d40000d994583b17fc4646[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Sep 5 13:30:14 2023 +0500
+
+    [feature/account-setting] update user profile api created & account_settings are appended in User Object of login & me API
+
+[33mcommit c569ef3ee076c934a7472d651cdbd06c76e15002[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 4 18:23:04 2023 +0500
+
+    [feature/account-setting] notification group created in settings_table & basic files created for notification module
+
+[33mcommit 36c22f8044025fd8ca73d7cf44d52486bbf3adb9[m[33m ([m[1;33mtag: v1.5[m[33m, [m[1;31morigin/feature/permissions[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 4 16:07:00 2023 +0500
+
+    [feature/permissions] detach all roles in edit when allowed_audience is empty
+
+[33mcommit 345703900fe789262969e56a9311a96389c86c09[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 4 15:35:05 2023 +0500
+
+    [feature/permissions] hotfix in admin-course create & update validation
+
+[33mcommit f929038b982e704b46db8ad82128284dd3611b37[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Sep 4 15:05:28 2023 +0500
+
+    [feature/permissions] promote permission created.
+
+[33mcommit 031955a5a81b5409c53d129a8373cf4c68de4008[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 31 14:45:33 2023 +0500
+
+    [feature/permissions] append onboarding_completed & has_activate subscription check
+
+[33mcommit 95cf5c8162bafc567323ff6a6b54994716358f6f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 30 18:21:23 2023 +0500
+
+    [feature/permissions] load permissions array in user object & also appended `has_active_subscript` attribute in User object
+
+[33mcommit fc2a87ad8ea0cc51ae55b056c7ca41972ee61723[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 30 15:18:13 2023 +0500
+
+    [feature/permissions] permissions list created, seeded and attached to the roles
+
+[33mcommit 2ca9eeb3cd01c875cd03f5041dd1182a4c0e6435[m[33m ([m[1;33mtag: v1.4[m[33m, [m[1;31morigin/feature/course[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 29 11:45:17 2023 +0500
+
+    [feature/course] lead & promote collection wrapper key updating bug resolved
+
+[33mcommit dcba82a103f08116af8cff7fdce3be3f7eb30a12[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Aug 28 16:13:32 2023 +0500
+
+    [feature/course] update user course permission API completed
+
+[33mcommit 397f79483187ecd09ec6095421b9212e662d4736[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Aug 28 13:29:37 2023 +0500
+
+    [feature/promote] member api response wrapper key updated from `collections` to `collection`
+
+[33mcommit 04684bfff74070ab896b58359ddcd0b049210100[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 25 19:37:08 2023 +0500
+
+    [feature/course] validation added for update administration
+
+[33mcommit 623f0bdb327fe4237410fe087aea9fe17b9a1e15[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 25 19:16:35 2023 +0500
+
+    [feature/course] update referral & advisor api created
+
+[33mcommit 832b357c90561770c45cdc93ccf2c6f9c36d627c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 25 12:59:16 2023 +0500
+
+    [feature/course] minor updated in course_edit Api for thumnail
+
+[33mcommit e1174d68d3f116a9482fb6a4c8cfed3383733277[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 24 17:21:24 2023 +0500
+
+    [feature/course] validation attached on media upload API
+
+[33mcommit b87245162c6e139f624f9bd1bb30abf60d9b5de8[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 23 19:22:27 2023 +0500
+
+    [feature/course] upload media API completed & thumbail pointed to media model from the column
+
+[33mcommit 55d3d0b1db334cf34ff96dd624f3e47673fde33c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 23 12:43:30 2023 +0500
+
+    [feature/course] roles order updated in seeder & userBadge `unused` classes removed
+
+[33mcommit 9266727adc550506ea05842994c4b5df566b914d[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 22 15:03:13 2023 +0500
+
+    [feature/support] support categories & submit ticket api completed
+
+[33mcommit bbf51ceec740ef8325c3d2627fb5ede07094d862[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 22 12:10:27 2023 +0500
+
+    [feature/course] sort sections & lessons in listing Queries
+
+[33mcommit 6a867c2e9eed1f63eba5dafbbc7270f60a946f95[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 22 11:11:48 2023 +0500
+
+    [feature/course] sort lesson API completed
+
+[33mcommit b36b874e892dd78f76ee1960daea872b292e942e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Aug 21 19:02:52 2023 +0500
+
+    [feature/course] courseSeeder updated to truncate related database tables
+
+[33mcommit 962ac1bb650cc98a6590989a8d689b44e5048007[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Aug 21 18:24:09 2023 +0500
+
+    [feature/course] sort section api completed
+
+[33mcommit f9f38112661daf0e2942ee41db4e7d9c129846af[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 17 18:32:16 2023 +0500
+
+    [feature/course] update course permission API completed
+
+[33mcommit c53fd408ff1cb1710605d594be3ac7c068d827f8[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 17 17:01:28 2023 +0500
+
+    [feature/course] delete lesson API completed
+
+[33mcommit 579074c5016b57d21e1af7f830e4130587683cb0[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 17 16:50:18 2023 +0500
+
+    [feature/course] edit & create lesson API completed
+
+[33mcommit db52253c852e7d2842a5032a7f98ee9a204bde34[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 16 19:12:54 2023 +0500
+
+    [feature/course] section CRUD APIs completed
+
+[33mcommit b7098daca0973db972721edd0c41a0b998e49f8c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 16 16:21:45 2023 +0500
+
+    [feature/course] delete course API completed
+
+[33mcommit 3aaf9aeca34b22080203b56a8db792db9113dbed[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 16 14:58:26 2023 +0500
+
+    [feature/course] edit course & fetch question by other_user uuid completed
+
+[33mcommit ee8fa6be52119151aded2c5c6552dc75d188c04b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 11 19:10:28 2023 +0500
+
+    [feature/course] create course API for admin completed
+
+[33mcommit b86d3fcdd2f24a7a02fbadd4b7564c836b987d29[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 11 17:17:25 2023 +0500
+
+    [feature/course] admin all courses & fetch single course API completed
+
+[33mcommit 9e0c58f1b460b8e7702b318667283497522bd204[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 11 13:05:20 2023 +0500
+
+    [feature/course] mark_lesson status API and watched param appended in lessons listing API
+
+[33mcommit c146de4700934459f405495cbf05468d94de7410[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 10 14:57:54 2023 +0500
+
+    working on fetch courses lessons by course_uuid
+
+[33mcommit ba9f5a66ad566eebc5582ba95dcd206b96bab66e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 9 15:11:03 2023 +0500
+
+    [Updated] course-categories listing API updated
+
+[33mcommit 2c301efb9f3c135460219bb3edf1d33319ed3289[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 9 14:32:01 2023 +0500
+
+    course permission migration
+
+[33mcommit 95cdf2744dd26857f2887900659e2079fa2014bc[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 9 13:33:13 2023 +0500
+
+    date format added in CourseResource
+
+[33mcommit 485860bdf8982e73baa6eaa5c710505d5b489ef3[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 9 13:26:44 2023 +0500
+
+    [Completed] API to get courses by category uuid completed
+
+[33mcommit 8847c08557680b71ae8f9468aa7241be90ce4271[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 9 11:44:39 2023 +0500
+
+    all-member role added to database
+
+[33mcommit f684491e6d16023e28d871216ed32ffb3158162b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 8 17:59:19 2023 +0500
+
+    fetch course categories API completed
+
+[33mcommit 5b17f594ca7b59a4ac649a494225e009eae3e12a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 8 11:44:47 2023 +0500
+
+    [hotfix] assign permissions to developer account
+
+[33mcommit 0c2fc1649703ac60bf6ff96c9e032cb299075b7e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 4 17:14:17 2023 +0500
+
+    [hotfix] members count in promote stats
+
+[33mcommit 7729cd707e44cdbabc4f4e5e4a4c625a57aa8d39[m[33m ([m[1;33mtag: v1.3[m[33m, [m[1;31morigin/feature/calender[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 4 15:43:43 2023 +0500
+
+    paginated item count increased in user list api
+
+[33mcommit a395b97c188fd21adf58d69aaad5c6dd6a21c4c6[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Aug 4 15:38:33 2023 +0500
+
+    fetch users list API completed
+
+[33mcommit b60bffb602374e6b295e1cecd7481d71f7581a81[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 3 16:45:06 2023 +0500
+
+    fetch user by uuid API completed
+
+[33mcommit 45d1ad43e9f5b7bc96e28623fda63b30148684d5[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 3 15:45:06 2023 +0500
+
+    short term authentication API completed
+
+[33mcommit 7e4eae69bc63ceb0dab6a9bdb7ce01185ce656ac[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Aug 3 11:46:47 2023 +0500
+
+    calendar seeder move to dummy data directory
+
+[33mcommit e2198a0071c8c75d77b7e9a9b77e904c76c87764[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 2 19:10:07 2023 +0500
+
+    search case-insensitivated & phone-number added in members api response
+
+[33mcommit 3af5500468ab0ee1d87b7f0f67aa58ba2102ec61[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 2 18:35:43 2023 +0500
+
+    missing declarations added in interfaces
+
+[33mcommit d9732f751ed27662cf9f518ea50f8eaf3b27c6f9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 2 17:09:12 2023 +0500
+
+    fetchEventsDate API completed
+
+[33mcommit be044bd10f87dec33840b945e0f69f8480efc565[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 2 16:43:43 2023 +0500
+
+    seeder for calendar created
+
+[33mcommit 49d8836c0fcf25d36a1d15bccabb81019baea721[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 1 17:29:43 2023 +0500
+
+    hotfix
+
+[33mcommit 7d39e60c0bafd412a044a217eed7c6b05323eac1[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Aug 1 16:03:48 2023 +0500
+
+    calendar notification API completed
+
+[33mcommit 3ca1748cc753c18cbf6a8cc1280983cbe6679e1b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 31 17:40:22 2023 +0500
+
+    calendar events fetching Api completed
+
+[33mcommit 62d7192b671d3aad167aa1b7a93f4c16a6cf6188[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 31 15:22:35 2023 +0500
+
+    on update time of the event update calendar_stamp by model event in model class
+
+[33mcommit 3db6dd451292b1d3c34628cc2cb24da274c6a4fb[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 31 12:23:07 2023 +0500
+
+    calender validation updated
+
+[33mcommit 7e981291cd1b56cc7da1645dec317af7b4f26e53[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 31 11:58:51 2023 +0500
+
+    calender response updated
+
+[33mcommit 546f7cac7c8741bd15a24bccf8a87fbfea4f6617[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 13:28:07 2023 +0500
+
+    [feature/calender] hotfix
+
+[33mcommit ed5b269a11e754799b653d2766d226a8b4304ce2[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 20 18:30:08 2023 +0500
+
+    create, edit & delete calendar event api completed
+
+[33mcommit 40fe82e86e67251bc6574c8fed38ffadc47fa5a8[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 20 14:59:02 2023 +0500
+
+    working on calender APIs
+
+[33mcommit 553136687ccb5e0e43ec58ca3bdb78894425d3b6[m[33m ([m[1;31morigin/feature/funnel[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Aug 2 18:26:13 2023 +0500
+
+    Added search functionality in lead & members API
+
+[33mcommit 9a58fbf9f50ec7ed88de7688a924cc22711994eb[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 31 00:04:05 2023 +0500
+
+    period & funnel_type filter added in leads & members API
+
+[33mcommit 62ca9ea4fa4858b30b3d350376d7b2a14ffd0e7d[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Sun Jul 30 22:56:04 2023 +0500
+
+    lead & members seeder basic created
+
+[33mcommit 606d19dc8aacf858e69010805ce0b4829ebe75b5[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 18:48:42 2023 +0500
+
+    [feature/funnel] delete Lead API completed
+
+[33mcommit e910e0619e293b4a8fbb413623a52adedcb08a29[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 17:47:08 2023 +0500
+
+    [feature/funnel] address appended in members listing Response
+
+[33mcommit 1066aed77586eed34039e2776d6713ae272b594e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 17:27:32 2023 +0500
+
+    [feature/funnel] working on member API
+
+[33mcommit 92374a9c80255cb4d143e7d4a419e1103883eb2a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 12:53:41 2023 +0500
+
+    hotfix
+
+[33mcommit d165083c4fb4c0f3463e2d403f5d761b74cb6e2e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 12:37:33 2023 +0500
+
+    lead collection response modified
+
+[33mcommit dd45f9d215eff54afd6be21024a00a411ed32dcf[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 12:37:24 2023 +0500
+
+    lead collection response modified
+
+[33mcommit 88d0d1eaea0ee43c685af546d5dda72f0bc808da[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 25 12:12:02 2023 +0500
+
+    working on leads listing API
+
+[33mcommit d8ea8e6909c3c6da826dd609c03a74fee93ececf[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 24 18:45:41 2023 +0500
+
+    setting advisor & affiliate on registration and also in_activing lead of register users
+
+[33mcommit 77214ab26ceee3d9321b82e4c375ac3bbdc3e7e1[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 21 17:33:03 2023 +0500
+
+    [Api completed] onboarding progress Api completed
+
+[33mcommit db6ac293649801d0f6b2276ba9923384088757c7[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 18 12:14:07 2023 +0500
+
+    [API Completed] Funnel stats API completed
+
+[33mcommit 78bf5b12e3065f3e5847155bd0e9ae6132fdd737[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 14 18:47:02 2023 +0500
+
+    hotfix
+
+[33mcommit 0c60e1e78d75c1d188c558e521eb4d09b3b7603c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 14 17:38:27 2023 +0500
+
+    working on promote stats
+
+[33mcommit 1fee2d97fb091f7e312f8daef073bcd820847531[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 14 15:19:31 2023 +0500
+
+    [completed] store page visit API completed
+
+[33mcommit 87f72657274eb5a608fd4a6b16750a1675019adc[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 14 11:52:56 2023 +0500
+
+    [Repository] Lead repository created
+
+[33mcommit 5a1b679cb780e7355ed363d42bb5f28d2c2184ff[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 13 19:21:18 2023 +0500
+
+    [Funnel] promote setting API created
+
+[33mcommit 1ded50c45f6ca0cfd9271718d06fac42f8026638[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 13 19:11:08 2023 +0500
+
+    [feature/funnel] appended promote_setting in user object
+
+[33mcommit 850c68249ba55af08bb97742ab8cc4c5176af8b9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 13 18:12:49 2023 +0500
+
+    [Funnel] append funnel_link in user profile & on registration add funnel
+
+[33mcommit 4a532c1943d24516eead9595f297f6e311f39844[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Jul 12 12:00:23 2023 +0500
+
+    [bug] when user loggedin with other than admin user question's answer is not marking as complete
+
+[33mcommit 74c935d0b02b7e69379663336743d902cd3eb506[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 10 16:41:32 2023 +0500
+
+    [bug] reset-password & forgot-password error response corrected
+
+[33mcommit 629c94e9ced49165f20bb06811b099a2feff8671[m
+Merge: a29b997 cdd7ae1
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 10 16:10:02 2023 +0500
+
+    Merge branch 'feature/onboarding-process'
+
+[33mcommit cdd7ae168fa10e858654dba5003d394fe2886ff1[m[33m ([m[1;31morigin/feature/onboarding-process[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 10 12:29:13 2023 +0500
+
+    [appended] is_onboarding_completed check included in me api all user response
+
+[33mcommit a29b9979ad1b3eeeb5abd4f2305af8bba738af9a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 7 18:31:40 2023 +0500
+
+    [update][subscription-plan] amount casted to double
+
+[33mcommit c73e7e0d9b386fcc3fc4ea96d444a582b447787c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 7 17:42:52 2023 +0500
+
+    [hotfix] allowed origin updated
+
+[33mcommit a62d4eac3a6ec4ea0f52fbc32f3128e04334b999[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 7 17:38:03 2023 +0500
+
+    [api-completed] logout API completed
+
+[33mcommit 4edff149f03827f54b7853b6f404fb65dc6861e6[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jul 7 13:30:38 2023 +0500
+
+    [appended] advisor object append in user obj
+
+[33mcommit 98a7506ce9a4f19131db718ad821e9800ae02833[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 6 17:43:12 2023 +0500
+
+    [appended] advisor appended in user object
+
+[33mcommit c8a477081ced7f9b9c345dd6e2e09b6acb152f9d[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 6 16:28:58 2023 +0500
+
+    [bug] hotfix
+
+[33mcommit c05cf1e0cddca19cdfcc6954052f1644842cd53f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 6 16:26:50 2023 +0500
+
+    [bug] if `subscription` relation exits then don't eager load in login & registration api
+
+[33mcommit eb5dad3e55d42d8940c4e387526619c2b34d611b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 6 16:07:31 2023 +0500
+
+    [bug] `lead_sms` field not found error fixed in registration API
+
+[33mcommit eb4ba4c93b557f31f3a434b9b9368a22cb97404b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jul 6 02:05:51 2023 +0500
+
+    [deleted] unnecessary code removed
+
+[33mcommit ec2fbcd6965fd3e51d29e760924f090cd3783ae9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Jul 5 22:59:42 2023 +0500
+
+    [completed] ME API completed
+
+[33mcommit 57230f1b1db36c9366a5a434c9db954186bb644f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jul 4 17:15:58 2023 +0500
+
+    [completed] mark onboarding step status & get video by slug APIs completed
+
+[33mcommit d62e50ba3d770fcc59d299f80282517d2604fbca[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jul 3 17:15:11 2023 +0500
+
+    [completed] mark onboarding step status completed
+
+[33mcommit f67d575431149800cae935b40714362294df87d6[m
+Merge: d0aa1ae 98752b4
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jun 23 15:51:14 2023 +0500
+
+    Merge branch 'main' of ilsa-github:Race-To-Freedom-Inc/RaceToFreedom-Apis into feature/onboarding-process
+
+[33mcommit 98752b49e8bbfe66fb074f4cb95edf3e5f5d43a0[m
+Merge: 8dcbef4 1aad9b1
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Thu Jun 22 18:36:29 2023 +0500
+
+    Merge pull request #7 from Race-To-Freedom-Inc/feature/stepwise-validation
+    
+    Feature/stepwise validation
+
+[33mcommit 1aad9b1ed4053e846dd81f64043443ca6a64ecc4[m[33m ([m[1;31morigin/feature/stepwise-validation[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 22 18:21:29 2023 +0500
+
+    [RTF-185] minor correction in validation rule for addressStep
+
+[33mcommit 1b737fe684a60e58ec9cc0be311cbc91f3b900e9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 22 18:02:42 2023 +0500
+
+    [RTF-185] stepwise validation completed
+
+[33mcommit d0aa1ae11884f571170eea9e282a3715a6fe5f1f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 22 15:29:43 2023 +0500
+
+    settings module basic integration completed
+
+[33mcommit a9cbae157c7bccb53921e2ae308e59a40c6d4994[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 22 13:24:18 2023 +0500
+
+    minor fixes in questionnaire architecture
+
+[33mcommit 8dcbef4ad364d891f6430cef8f5b70bb392f6795[m
+Merge: db70311 e1599f2
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Wed Jun 21 15:54:46 2023 +0500
+
+    Merge pull request #6 from Race-To-Freedom-Inc/feature/onboarding-process
+    
+    expire date
+
+[33mcommit e1599f2bb7215a21e50ddc908911e654ff6f019f[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Jun 21 15:54:01 2023 +0500
+
+    expire date
+
+[33mcommit db703118faffdc95046254de27735028c5ccbb40[m
+Merge: d0ef20e b2368f3
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Wed Jun 21 15:49:25 2023 +0500
+
+    Merge pull request #5 from Race-To-Freedom-Inc/feature/onboarding-process
+    
+    Feature/onboarding process
+
+[33mcommit b2368f3150805e04063bd4fc8b7892235b6aec7e[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Wed Jun 21 15:47:21 2023 +0500
+
+    exp key added in login API
+
+[33mcommit 328f94b77a404c4304cb3f651d22fef5556a102a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jun 16 11:50:03 2023 +0500
+
+    working on questionaire
+
+[33mcommit d0ef20e1da03534a73f7aa3d2b9012a774c22e83[m
+Merge: eb60ecd 1bcf3f5
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Mon Jun 12 17:49:02 2023 +0500
+
+    Merge pull request #4 from Race-To-Freedom-Inc/feature/lead-generation
+    
+    [hotfix] lead table
+
+[33mcommit 1bcf3f5eff6f3c52177e59b0175d2cec1abe2add[m[33m ([m[1;31morigin/feature/lead-generation[m[33m)[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jun 12 17:47:29 2023 +0500
+
+    [hotfix] lead table
+
+[33mcommit eb60ecdd722761afd92ec08b2df7c04aeaf64353[m
+Merge: c8d69a0 6a016a0
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Mon Jun 12 12:26:12 2023 +0500
+
+    Merge pull request #3 from Race-To-Freedom-Inc/feature/lead-generation
+    
+    [completed] Affiliate-API completed
+
+[33mcommit 6a016a051e748b1c2fba6dd1b2f98bab0c838908[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jun 12 12:24:55 2023 +0500
+
+    [completed] Affiliate-API completed
+
+[33mcommit c8d69a08bc8f4ac5bfb96690dca6feabf8f127ae[m
+Merge: d63ebaf c831909
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Fri Jun 9 18:02:31 2023 +0500
+
+    Merge pull request #2 from Race-To-Freedom-Inc/feature/lead-generation
+    
+    [Lead & 3D Payment] welcome page with lead handling & 3D payment integrated
+
+[33mcommit c8319092da39975172c965339442342b551eb01a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri Jun 9 11:44:30 2023 +0500
+
+    [completed] client secret api created
+
+[33mcommit e24e43963bb707cff4ffce1a762e3c794106fb3a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 8 15:40:17 2023 +0500
+
+    seeder created for admin & minor changes made on feature/lead-generation
+
+[33mcommit 4115f0d165783175a64714ac68b0a0bca993108a[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jun 6 17:32:50 2023 +0500
+
+    [completed] Lead creation API completed
+
+[33mcommit 75759f6cc1ab187cd659ac62dca2fd2085b0c24b[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue Jun 6 12:46:53 2023 +0500
+
+    working on lead creation
+
+[33mcommit c249ac28c81027d635651265d9d5ff95e666caf9[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon Jun 5 17:40:10 2023 +0500
+
+    [RTF-160] basic code for lead is generated
+
+[33mcommit d63ebaf9f27b6a07de7f68db8bc4af6ad755893b[m[33m ([m[1;31morigin/feature/subscription[m[33m, [m[1;32mfeature/subscription[m[33m)[m
+Merge: fae754e f5e97a4
+Author: M-khawar <128684682+khawar-ilsa@users.noreply.github.com>
+Date:   Mon Jun 5 17:32:22 2023 +0500
+
+    Merge pull request #1 from Race-To-Freedom-Inc/feature/subscription
+    
+    [Completed] Feature/subscription
+
+[33mcommit f5e97a4c8b2841a7bf18fa7f084b5e48cd1c5245[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 1 18:46:58 2023 +0500
+
+    hotfixes in subscriptionResource class
+
+[33mcommit 5c3f3e4d81ed01bb758a72253a7b916c774fed0c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu Jun 1 10:41:39 2023 +0500
+
+    subscription plans api created
+
+[33mcommit 11c19cbfce13787106b1d92d6aeb2d6eb3287bf1[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue May 30 11:03:10 2023 +0500
+
+    cancel & resume Subscription API is created
+
+[33mcommit 86e28226842a5e095a498577f986c5862ac03dc8[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon May 29 18:21:53 2023 +0500
+
+    Working on Stripe Subcription
+    
+    1. subcription actions classes created
+    2. subscription models, seeder, and wrapper creates
+    3. buy subscription api created
+    4. built user response for register & login API using API resource.
+
+[33mcommit fae754e50b741fcafef91664523554156f3d5d8c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Fri May 26 16:30:02 2023 +0500
+
+    reponse updated & uuid added in tables
+
+[33mcommit f9365d2cfdabdcc4b3e02b3f8d5357bd5908f73c[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu May 25 17:54:58 2023 +0500
+
+    micro fixes
+
+[33mcommit 3e6a2cd43569664569fecbf680dddb02535f9dd8[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu May 25 10:47:51 2023 +0500
+
+    Auth module changes
+
+[33mcommit 83c67b2ec3c018bdcbea6898e3b971248b5ccab4[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Tue May 16 15:21:54 2023 +0500
+
+    Migrations created for major db structure
+
+[33mcommit 7c65af6caafcc10dac2a7d42cd893c69a1066fa0[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Mon May 15 11:33:18 2023 +0500
+
+    [Auth Module] Authentication module integrated and all unnecessary files removed
+    
+    1. Response for authentication created
+
+[33mcommit 3cf3907a18ee6bd36bbc8f9f9ab1b46cf621ac20[m
+Author: M-khawar <muhammad.khawar@ilsainteractive.com>
+Date:   Thu May 11 11:53:25 2023 +0500
+
+    initial configuration finished ...
