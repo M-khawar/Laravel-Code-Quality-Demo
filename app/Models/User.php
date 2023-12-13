@@ -20,6 +20,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
 {
     use HasApiTokens, HasFactory, Notifiable, HasUUID, Billable, UserRelations, AffiliateCodeGenerator, UserSetting,
         FunnelGenerator, Searchable;
+   
     use Billable {
             UserRelations::subscription insteadof Billable;
     }
