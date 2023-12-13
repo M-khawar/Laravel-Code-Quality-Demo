@@ -94,7 +94,7 @@ class CalendarRepository implements CalendarRepositoryInterface
 
         $calendarEventsDate = $this->calenderModel::query()
             ->selectRaw('date(calendar_timestamp) as date')
-            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs))
+            ->whereHas("allowedAudienceRoles", fn($q) => $q->whereIn('roles.id', $roleIDs)->whereNotIn('roles.name', [ALL_MEMBER_ROLE]))
             ->when(($startDate && $endDate), fn($q) => $q->whereBetween('calendar_timestamp', [$startDate, $endDate]))
             ->groupBy('date')
             ->orderBy('date')
