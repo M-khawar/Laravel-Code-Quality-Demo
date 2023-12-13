@@ -34,6 +34,7 @@ class UserResource extends JsonResource
             'address' => new AddressResource($this->whenLoaded('address')),
             'card' => [
                 'type' => @$this->pm_type,
+                'payment_source' => strtolower(@$this->payment_source),
                 'last_four' => $this->pm_last_four ? Str::of($this->pm_last_four)->padLeft(19, '**** ') : null,
             ],
             'is_onboarding_completed' => $this->isOnboardingCompleted(),
