@@ -64,5 +64,8 @@ trait UserRelations
     {
         return $this->hasMany(Note::class);
     }
-
+    public function subscription($name = 'default')
+    {
+        return $this->subscriptions->where('name', $name)->whereNotIn("stripe_status", ["stale"])->first();
+    }
 }
