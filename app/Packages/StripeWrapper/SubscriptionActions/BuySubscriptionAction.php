@@ -48,7 +48,7 @@ class BuySubscriptionAction extends StripeSubscriptionAbstract
             if ($user instanceof HasPaidTrail) $this->applyPaidTrailCharges($user);
 
             //create subscription with trial
-            $subscription = $user->newSubscription($this->subscription_name, 'price_1OJA2sC7cUAgCFLUs7ZucLbg')
+            $subscription = $user->newSubscription($this->subscription_name, $plan->meta["stripe_price_id"])
                 ->trialDays(7)
                 ->add();
 
