@@ -71,7 +71,7 @@ class RegisteredUserController extends Controller
             DB::commit();
 
             event(new Registered($user));
-            $this->sendNewMemberNotification($user);
+            // $this->sendNewMemberNotification($user);
             Auth::login($user);
 
             $token = $request->user()->createToken(config('sanctum.token_name'));
@@ -144,6 +144,7 @@ class RegisteredUserController extends Controller
     
         return Validator::make($data, $validationRules);
     }
+
     public function stepwiseValidation(Request $request)
     {
         try {
