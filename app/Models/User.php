@@ -32,7 +32,7 @@ class User extends Authenticatable implements DeleteOldCardOnUpdate, HasPaidTrai
 
     protected $fillable = [
         'name', 'email', 'password', 'instagram', 'phone', 'avatar_id', 'affiliate_code', 'funnel_type',
-        'advisor_id', 'affiliate_id','payment_source',
+        'advisor_id', 'affiliate_id',
     ];
 
     protected $searchable_columns = [
