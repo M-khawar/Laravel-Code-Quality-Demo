@@ -96,9 +96,27 @@ class RegisteredUserController extends Controller
         return User::whereAffiliate($affiliateCode)->first();
     }
 
+    // protected function registerValidation(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'name' => ['required', 'string', 'max:50'],
+    //         'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
+    //         'password' => ['required', 'confirmed', Rules\Password::defaults()],
+    //         'phone' => ['required'],
+    //         'affiliate_code' => ['required', 'exists:' . User::class . ',affiliate_code'],
+    //         'funnel_type' => ['required', Rule::in([MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL])],
+    //         'instagram' => ['nullable'],
+    //         'address.city' => ['required'],
+    //         'address.state' => ['required'],
+    //         'address.zipcode' => ['required'],
+    //         'address.address' => ['required'],
+    //         'subscription.plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
+    //         'subscription.payment_method_id' => ['required'],
+    //     ]);
+    // }
     protected function registerValidation(array $data)
     {
-        return Validator::make($data, [
+        $validationRules = [
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -106,15 +124,26 @@ class RegisteredUserController extends Controller
             'affiliate_code' => ['required', 'exists:' . User::class . ',affiliate_code'],
             'funnel_type' => ['required', Rule::in([MASTER_FUNNEL, LIVE_OPPORTUNITY_CALL_FUNNEL])],
             'instagram' => ['nullable'],
-            'address.city' => ['required'],
-            'address.state' => ['required'],
-            'address.zipcode' => ['required'],
-            'address.address' => ['required'],
             'subscription.plan_id' => ['required', 'exists:' . SubscriptionPlan::class . ',uuid'],
             'subscription.payment_method_id' => ['required'],
-        ]);
+        ];
+    
+        if ($data['subscription']['payment_source'] === 'apple_pay') {
+            unset($validationRules['address.city']);
+            unset($validationRules['address.address']);
+            unset($validationRules['address.state']);
+            unset($validationRules['address.zipcode']);
+        } else {
+            $validationRules += [
+                'address.city' => ['required'],
+                'address.state' => ['required'],
+                'address.zipcode' => ['required'],
+                'address.address' => ['required'],
+            ];
+        }
+    
+        return Validator::make($data, $validationRules);
     }
-
     public function stepwiseValidation(Request $request)
     {
         try {
