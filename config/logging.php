@@ -108,6 +108,12 @@ return [
             'driver' => 'errorlog',
             'level' => env('LOG_LEVEL', 'debug'),
         ],
+        'userTracker' => [
+            'driver' => 'daily',
+            'tap' => [App\Logging\CustomLogFilenames::class],
+            'path' => storage_path('logs/user-id.log'),
+            'level' => 'debug',
+        ],
 
         'null' => [
             'driver' => 'monolog',

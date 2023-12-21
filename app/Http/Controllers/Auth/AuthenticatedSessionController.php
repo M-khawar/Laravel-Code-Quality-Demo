@@ -19,9 +19,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        try {
+        
+            try {
+           
             $request->authenticate();
-
+            
             $user = $request->user();
             $token = $user->createToken(config(
                 'sanctum.token_name'),
@@ -34,10 +36,29 @@ class AuthenticatedSessionController extends Controller
                 "exp" => config('sanctum.expiration'),
                 "user" => $this->userRepository->getUserInfo($user),
             ];
-
+            // Log user-related information
+            \Log::channel('userTracker')->info([
+                'status' => 'User login successful',
+                'name' => $user->name,
+                'email' => $user->email,
+                'login_time' => now()->format('Y-m-d H:i:s'),
+                'ip_address' => $request->ip(),
+            ]);
             return response()->success(__('auth.login.success'), $data);
 
         } catch (\Exception $e) {
+            $logContext = [
+                'status' => 'User login failed',
+                'email' => $request->email,
+                'login_time' => now()->format('Y-m-d H:i:s'),
+                'ip_address' => $request->ip(),
+                'error_message' => $e->getMessage(),
+            ];
+    
+          
+    
+            \Log::channel('userTracker')->error($logContext);
+    
             return $this->handleException($e);
         }
     }
